@@ -5,40 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 6.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/doc/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/doc/images/qpp.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/doc/images/qpp.png">
-  <link rel="mask-icon" href="/doc/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/qpp.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/qpp.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/doc/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/doc/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dooubb.github.io","root":"/doc/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+    var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="类加载运行全过程当使用java命令运行某个类的main函数时，首先需要通过类加载器把类加载到JVM中 12345678910111213141516171819package com.fanq.jvm;import com.fanq.entity.User;public class Math &amp;#123;    public static final int initData &#x3D; 666;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaClassLoader">
-<meta property="og:url" content="https://dooubb.github.io/doc/2022/08/11/JavaClassLoader/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2022/08/11/JavaClassLoader/index.html">
 <meta property="og:site_name" content="dooubb">
 <meta property="og:description" content="类加载运行全过程当使用java命令运行某个类的main函数时，首先需要通过类加载器把类加载到JVM中 12345678910111213141516171819package com.fanq.jvm;import com.fanq.entity.User;public class Math &amp;#123;    public static final int initData &#x3D; 666;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dooubb.github.io/doc/JavaClassLoader/image-20210411133245285.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/JavaClassLoader/clipboard-1618120939613.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/JavaClassLoader/clipboard-1618123296065.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/JavaClassLoader/hotspot%E6%BA%90%E7%A0%81jvm%E5%90%AF%E5%8A%A8%E6%89%A7%E8%A1%8Cmain%E6%96%B9%E6%B3%95%E6%B5%81%E7%A8%8B.jpg">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/JavaClassLoader/image-20210411133245285.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/JavaClassLoader/clipboard-1618120939613.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/JavaClassLoader/clipboard-1618123296065.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/JavaClassLoader/hotspot%E6%BA%90%E7%A0%81jvm%E5%90%AF%E5%8A%A8%E6%89%A7%E8%A1%8Cmain%E6%96%B9%E6%B3%95%E6%B5%81%E7%A8%8B.jpg">
 <meta property="article:published_time" content="2022-08-11T05:44:46.842Z">
 <meta property="article:modified_time" content="2021-11-23T12:56:47.128Z">
 <meta property="article:author" content="dooubb">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dooubb.github.io/doc/JavaClassLoader/image-20210411133245285.png">
+<meta name="twitter:image" content="https://dooubb.github.io/2022/08/11/JavaClassLoader/image-20210411133245285.png">
 
-<link rel="canonical" href="https://dooubb.github.io/doc/2022/08/11/JavaClassLoader/">
+<link rel="canonical" href="https://dooubb.github.io/2022/08/11/JavaClassLoader/">
 
 
 <script id="page-configurations">
@@ -100,7 +100,7 @@
 
   <div class="site-meta">
 
-    <a href="/doc/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">dooubb</h1>
       <span class="logo-line-after"><i></i></span>
@@ -121,27 +121,27 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/doc/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/doc/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/doc/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/doc/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/doc/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -199,10 +199,10 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/doc/2022/08/11/JavaClassLoader/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/11/JavaClassLoader/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/doc/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="dooubb">
       <meta itemprop="description" content="">
     </span>
@@ -237,7 +237,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/doc/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
                 </span>
             </span>
 
@@ -278,7 +278,8 @@
 
 <span id="more"></span>
 
-<h2 id="通过java执行大体流程如下图"><a href="#通过java执行大体流程如下图" class="headerlink" title="通过java执行大体流程如下图"></a>通过java执行大体流程如下图</h2><p><img src="/doc/JavaClassLoader/image-20210411133245285.png" alt="image-20210411133245285"></p>
+<h2 id="通过java执行大体流程如下图"><a href="#通过java执行大体流程如下图" class="headerlink" title="通过java执行大体流程如下图"></a>通过java执行大体流程如下图</h2><img src="/2022/08/11/JavaClassLoader/image-20210411133245285.png" class title="image-20210411133245285">
+
 <h2 id="loadClass的类加载过程"><a href="#loadClass的类加载过程" class="headerlink" title="loadClass的类加载过程"></a>loadClass的类加载过程</h2><p> <strong>加载-&gt;&gt;验证-&gt;&gt;准备-&gt;&gt;解析-&gt;&gt;初始化-&gt;&gt;使用-&gt;&gt;卸载</strong></p>
 <ul>
 <li>加载：在硬盘上通过IO读入字节码文件，使用类时才会加载类。例如在调用类的main函数，new对象等等。在加载阶段会在内存中生成一个Class对象，作为方法区这个类的各种数据的访问入口(对于程序员来操作类，通过反射)</li>
@@ -287,7 +288,10 @@
 <li>解析：将符号引用替换为直接引用，该阶段会把一些静态方法(也就是符号引用，例如main方法替换为指向数据所存内存的指针或者句柄等[直接引用]，这就是所谓的静态链接过程[类加载期间完成]。动态链接实在程序运行期间完成的，是将符号引用替换为直接引用)</li>
 <li>初始化：对类的静态变量初始化为指定的值，执行静态代码块</li>
 </ul>
-<p><img src="/doc/JavaClassLoader/clipboard-1618120939613.png" alt="img"></p>
+<img src="/2022/08/11/JavaClassLoader/clipboard-1618120939613.png" class title="img">
+
+
+
 <p>类被加载到方法区后主要包含 <strong>运行时常量池、类型信息、字段信息、方法信息、类加载器的引用、对应class实例的引用</strong>等信息。</p>
 <p><strong>类加载器的引用</strong>：这个类的类加载器实例的引用</p>
 <p><strong>对应class实例的引用</strong>：类加载器在加载类信息放到方法区后，会创建一个对应类的Class类型的对象实例放到堆中，为了开发人员可以访问方法区中类的信息</p>
@@ -312,7 +316,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">Launcher</span><span class="params">()</span> &#123;</span><br><span class="line">       Launcher.ExtClassLoader var1;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="comment">//构造扩展类加载器。在构造得过程中将其父类加载器属性设置为null</span></span><br><span class="line">           var1 = Launcher.ExtClassLoader.getExtClassLoader();</span><br><span class="line">       &#125; <span class="keyword">catch</span> (IOException var10) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">InternalError</span>(<span class="string">&quot;Could not create extension class loader&quot;</span>, var10);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="comment">//构造应用类加载器。在构造的过程中将其父类加载器属性设置为ExtClassLoader</span></span><br><span class="line">           <span class="comment">//Launcher的loader属性值是AppClassLoader，我们都是使用这个类加载器来加载我们自己下的类</span></span><br><span class="line">           <span class="built_in">this</span>.loader = Launcher.AppClassLoader.getAppClassLoader(var1);</span><br><span class="line">       &#125; <span class="keyword">catch</span> (IOException var9) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">InternalError</span>(<span class="string">&quot;Could not create application class loader&quot;</span>, var9);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       Thread.currentThread().setContextClassLoader(<span class="built_in">this</span>.loader);</span><br><span class="line">       <span class="type">String</span> <span class="variable">var2</span> <span class="operator">=</span> System.getProperty(<span class="string">&quot;java.security.manager&quot;</span>);</span><br><span class="line">       。。。。。。。其他代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h2><p>JVM类加载器是有父子层级结构关系的，如下图</p>
-<p><img src="/doc/JavaClassLoader/clipboard-1618123296065.png" alt="img"></p>
+<img src="/2022/08/11/JavaClassLoader/clipboard-1618123296065.png" class title="img">
+
 <p>类的加载其实就是一个双亲委派机制，加载某个类的时候会先请求父类加载器去寻找加载目标，找不到在继续委托上层父类加载器加载，如果父类加载器在自己加载的路径下找到目标类，就加载目标类，反之如果所有的父类加载器都在自己加载的路径下找不到目标类，那么就会向下退回加载请求，那么扩展类加载器就会自己加载，如果扩展类加载器找不到就会继续回退到应用类加载器加载。。。</p>
 <p><font size="3" color="red">通俗的说就是</font></p>
 <blockquote>
@@ -349,7 +354,68 @@
 
 
 <p><strong>补充：Hotspot源码JVM启动执行main方法流程</strong></p>
-<p><img src="/doc/JavaClassLoader/hotspot%E6%BA%90%E7%A0%81jvm%E5%90%AF%E5%8A%A8%E6%89%A7%E8%A1%8Cmain%E6%96%B9%E6%B3%95%E6%B5%81%E7%A8%8B.jpg" alt="img"></p>
+<img src="/2022/08/11/JavaClassLoader/hotspot%E6%BA%90%E7%A0%81jvm%E5%90%AF%E5%8A%A8%E6%89%A7%E8%A1%8Cmain%E6%96%B9%E6%B3%95%E6%B5%81%E7%A8%8B.jpg" class title="img">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </div>
 
@@ -360,7 +426,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/doc/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
+              <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
           </div>
 
         
@@ -369,11 +435,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/doc/2022/08/11/Jasypt%E5%8A%A0%E5%AF%86%E5%B7%A5%E5%85%B7/" rel="prev" title="Jasypt加密工具">
+    <a href="/2022/08/11/Jasypt%E5%8A%A0%E5%AF%86%E5%B7%A5%E5%85%B7/" rel="prev" title="Jasypt加密工具">
       <i class="fa fa-chevron-left"></i> Jasypt加密工具
     </a></div>
       <div class="post-nav-item">
-    <a href="/doc/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="Jenkins的使用">
+    <a href="/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="Jenkins的使用">
       Jenkins的使用 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -446,9 +512,9 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/doc/archives/">
+          <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -467,7 +533,7 @@
         <a href="https://github.com/dooubb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dooubb" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="/doc/fanq1213@163.com" title="E-Mail → fanq1213@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="/fanq1213@163.com" title="E-Mail → fanq1213@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -554,30 +620,30 @@
   </div>
 
   
-  <script src="/doc/lib/anime.min.js"></script>
-  <script src="/doc/lib/velocity/velocity.min.js"></script>
-  <script src="/doc/lib/velocity/velocity.ui.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-<script src="/doc/js/utils.js"></script>
+<script src="/js/utils.js"></script>
 
-<script src="/doc/js/motion.js"></script>
-
-
-<script src="/doc/js/schemes/muse.js"></script>
+<script src="/js/motion.js"></script>
 
 
-<script src="/doc/js/next-boot.js"></script>
+<script src="/js/schemes/muse.js"></script>
 
 
-
-
-  
+<script src="/js/next-boot.js"></script>
 
 
 
 
   
-<script src="/doc/js/local-search.js"></script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

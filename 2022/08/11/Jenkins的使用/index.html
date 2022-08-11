@@ -5,41 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 6.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/doc/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/doc/images/qpp.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/doc/images/qpp.png">
-  <link rel="mask-icon" href="/doc/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/qpp.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/qpp.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/doc/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/doc/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dooubb.github.io","root":"/doc/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+    var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="插件的安装 在Manage Jenkins下的Manage Plugins中安装一下插件   Docker Pipeline &amp;&amp; Docker  安装Docker Pipeline会自动安装docker相关的  这个允许我们自定义agent使用docker环境    Git Parameter  解析git参数，允许我们选择分支进行构建   Active Choices  可以做">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Jenkins的使用">
-<meta property="og:url" content="https://dooubb.github.io/doc/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="dooubb">
 <meta property="og:description" content="插件的安装 在Manage Jenkins下的Manage Plugins中安装一下插件   Docker Pipeline &amp;&amp; Docker  安装Docker Pipeline会自动安装docker相关的  这个允许我们自定义agent使用docker环境    Git Parameter  解析git参数，允许我们选择分支进行构建   Active Choices  可以做">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dooubb.github.io/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209211809255.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209212141935.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209212213159.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209213948231.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209214134952.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209211809255.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209212141935.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209212213159.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209213948231.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209214134952.png">
 <meta property="article:published_time" content="2022-08-11T05:44:46.843Z">
 <meta property="article:modified_time" content="2021-12-09T13:44:11.589Z">
 <meta property="article:author" content="dooubb">
 <meta property="article:tag" content="CICD">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dooubb.github.io/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209211809255.png">
+<meta name="twitter:image" content="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209211809255.png">
 
-<link rel="canonical" href="https://dooubb.github.io/doc/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/">
+<link rel="canonical" href="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
 
 <script id="page-configurations">
@@ -101,7 +101,7 @@
 
   <div class="site-meta">
 
-    <a href="/doc/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">dooubb</h1>
       <span class="logo-line-after"><i></i></span>
@@ -122,27 +122,27 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/doc/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/doc/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/doc/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/doc/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/doc/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -200,10 +200,10 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/doc/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/doc/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="dooubb">
       <meta itemprop="description" content="">
     </span>
@@ -238,7 +238,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/doc/categories/CICD/" itemprop="url" rel="index"><span itemprop="name">CICD</span></a>
+                  <a href="/categories/CICD/" itemprop="url" rel="index"><span itemprop="name">CICD</span></a>
                 </span>
             </span>
 
@@ -320,7 +320,8 @@
 <h1 id="流水线的创建"><a href="#流水线的创建" class="headerlink" title="流水线的创建"></a>流水线的创建</h1><blockquote>
 <p>在Dashboard下的新建Item，创建一个流水线，然后确定。</p>
 </blockquote>
-<p><img src="/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209211809255.png" alt="image-20211209211809255"></p>
+<img src="/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209211809255.png" class title="image-20211209211809255">
+
 <blockquote>
 <p>然后再java-devops-demo中选择配置，添加触发远程构建，在流水线定义中，选择Pipeline script from SCM。</p>
 <span id="more"></span>
@@ -328,8 +329,10 @@
 <p>下图中的身份验证令牌在jenkins可以随意填写，等到在git或者gitee仓库添加WebHooks的时候，保持一直即可。</p>
 <p>Repository URL就是你自己的代码仓库的URL。由于我目前的仓库是公开的，所以不需要添加Credentials。</p>
 </blockquote>
-<p><img src="/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209212141935.png" alt="image-20211209212141935"></p>
-<p><img src="/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209212213159.png" alt="image-20211209212213159"></p>
+<img src="/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209212141935.png" class title="image-20211209212141935">
+
+<img src="/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209212213159.png" class title="image-20211209212213159">
+
 <h1 id="创建Jenkins用户"><a href="#创建Jenkins用户" class="headerlink" title="创建Jenkins用户"></a>创建Jenkins用户</h1><blockquote>
 <p>在Manage Jenkins下的Manage Users创建一个新的用户，创建完成后使用新的用户登录Jenkins，然后使用当前登录用户创建一个token，是用来下面在git或者gitee添加WebHooks时使用。</p>
 <p>将创建好的用户名和token安装下面格式保存起来，下面添加WebHooks会用到。</p>
@@ -345,11 +348,13 @@
 
 <p>默认选择的push事件，即当提交代码推送到仓库时，就会触发Jenkins的流水线工作。</p>
 </blockquote>
-<p><img src="/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209213948231.png" alt="image-20211209213948231"></p>
+<img src="/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209213948231.png" class title="image-20211209213948231">
+
 <blockquote>
 <p>添加完成后，点击测试，显示成功。</p>
 </blockquote>
-<p><img src="/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209214134952.png" alt="image-20211209214134952"></p>
+<img src="/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209214134952.png" class title="image-20211209214134952">
+
 <p>以上就完成Jenkins了的自动触发流水线工作。</p>
 
     </div>
@@ -361,7 +366,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/doc/tags/CICD/" rel="tag"><i class="fa fa-tag"></i> CICD</a>
+              <a href="/tags/CICD/" rel="tag"><i class="fa fa-tag"></i> CICD</a>
           </div>
 
         
@@ -370,11 +375,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/doc/2022/08/11/JavaClassLoader/" rel="prev" title="JavaClassLoader">
+    <a href="/2022/08/11/JavaClassLoader/" rel="prev" title="JavaClassLoader">
       <i class="fa fa-chevron-left"></i> JavaClassLoader
     </a></div>
       <div class="post-nav-item">
-    <a href="/doc/2022/08/11/K8S%E5%9F%BA%E7%A1%80/" rel="next" title="k8s基础">
+    <a href="/2022/08/11/K8S%E5%9F%BA%E7%A1%80/" rel="next" title="k8s基础">
       k8s基础 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -447,9 +452,9 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/doc/archives/">
+          <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -468,7 +473,7 @@
         <a href="https://github.com/dooubb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dooubb" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="/doc/fanq1213@163.com" title="E-Mail → fanq1213@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="/fanq1213@163.com" title="E-Mail → fanq1213@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -555,30 +560,30 @@
   </div>
 
   
-  <script src="/doc/lib/anime.min.js"></script>
-  <script src="/doc/lib/velocity/velocity.min.js"></script>
-  <script src="/doc/lib/velocity/velocity.ui.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-<script src="/doc/js/utils.js"></script>
+<script src="/js/utils.js"></script>
 
-<script src="/doc/js/motion.js"></script>
-
-
-<script src="/doc/js/schemes/muse.js"></script>
+<script src="/js/motion.js"></script>
 
 
-<script src="/doc/js/next-boot.js"></script>
+<script src="/js/schemes/muse.js"></script>
 
 
-
-
-  
+<script src="/js/next-boot.js"></script>
 
 
 
 
   
-<script src="/doc/js/local-search.js"></script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

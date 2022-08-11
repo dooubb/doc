@@ -5,43 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 6.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/doc/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/doc/images/qpp.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/doc/images/qpp.png">
-  <link rel="mask-icon" href="/doc/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/qpp.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/qpp.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/doc/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/doc/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dooubb.github.io","root":"/doc/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+    var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="k8s设计架构Kubernetes集群包含有节点代理kubelet和Master组件(APIs, scheduler, etc)，一切都基于分布式的存储系统。下面这张图是Kubernetes的架构图。   工作原理在这张系统架构图中，我们把服务分为运行在工作节点上的服务和组成集群级别控制板的服务。 Kubernetes节点有运行应用容器必备的服务，而这些都是受Master的控制。 每次个节点上当然">
+  <meta name="description" content="k8s设计架构Kubernetes集群包含有节点代理kubelet和Master组件(APIs, scheduler, etc)，一切都基于分布式的存储系统。下面这张图是Kubernetes的架构图。    工作原理在这张系统架构图中，我们把服务分为运行在工作节点上的服务和组成集群级别控制板的服务。 Kubernetes节点有运行应用容器必备的服务，而这些都是受Master的控制。 每次个节点上当">
 <meta property="og:type" content="article">
 <meta property="og:title" content="k8s基础">
-<meta property="og:url" content="https://dooubb.github.io/doc/2022/08/11/K8S%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="dooubb">
-<meta property="og:description" content="k8s设计架构Kubernetes集群包含有节点代理kubelet和Master组件(APIs, scheduler, etc)，一切都基于分布式的存储系统。下面这张图是Kubernetes的架构图。   工作原理在这张系统架构图中，我们把服务分为运行在工作节点上的服务和组成集群级别控制板的服务。 Kubernetes节点有运行应用容器必备的服务，而这些都是受Master的控制。 每次个节点上当然">
+<meta property="og:description" content="k8s设计架构Kubernetes集群包含有节点代理kubelet和Master组件(APIs, scheduler, etc)，一切都基于分布式的存储系统。下面这张图是Kubernetes的架构图。    工作原理在这张系统架构图中，我们把服务分为运行在工作节点上的服务和组成集群级别控制板的服务。 Kubernetes节点有运行应用容器必备的服务，而这些都是受Master的控制。 每次个节点上当">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dooubb.github.io/doc/K8S%E5%9F%BA%E7%A1%80/architecture.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/K8S%E5%9F%BA%E7%A1%80/k8s-architecture.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/K8S%E5%9F%BA%E7%A1%80/1619075196642.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/k8s%E5%9F%BA%E7%A1%80/k8s-master.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/K8S%E5%9F%BA%E7%A1%80/k8s-node.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/K8S%E5%9F%BA%E7%A1%80/1619076211983.png">
-<meta property="og:image" content="https://dooubb.github.io/doc/K8S%E5%9F%BA%E7%A1%80/14937095836427.jpg">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/architecture.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/k8s-architecture.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/1619075196642.png">
+<meta property="og:image" content="https://dooubb.github.io/k8s%E5%9F%BA%E7%A1%80/k8s-master.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/k8s-node.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/1619076211983.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/14937095836427.jpg">
 <meta property="article:published_time" content="2022-08-11T05:44:46.844Z">
 <meta property="article:modified_time" content="2021-11-23T14:53:18.462Z">
 <meta property="article:author" content="dooubb">
 <meta property="article:tag" content="K8S">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dooubb.github.io/doc/K8S%E5%9F%BA%E7%A1%80/architecture.png">
+<meta name="twitter:image" content="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/architecture.png">
 
-<link rel="canonical" href="https://dooubb.github.io/doc/2022/08/11/K8S%E5%9F%BA%E7%A1%80/">
+<link rel="canonical" href="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/">
 
 
 <script id="page-configurations">
@@ -103,7 +103,7 @@
 
   <div class="site-meta">
 
-    <a href="/doc/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">dooubb</h1>
       <span class="logo-line-after"><i></i></span>
@@ -124,27 +124,27 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/doc/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/doc/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/doc/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/doc/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/doc/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -202,10 +202,10 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/doc/2022/08/11/K8S%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/11/K8S%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/doc/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="dooubb">
       <meta itemprop="description" content="">
     </span>
@@ -240,7 +240,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/doc/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
                 </span>
             </span>
 
@@ -277,7 +277,8 @@
 
       
         <h2 id="k8s设计架构"><a href="#k8s设计架构" class="headerlink" title="k8s设计架构"></a>k8s设计架构</h2><p>Kubernetes集群包含有节点代理kubelet和Master组件(APIs, scheduler, etc)，一切都基于分布式的存储系统。下面这张图是Kubernetes的架构图。</p>
-<p><img src="/doc/K8S%E5%9F%BA%E7%A1%80/architecture.png" alt="architecture.png"></p>
+<img src="/2022/08/11/K8S%E5%9F%BA%E7%A1%80/architecture.png" class title="architecture.png">
+
 <hr>
 <h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>在这张系统架构图中，我们把服务分为运行在工作节点上的服务和组成集群级别控制板的服务。</p>
 <p>Kubernetes节点有运行应用容器必备的服务，而这些都是受Master的控制。</p>
@@ -301,14 +302,18 @@
 </ul>
 <span id="more"></span>
 
-<p><img src="/doc/K8S%E5%9F%BA%E7%A1%80/k8s-architecture.png" alt="k8s-architecture"></p>
+<img src="/2022/08/11/K8S%E5%9F%BA%E7%A1%80/k8s-architecture.png" class title="k8s-architecture">
+
 <hr>
-<p><img src="/doc/K8S%E5%9F%BA%E7%A1%80/1619075196642.png" alt="1619075196642.png"></p>
-<h2 id="原理分解"><a href="#原理分解" class="headerlink" title="原理分解"></a>原理分解</h2><p><img src="/doc/k8s%E5%9F%BA%E7%A1%80/k8s-master.png" alt="k8s-master.png"></p>
+<img src="/2022/08/11/K8S%E5%9F%BA%E7%A1%80/1619075196642.png" class title="1619075196642.png">
+
+<h2 id="原理分解"><a href="#原理分解" class="headerlink" title="原理分解"></a>原理分解</h2><p><img src="/k8s%E5%9F%BA%E7%A1%80/k8s-master.png" alt="k8s-master.png"></p>
 <hr>
-<p><img src="/doc/K8S%E5%9F%BA%E7%A1%80/k8s-node.png" alt="k8s-node.png"></p>
+<img src="/2022/08/11/K8S%E5%9F%BA%E7%A1%80/k8s-node.png" class title="k8s-node.png">
+
 <hr>
-<h2 id="组件交互原理"><a href="#组件交互原理" class="headerlink" title="组件交互原理"></a>组件交互原理</h2><p><img src="/doc/K8S%E5%9F%BA%E7%A1%80/1619076211983.png" alt="1619076211983"></p>
+<h2 id="组件交互原理"><a href="#组件交互原理" class="headerlink" title="组件交互原理"></a>组件交互原理</h2><img src="/2022/08/11/K8S%E5%9F%BA%E7%A1%80/1619076211983.png" class width="1619076211983">
+
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">想让k8s部署一个tomcat?</span><br><span class="line"></span><br><span class="line">0、开机默认所有节点的kubelet、master节点的scheduler（调度器）、controller-manager（控制管理器）一直监听master的api-server发来的事件变化（for ::）</span><br><span class="line"></span><br><span class="line">1、程序员使用命令行工具： kubectl ； kubectl create deploy tomcat --image=tomcat8（告诉master让集群使用tomcat8镜像，部署一个tomcat应用）</span><br><span class="line"></span><br><span class="line">2、kubectl命令行内容发给api-server，api-server保存此次创建信息到etcd</span><br><span class="line"></span><br><span class="line">3、etcd给api-server上报事件，说刚才有人给我里面保存一个信息。（部署Tomcat[deploy]）</span><br><span class="line"></span><br><span class="line">4、controller-manager监听到api-server的事件，是 （部署Tomcat[deploy]）</span><br><span class="line"></span><br><span class="line">5、controller-manager 处理这个 （部署Tomcat[deploy]）的事件。controller-manager会生成Pod的部署信息【pod信息】</span><br><span class="line"></span><br><span class="line">6、controller-manager 把Pod的信息交给api-server，再保存到etcd</span><br><span class="line"></span><br><span class="line">7、etcd上报事件【pod信息】给api-server。</span><br><span class="line"></span><br><span class="line">8、scheduler专门监听 【pod信息】 ，拿到 【pod信息】的内容，计算，看哪个节点合适部署这个Pod【pod调度过后的信息（node: node-02）】，</span><br><span class="line"></span><br><span class="line">9、scheduler把 【pod调度过后的信息（node: node-02）】交给api-server保存给etcd</span><br><span class="line"></span><br><span class="line">10、etcd上报事件【pod调度过后的信息（node: node-02）】，给api-server</span><br><span class="line"></span><br><span class="line">11、其他节点的kubelet专门监听 【pod调度过后的信息（node: node-02）】 事件，集群所有节点kubelet从api-server就拿到了 【pod调度过后的信息（node: node-02）】 事件</span><br><span class="line"></span><br><span class="line">12、每个节点的kubelet判断是否属于自己的事情；node-02的kubelet发现是他的事情</span><br><span class="line"></span><br><span class="line">13、node-02的kubelet启动这个pod。汇报给master当前启动好的所有信息</span><br></pre></td></tr></table></figure>
 
 
@@ -316,7 +321,8 @@
 
 
 <h2 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h2><p>Kubernetes设计理念和功能其实就是一个类似Linux的分层架构，如下图所示</p>
-<p><img src="/doc/K8S%E5%9F%BA%E7%A1%80/14937095836427.jpg" alt="14937095836427.jpg"></p>
+<img src="/2022/08/11/K8S%E5%9F%BA%E7%A1%80/14937095836427.jpg" class title="14937095836427.jpg">
+
 <ul>
 <li>核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境</li>
 <li>应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、DNS解析等）</li>
@@ -338,7 +344,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/doc/tags/K8S/" rel="tag"><i class="fa fa-tag"></i> K8S</a>
+              <a href="/tags/K8S/" rel="tag"><i class="fa fa-tag"></i> K8S</a>
           </div>
 
         
@@ -347,11 +353,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/doc/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="Jenkins的使用">
+    <a href="/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="Jenkins的使用">
       <i class="fa fa-chevron-left"></i> Jenkins的使用
     </a></div>
       <div class="post-nav-item">
-    <a href="/doc/2022/08/11/Nginx/" rel="next" title="Nginx的安装">
+    <a href="/2022/08/11/Nginx/" rel="next" title="Nginx的安装">
       Nginx的安装 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -424,9 +430,9 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/doc/archives/">
+          <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -445,7 +451,7 @@
         <a href="https://github.com/dooubb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dooubb" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="/doc/fanq1213@163.com" title="E-Mail → fanq1213@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="/fanq1213@163.com" title="E-Mail → fanq1213@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -532,30 +538,30 @@
   </div>
 
   
-  <script src="/doc/lib/anime.min.js"></script>
-  <script src="/doc/lib/velocity/velocity.min.js"></script>
-  <script src="/doc/lib/velocity/velocity.ui.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-<script src="/doc/js/utils.js"></script>
+<script src="/js/utils.js"></script>
 
-<script src="/doc/js/motion.js"></script>
-
-
-<script src="/doc/js/schemes/muse.js"></script>
+<script src="/js/motion.js"></script>
 
 
-<script src="/doc/js/next-boot.js"></script>
+<script src="/js/schemes/muse.js"></script>
 
 
-
-
-  
+<script src="/js/next-boot.js"></script>
 
 
 
 
   
-<script src="/doc/js/local-search.js"></script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
