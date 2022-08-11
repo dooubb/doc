@@ -302,10 +302,9 @@
 <h1 id="流水线的创建"><a href="#流水线的创建" class="headerlink" title="流水线的创建"></a>流水线的创建</h1><blockquote>
 <p>在Dashboard下的新建Item，创建一个流水线，然后确定。</p>
 </blockquote>
-<img src="/doc/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209211809255.png" class title="image-20211209211809255">
-
+<p><img src="/doc/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/image-20211209211809255.png" alt="image-20211209211809255"></p>
 <blockquote>
-<p>然后再java-devops-demo中选择配置，添加触发远程构建，在流水线定义中，选择Pipeline script from SCM。</p></blockquote>
+<p>然后再java-devops-demo中选择配置，添加触发远程构建，在流水线定义中，选择Pipeline script from SCM。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/doc/2022/08/11/Jenkins%E7%9A%84%E4%BD%BF%E7%94%A8/#more" rel="contents">
@@ -509,7 +508,7 @@
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jasypt:</span></span><br><span class="line">  <span class="attr">encryptor:</span></span><br><span class="line">    <span class="attr">privateKeyFormat:</span> <span class="string">PEM</span> <span class="comment"># 非对称加密的秘钥类型: DER和PEM 此处要和你自己实现的非对称加密的工具相对应</span></span><br><span class="line">    <span class="attr">privateKeyString:</span> &#123;<span class="string">RSAPrivateKey</span>&#125; <span class="comment"># 非对称加密的私钥，用来解密密文</span></span><br><span class="line">    <span class="attr">property:</span></span><br><span class="line">      <span class="attr">prefix:</span> <span class="string">ENC(</span> <span class="comment"># 加密后的信息的前缀</span></span><br><span class="line">      <span class="attr">suffix:</span> <span class="string">)</span> <span class="comment"># 加密后的信息的后缀 </span></span><br><span class="line"><span class="attr">secret:</span></span><br><span class="line">  <span class="attr">data:</span> <span class="string">ENC(Pjp...)</span> <span class="comment"># 被加密的密文，增加前后缀是为了让jasypt可以定位到密文</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>非对称加密需要自己实现非对称加密的算法(网上找的工具类)</p></blockquote>
+<p>非对称加密需要自己实现非对称加密的算法(网上找的工具类)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/doc/2022/08/11/Jasypt%E5%8A%A0%E5%AF%86%E5%B7%A5%E5%85%B7/#more" rel="contents">
