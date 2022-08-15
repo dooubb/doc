@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/qpp.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/qpp.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="Kubernetes 组件  Master节点 Master节点是集群的控制节点，由API Server、Scheduler、Controller Manager和ETCD四个组件构成。  API Server：各组件互相通讯的中转站，接受外部请求，并将信息写到ETCD中。 Controller Manager：执行集群级功能，例如复制组件，跟踪Node节点，处理节点故障等等。 Scheduler">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s基础概念">
+<meta property="og:url" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="dooubb">
+<meta property="og:description" content="Kubernetes 组件  Master节点 Master节点是集群的控制节点，由API Server、Scheduler、Controller Manager和ETCD四个组件构成。  API Server：各组件互相通讯的中转站，接受外部请求，并将信息写到ETCD中。 Controller Manager：执行集群级功能，例如复制组件，跟踪Node节点，处理节点故障等等。 Scheduler">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815222135791.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815222237485.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815225858369.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815225949945.png">
+<meta property="article:published_time" content="2022-08-15T12:09:56.547Z">
+<meta property="article:modified_time" content="2022-08-15T15:27:49.418Z">
+<meta property="article:author" content="dooubb">
+<meta property="article:tag" content="K8S">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815222135791.png">
+
+<link rel="canonical" href="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>k8s基础概念 | dooubb</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">dooubb</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dooubb">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dooubb">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          k8s基础概念
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-15 20:09:56" itemprop="dateCreated datePublished" datetime="2022-08-15T20:09:56+08:00">2022-08-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-15 23:27:49" itemprop="dateModified" datetime="2022-08-15T23:27:49+08:00">2022-08-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Kubernetes-组件"><a href="#Kubernetes-组件" class="headerlink" title="Kubernetes 组件"></a>Kubernetes 组件</h1><img src="/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815222135791.png" class title="image-20220815222135791">
+
+<p><strong>Master节点</strong></p>
+<p>Master节点是集群的控制节点，由API Server、Scheduler、Controller Manager和ETCD四个组件构成。</p>
+<ul>
+<li>API Server：各组件互相通讯的中转站，接受外部请求，并将信息写到ETCD中。</li>
+<li>Controller Manager：执行集群级功能，例如复制组件，跟踪Node节点，处理节点故障等等。</li>
+<li>Scheduler：负责应用调度的组件，根据各种条件（如可用的资源、节点的亲和性等）将容器调度到Node上运行。</li>
+<li>ETCD：一个分布式数据存储组件，负责存储集群的配置信息。</li>
+</ul>
+<p>在生产环境中，为了保障集群的高可用，通常会部署多个master，如CCE的集群高可用模式就是3个master节点。</p>
+<p><strong>Node节点</strong></p>
+<p>Node节点是集群的计算节点，即运行容器化应用的节点。</p>
+<ul>
+<li>kubelet：kubelet主要负责同Container Runtime打交道，并与API Server交互，管理节点上的容器。</li>
+<li>kube-proxy：应用组件间的访问代理，解决节点上应用的访问问题。</li>
+<li>Container Runtime：容器运行时，如Docker，最主要的功能是下载镜像和运行容器。</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="Kubernetes的扩展性"><a href="#Kubernetes的扩展性" class="headerlink" title="Kubernetes的扩展性"></a>Kubernetes的扩展性</h1><p>Kubernetes开放了容器运行时接口（CRI）、容器网络接口（CNI）和容器存储接口（CSI），这些接口让Kubernetes的扩展性变得最大化，而Kubernetes本身则专注于容器调度。</p>
+<ul>
+<li>CRI（Container Runtime Interface）：容器运行时接口，提供计算资源，CRI隔离了各个容器引擎之间的差异，而通过统一的接口与各个容器引擎之间进行互动。</li>
+<li>CNI（Container Network Interface）：容器网络接口，提供网络资源，通过CNI接口，Kubernetes可以支持不同网络环境。</li>
+<li>CSI（Container Storage Interface）：容器存储接口，提供存储资源，通过CSI接口，Kubernetes可以支持各种类型的存储。</li>
+</ul>
+<h1 id="Kubernetes中的基本对象"><a href="#Kubernetes中的基本对象" class="headerlink" title="Kubernetes中的基本对象"></a>Kubernetes中的基本对象</h1><img src="/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815222237485.png" class title="image-20220815222237485">
+
+<ul>
+<li><p>Pod</p>
+<p>Pod是Kubernetes创建或部署的最小单位。一个Pod封装一个或多个容器（container）、存储资源（volume）、一个独立的网络IP以及管理控制容器运行方式的策略选项。</p>
+</li>
+<li><p>Deployment</p>
+<p>Deployment是对Pod的服务化封装。一个Deployment可以包含一个或多个Pod，每个Pod的角色相同，所以系统会自动为Deployment的多个Pod分发请求。</p>
+</li>
+<li><p>StatefulSet</p>
+<p>StatefulSet是用来管理有状态应用的对象。和Deployment相同的是，StatefulSet管理了基于相同容器定义的一组Pod。但和Deployment不同的是，StatefulSet为它们的每个Pod维护了一个固定的ID。这些Pod是基于相同的声明来创建的，但是不能相互替换，无论怎么调度，每个Pod都有一个永久不变的ID。</p>
+</li>
+<li><p>Job</p>
+<p>Job是用来控制批处理型任务的对象。批处理业务与长期伺服业务（Deployment）的主要区别是批处理业务的运行有头有尾，而长期伺服业务在用户不停止的情况下永远运行。Job管理的Pod根据用户的设置把任务成功完成就自动退出（Pod自动删除）。</p>
+</li>
+<li><p>CronJob</p>
+<p>CronJob是基于时间控制的Job，类似于Linux系统的crontab，在指定的时间周期运行指定的任务。</p>
+</li>
+<li><p>DaemonSet</p>
+<p>DaemonSet是这样一种对象（守护进程），它在集群的每个节点上运行一个Pod，且保证只有一个Pod，这非常适合一些系统层面的应用，例如日志收集、资源监控等，这类应用需要每个节点都运行，且不需要太多实例，一个比较好的例子就是Kubernetes的kube-proxy。</p>
+</li>
+<li><p>Service</p>
+<p>Service是用来解决Pod访问问题的。Service有一个固定IP地址，Service将访问流量转发给Pod，而且Service可以给这些Pod做负载均衡。</p>
+</li>
+<li><p>Ingress</p>
+<p>Service是基于四层TCP和UDP协议转发的，Ingress可以基于七层的HTTP和HTTPS协议转发，可以通过域名和路径做到更细粒度的划分。</p>
+</li>
+<li><p>ConfigMap</p>
+<p>ConfigMap是一种用于存储应用所需配置信息的资源类型，用于保存配置数据的键值对。通过ConfigMap可以方便的做到配置解耦，使得不同环境有不同的配置。</p>
+</li>
+<li><p>Secret</p>
+<p>Secret是一种加密存储的资源对象，您可以将认证信息、证书、私钥等保存在Secret中，而不需要把这些敏感数据暴露到镜像或者Pod定义中，从而更加安全和灵活。</p>
+</li>
+<li><p>PersistentVolume（PV）</p>
+<p>PV指持久化数据存储卷，主要定义的是一个持久化存储在宿主机上的目录，比如一个NFS的挂载目录。</p>
+</li>
+<li><p>PersistentVolumeClaim（PVC）</p>
+<p>Kubernetes提供PVC专门用于持久化存储的申请，PVC可以让您无需关心底层存储资源如何创建、释放等动作，而只需要申明您需要何种类型的存储资源、多大的存储空间。</p>
+</li>
+</ul>
+<h1 id="Kubernetes对象的描述"><a href="#Kubernetes对象的描述" class="headerlink" title="Kubernetes对象的描述"></a>Kubernetes对象的描述</h1><p>kubernetes中资源可以使用YAML描述，也可以使用JSON。其内容可以分为如下四个部分：</p>
+<ul>
+<li>typeMeta：对象类型的元信息，声明对象使用哪个API版本，哪个类型的对象。</li>
+<li>objectMeta：对象的元信息，包括对象名称、使用的标签等。</li>
+<li>spec：对象的期望状态，例如对象使用什么镜像、有多少副本等。</li>
+<li>status：对象的实际状态，只能在对象创建后看到，创建对象时无需指定。</li>
+</ul>
+<h1 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h1><h2 id="Pod基础信息"><a href="#Pod基础信息" class="headerlink" title="Pod基础信息"></a>Pod基础信息</h2><p><strong><code>Kubernetes中的最小调度对象</code></strong></p>
+<p>Pod是Kubernetes创建或部署的最小单位。一个Pod封装一个或多个容器（container）、存储资源（volume）、一个独立的网络IP以及管理控制容器运行方式的策略选项。</p>
+<p>Pod使用主要分为两种方式：</p>
+<ul>
+<li>Pod中运行一个容器。这是Kubernetes最常见的用法，您可以将Pod视为单个封装的容器，但是Kubernetes是直接管理Pod而不是容器。</li>
+<li>Pod中运行多个需要耦合在一起工作、需要共享资源的容器。通常这种场景下应用包含一个主容器和几个辅助容器（SideCar Container）。</li>
+</ul>
+<p>创建pod的yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span>                      <span class="comment"># Kubernetes的API Version</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span>                           <span class="comment"># Kubernetes的资源类型</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span>                       <span class="comment"># Pod的名称</span></span><br><span class="line"><span class="attr">spec:</span>                               <span class="comment"># Pod的具体规格（specification）</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx:alpine</span>             <span class="comment"># 使用的镜像为 nginx:alpine</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">container-0</span>               <span class="comment"># 容器的名称</span></span><br><span class="line">    <span class="attr">resources:</span>                      <span class="comment"># 申请容器所需的资源</span></span><br><span class="line">      <span class="attr">limits:</span></span><br><span class="line">        <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">      <span class="attr">requests:</span></span><br><span class="line">        <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">    <span class="attr">env:</span>                            <span class="comment"># 环境变量</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">env_key</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">env_value</span>  </span><br><span class="line">    <span class="attr">command:</span>                     <span class="comment"># 启动命令</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">top</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&quot;-b&quot;</span></span><br><span class="line">    <span class="attr">lifecycle:</span></span><br><span class="line">      <span class="attr">postStart:</span>                 <span class="comment"># 启动后处理</span></span><br><span class="line">        <span class="attr">exec:</span></span><br><span class="line">          <span class="attr">command:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;/postStart.sh&quot;</span></span><br><span class="line">      <span class="attr">preStop:</span>                   <span class="comment"># 停止前处理</span></span><br><span class="line">        <span class="attr">exec:</span></span><br><span class="line">          <span class="attr">command:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;/preStop.sh&quot;</span>  </span><br><span class="line">  <span class="attr">imagePullSecrets:</span>                 <span class="comment"># 拉取镜像使用的证书</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Pod-存活探针（Liveness-Probe）"><a href="#Pod-存活探针（Liveness-Probe）" class="headerlink" title="Pod 存活探针（Liveness Probe）"></a>Pod 存活探针（Liveness Probe）</h2><p>Kubernetes支持如下三种探测机制。</p>
+<ul>
+<li>HTTP GET：向容器发送HTTP GET请求，如果Probe收到2xx或3xx，说明容器是健康的。</li>
+<li>TCP Socket：尝试与容器指定端口建立TCP连接，如果连接成功建立，说明容器是健康的。</li>
+<li>Exec：Probe执行容器中的命令并检查命令退出的状态码，如果状态码为0则说明容器是健康的。</li>
+</ul>
+<h3 id="HTTP-GET"><a href="#HTTP-GET" class="headerlink" title="HTTP GET"></a>HTTP GET</h3><p>HTTP GET方式是最常见的探测方法，其具体机制是向容器发送HTTP GET请求，如果Probe收到2xx或3xx，说明容器是健康的</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">liveness-http</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">liveness</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">    <span class="attr">livenessProbe:</span>				 <span class="comment"># liveness probe</span></span><br><span class="line">      <span class="attr">httpGet:</span>					 <span class="comment"># HTTP GET定义</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">/</span></span><br><span class="line">        <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">initialDelaySeconds:</span> <span class="number">10</span>    <span class="comment"># 容器启动后多久开始探测</span></span><br><span class="line">      <span class="attr">timeoutSeconds:</span> <span class="number">2</span>          <span class="comment"># 表示容器必须在2s内做出相应反馈给probe，否则视为探测失败</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">30</span>          <span class="comment"># 探测周期，每30s探测一次</span></span><br><span class="line">      <span class="attr">successThreshold:</span> <span class="number">1</span>        <span class="comment"># 连续探测1次成功表示成功</span></span><br><span class="line">      <span class="attr">failureThreshold:</span> <span class="number">3</span>        <span class="comment"># 连续探测3次失败表示失败</span></span><br><span class="line">  <span class="attr">imagePullSecrets:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="TCP-Socket"><a href="#TCP-Socket" class="headerlink" title="TCP Socket"></a>TCP Socket</h3><p>TCP Socket尝试与容器指定端口建立TCP连接，如果连接成功建立，说明容器是健康的</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">test:</span> <span class="string">liveness</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">liveness-tcp</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">liveness</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">    <span class="attr">livenessProbe:</span>           <span class="comment"># liveness probe</span></span><br><span class="line">      <span class="attr">tcpSocket:</span></span><br><span class="line">        <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">  <span class="attr">imagePullSecrets:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Exec"><a href="#Exec" class="headerlink" title="Exec"></a>Exec</h3><p>Exec即执行具体命令，具体机制是Probe执行容器中的命令并检查命令退出的状态码，如果状态码为0则说明健康</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">test:</span> <span class="string">liveness</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">liveness-exec</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">liveness</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">    <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/bin/sh</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-c</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">touch</span> <span class="string">/tmp/healthy;</span> <span class="string">sleep</span> <span class="number">30</span><span class="string">;</span> <span class="string">rm</span> <span class="string">-rf</span> <span class="string">/tmp/healthy;</span> <span class="string">sleep</span> <span class="number">600</span></span><br><span class="line">    <span class="attr">livenessProbe:</span>           <span class="comment"># liveness probe</span></span><br><span class="line">      <span class="attr">exec:</span>                  <span class="comment"># Exec定义</span></span><br><span class="line">        <span class="attr">command:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">cat</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">/tmp/healthy</span></span><br><span class="line">  <span class="attr">imagePullSecrets:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Pod就绪探针（Readiness-Probe）"><a href="#Pod就绪探针（Readiness-Probe）" class="headerlink" title="Pod就绪探针（Readiness Probe）"></a>Pod就绪探针（Readiness Probe）</h2><p>Kubernetes支持如下三种类型。</p>
+<ul>
+<li>Exec：Probe执行容器中的命令并检查命令退出的状态码，如果状态码为0则说明已经就绪。</li>
+<li>HTTP GET：往容器的IP:Port发送HTTP GET请求，如果Probe收到2xx或3xx，说明已经就绪。</li>
+<li>TCP Socket：尝试与容器建立TCP连接，如果能建立连接说明已经就绪。</li>
+</ul>
+<h3 id="HTTP-GET-1"><a href="#HTTP-GET-1" class="headerlink" title="HTTP GET"></a>HTTP GET</h3><p>Readiness Probe的配置与<code>存活探针（livness probe）</code>一样，都是在Pod Template的containers里面，如下所示，这个Readiness Probe向Pod发送HTTP请求，当Probe收到2xx或3xx返回时，说明Pod已经就绪</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">container-0</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">limits:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">        <span class="attr">readinessProbe:</span>           <span class="comment"># readinessProbe</span></span><br><span class="line">          <span class="attr">httpGet:</span>                <span class="comment"># HTTP GET定义</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/read</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">10</span>    <span class="comment"># 容器启动后多久开始探测</span></span><br><span class="line">          <span class="attr">timeoutSeconds:</span> <span class="number">2</span>          <span class="comment"># 表示容器必须在2s内做出相应反馈给probe，否则视为探测失败</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">30</span>          <span class="comment"># 探测周期，每30s探测一次</span></span><br><span class="line">          <span class="attr">successThreshold:</span> <span class="number">1</span>        <span class="comment"># 连续探测1次成功表示成功</span></span><br><span class="line">          <span class="attr">failureThreshold:</span> <span class="number">3</span>        <span class="comment"># 连续探测3次失败表示失败</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="TCP-Socket-1"><a href="#TCP-Socket-1" class="headerlink" title="TCP Socket"></a>TCP Socket</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">container-0</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">limits:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">        <span class="attr">readinessProbe:</span>             <span class="comment"># readinessProbe</span></span><br><span class="line">          <span class="attr">tcpSocket:</span>                <span class="comment"># TCP Socket定义</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Exec-1"><a href="#Exec-1" class="headerlink" title="Exec"></a>Exec</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">container-0</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">limits:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">        <span class="attr">readinessProbe:</span>      <span class="comment"># Readiness Probe</span></span><br><span class="line">          <span class="attr">exec:</span>              <span class="comment"># 定义 ls /ready 命令</span></span><br><span class="line">            <span class="attr">command:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">ls</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">/ready</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Label"><a href="#Label" class="headerlink" title="Label"></a>Label</h2><p><strong><code>组织Pod的利器: Kubernetes提供了一种机制来为资源分类，那就是Label（标签）</code></strong></p>
+<p>没有分类组织的Pod</p>
+<img src="/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815225858369.png" class title="image-20220815225858369">
+
+<p>使用Label组织的Pod</p>
+<img src="/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815225949945.png" class title="image-20220815225949945">
+
+<h3 id="添加Label"><a href="#添加Label" class="headerlink" title="添加Label"></a>添加Label</h3><p>Label的形式为key-value形式</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">labels:</span>                     <span class="comment"># 为Pod设置两个Label    </span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span>    </span><br><span class="line">    <span class="attr">env:</span> <span class="string">prod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">container-0</span></span><br><span class="line">    <span class="attr">resources:</span></span><br><span class="line">      <span class="attr">limits:</span></span><br><span class="line">        <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">      <span class="attr">requests:</span></span><br><span class="line">        <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">  <span class="attr">imagePullSecrets:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看Label"><a href="#查看Label" class="headerlink" title="查看Label"></a>查看Label</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pod --show-labels</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改Label"><a href="#修改Label" class="headerlink" title="修改Label"></a>修改Label</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#nginx是上面的pod的name</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">label</span> <span class="string">pod</span> <span class="string">nginx</span> <span class="string">env=debug</span> <span class="string">--overwrite</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Pod的编排与调度"><a href="#Pod的编排与调度" class="headerlink" title="Pod的编排与调度"></a>Pod的编排与调度</h1><h2 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h2><p>一个Deployment可以包含一个或多个Pod副本，每个Pod副本的角色相同，并且提供副本管理、滚动升级和自愈能力</p>
+<h3 id="Deployment的创建"><a href="#Deployment的创建" class="headerlink" title="Deployment的创建"></a>Deployment的创建</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span> 				 <span class="comment"># 注意这里与Pod的区别，Deployment是apps/v1而不是v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span>					 <span class="comment"># 资源类型为Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">redis-web</span>					 <span class="comment"># Deployment的名称</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">mall-dev</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">2</span>						 <span class="comment"># Pod的数量，Deployment会确保一直有2个Pod运行</span></span><br><span class="line">  <span class="attr">selector:</span>							 <span class="comment"># Label Selector</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">redis-web</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">RollingUpdate</span></span><br><span class="line">  <span class="attr">template:</span>							 <span class="comment"># Pod的定义，用于创建Pod，也称为Pod template</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">redis-web</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ALLOW_EMPTY_PASSWORD</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;yes&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">REDIS_REPLICATION_MOD</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">master</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">redis:5</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">redis-web</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">6379</span></span><br><span class="line">          <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">limits:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">&quot;2&quot;</span></span><br><span class="line">            <span class="attr">ephemeral-storage:</span> <span class="string">1Gi</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">256Mi</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">200m</span></span><br><span class="line">            <span class="attr">ephemeral-storage:</span> <span class="string">200Mi</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">128Mi</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">private-registry-secret</span></span><br><span class="line">      <span class="attr">restartPolicy:</span> <span class="string">Always</span></span><br><span class="line">      <span class="attr">schedulerName:</span> <span class="string">default-scheduler</span></span><br><span class="line">      <span class="attr">securityContext:</span></span><br><span class="line">        <span class="attr">fsGroup:</span> <span class="number">2000</span></span><br><span class="line">        <span class="attr">runAsNonRoot:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">runAsUser:</span> <span class="number">1000</span></span><br><span class="line">      <span class="attr">terminationGracePeriodSeconds:</span> <span class="number">30</span></span><br></pre></td></tr></table></figure>
+
+<p>使用kubectl get查看Deployment和Pod，可以看到<strong>READY</strong>值为2&#x2F;2，前一个2表示当前有2个Pod运行，后一个2表示期望有2个Pod，<strong>AVAILABLE</strong>为2表示有2个Pod是可用的。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get deployments.apps -n mall-dev</span></span><br><span class="line">NAME           READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">redis-web      2/2     2            2           146d</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Deployment控制Pod"><a href="#Deployment控制Pod" class="headerlink" title="Deployment控制Pod"></a>Deployment控制Pod</h3><p>Deployment是通过一种名为ReplicaSet的控制器控制Pod。</p>
+<p><code>Deployment控制ReplicaSet，ReplicaSet控制Pod</code></p>
+<p>查询ReplicaSet命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get rs -n mall-dev</span></span><br><span class="line">NAME                      DESIRED   CURRENT   READY   AGE</span><br><span class="line">redis-web-db6f7cd87       2         2         2       145d</span><br></pre></td></tr></table></figure>
+
+<p>使用kubectl describe命令查看Deployment的详情，您就可以看到ReplicaSet</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl describe deployments.apps redis-web -n mall-dev</span></span><br><span class="line">Name:                   redis-web</span><br><span class="line">Namespace:              mall-dev</span><br><span class="line">CreationTimestamp:      Tue, 22 Mar 2022 01:10:22 +0800</span><br><span class="line">Labels:                 &lt;none&gt;</span><br><span class="line">Annotations:            deployment.kubernetes.io/revision: 6</span><br><span class="line">Selector:               app=redis-web</span><br><span class="line">Replicas:               2 desired | 2 updated | 2 total | 2 available | 0 unavailable</span><br><span class="line">StrategyType:           RollingUpdate</span><br><span class="line">MinReadySeconds:        0</span><br><span class="line">RollingUpdateStrategy:  25% max unavailable, 25% max surge</span><br><span class="line">Pod Template:</span><br><span class="line">  Labels:       app=redis-web</span><br><span class="line">  Annotations:  kubectl.kubernetes.io/restartedAt: 2022-03-23T22:51:20+08:00</span><br><span class="line">  Containers:</span><br><span class="line">   redis-web:</span><br><span class="line">    Image:      redis:5</span><br><span class="line">    Port:       6379/TCP</span><br><span class="line">    Host Port:  0/TCP</span><br><span class="line">    Limits:</span><br><span class="line">      cpu:                2</span><br><span class="line">      ephemeral-storage:  1Gi</span><br><span class="line">      memory:             256Mi</span><br><span class="line">    Requests:</span><br><span class="line">      cpu:                200m</span><br><span class="line">      ephemeral-storage:  200Mi</span><br><span class="line">      memory:             128Mi</span><br><span class="line">    Environment:</span><br><span class="line">      ALLOW_EMPTY_PASSWORD:   <span class="built_in">yes</span></span><br><span class="line">      REDIS_REPLICATION_MOD:  master</span><br><span class="line">    Mounts:                   &lt;none&gt;</span><br><span class="line">  Volumes:                    &lt;none&gt;</span><br><span class="line">Conditions:</span><br><span class="line">  Type           Status  Reason</span><br><span class="line">  ----           ------  ------</span><br><span class="line">  Progressing    True    NewReplicaSetAvailable</span><br><span class="line">  Available      True    MinimumReplicasAvailable</span><br><span class="line">OldReplicaSets:  &lt;none&gt;</span><br><span class="line">NewReplicaSet:   redis-web-db6f7cd87 (2/2 replicas created) <span class="comment">#ReplicaSet信息</span></span><br><span class="line">Events:</span><br><span class="line">  Type    Reason             Age    From                   Message</span><br><span class="line">  ----    ------             ----   ----                   -------</span><br><span class="line">  Normal  ScalingReplicaSet  9m14s  deployment-controller  Scaled up replica <span class="built_in">set</span> redis-web-db6f7cd87 to 2</span><br></pre></td></tr></table></figure>
+
+<h3 id="Deployment升级"><a href="#Deployment升级" class="headerlink" title="Deployment升级"></a>Deployment升级</h3><p>Deployment可以设置不同的升级策略，有如下两种。</p>
+<ul>
+<li>RollingUpdate：滚动升级，即逐步创建新Pod再删除旧Pod，为默认策略。</li>
+<li>Recreate：替换升级，即先把当前Pod删掉再重新创建Pod。</li>
+</ul>
+<p>Deployment可以通过maxSurge和maxUnavailable两个参数控制升级过程中同时重新创建Pod的比例</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">strategy:</span></span><br><span class="line">    <span class="attr">rollingUpdate:</span></span><br><span class="line">      <span class="attr">maxSurge:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">maxUnavailable:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">RollingUpdate</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>maxSurge：与Deployment中spec.replicas相比，可以有多少个Pod存在，默认值是25%，比如spec.replicas为 4，那升级过程中就不能超过5个Pod存在，即按1个的步伐升级，实际升级过程中会换算成数字，且换算会向上取整。这个值也可以直接设置成数字。</li>
+<li>maxUnavailable：与Deployment中spec.replicas相比，可以有多少个Pod失效，也就是删除的比例，默认值是25%，比如spec.replicas为4，那升级过程中就至少有3个Pod存在，即删除Pod的步伐是1。同样这个值也可以设置成数字。</li>
+</ul>
+<h3 id="Deployment回滚"><a href="#Deployment回滚" class="headerlink" title="Deployment回滚"></a>Deployment回滚</h3><p>回滚也称为回退，即当发现升级出现问题时，让应用回到老的版本。Deployment可以非常方便的回滚到老版本。</p>
+<p>假如上面升级的新版镜像有问题，可以执行kubectl rollout undo命令进行回滚。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl rollout undo deployment redis-web</span><br></pre></td></tr></table></figure>
+
+<h2 id="StatefulSet"><a href="#StatefulSet" class="headerlink" title="StatefulSet"></a><a target="_blank" rel="noopener" href="https://support.huaweicloud.com/basics-cce/kubernetes_0015.html">StatefulSet</a></h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/K8S/" rel="tag"><i class="fa fa-tag"></i> K8S</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/13/Linux/Linux/" rel="prev" title="Linux">
+      <i class="fa fa-chevron-left"></i> Linux
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-%E7%BB%84%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes 组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E7%9A%84%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">Kubernetes的扩展性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E4%B8%AD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.</span> <span class="nav-text">Kubernetes中的基本对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.</span> <span class="nav-text">Kubernetes对象的描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pod"><span class="nav-number">5.</span> <span class="nav-text">Pod</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF"><span class="nav-number">5.1.</span> <span class="nav-text">Pod基础信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod-%E5%AD%98%E6%B4%BB%E6%8E%A2%E9%92%88%EF%BC%88Liveness-Probe%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">Pod 存活探针（Liveness Probe）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-GET"><span class="nav-number">5.2.1.</span> <span class="nav-text">HTTP GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-Socket"><span class="nav-number">5.2.2.</span> <span class="nav-text">TCP Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec"><span class="nav-number">5.2.3.</span> <span class="nav-text">Exec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E5%B0%B1%E7%BB%AA%E6%8E%A2%E9%92%88%EF%BC%88Readiness-Probe%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">Pod就绪探针（Readiness Probe）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-GET-1"><span class="nav-number">5.3.1.</span> <span class="nav-text">HTTP GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-Socket-1"><span class="nav-number">5.3.2.</span> <span class="nav-text">TCP Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec-1"><span class="nav-number">5.3.3.</span> <span class="nav-text">Exec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label"><span class="nav-number">5.4.</span> <span class="nav-text">Label</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0Label"><span class="nav-number">5.4.1.</span> <span class="nav-text">添加Label</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BLabel"><span class="nav-number">5.4.2.</span> <span class="nav-text">查看Label</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9Label"><span class="nav-number">5.4.3.</span> <span class="nav-text">修改Label</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pod%E7%9A%84%E7%BC%96%E6%8E%92%E4%B8%8E%E8%B0%83%E5%BA%A6"><span class="nav-number">6.</span> <span class="nav-text">Pod的编排与调度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Deployment"><span class="nav-number">6.1.</span> <span class="nav-text">Deployment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">6.1.1.</span> <span class="nav-text">Deployment的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E6%8E%A7%E5%88%B6Pod"><span class="nav-number">6.1.2.</span> <span class="nav-text">Deployment控制Pod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E5%8D%87%E7%BA%A7"><span class="nav-number">6.1.3.</span> <span class="nav-text">Deployment升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E5%9B%9E%E6%BB%9A"><span class="nav-number">6.1.4.</span> <span class="nav-text">Deployment回滚</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StatefulSet"><span class="nav-number">6.2.</span> <span class="nav-text">StatefulSet</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">dooubb</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dooubb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dooubb" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/fanq1213@163.com" title="E-Mail → fanq1213@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dooubb && <span id="sitetime"></span>
+  <script language=javascript>
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+		/* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+		year - 作为date对象的年份，为4位年份值
+		month - 0-11之间的整数，做为date对象的月份
+		day - 1-31之间的整数，做为date对象的天数
+		hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+		minutes - 0-59之间的整数，做为date对象的分钟数
+		seconds - 0-59之间的整数，做为date对象的秒数
+		microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+		var t1 = Date.UTC(2018,02,13,15,00,00); //北京时间2018-2-13 00:00:00
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		document.getElementById("sitetime").innerHTML=" 已运行"+/*diffYears+" 年 "+*/diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+	}/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+	siteTime();
+</script></span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+    <a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">京ICP备2022022850号-1</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
