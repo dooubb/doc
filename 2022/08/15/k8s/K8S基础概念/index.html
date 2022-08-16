@@ -31,8 +31,10 @@
 <meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815222237485.png">
 <meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815225858369.png">
 <meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815225949945.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220816210111583.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220816215943427.png">
 <meta property="article:published_time" content="2022-08-15T12:09:56.547Z">
-<meta property="article:modified_time" content="2022-08-15T15:32:34.250Z">
+<meta property="article:modified_time" content="2022-08-16T14:04:27.797Z">
 <meta property="article:author" content="dooubb">
 <meta property="article:tag" content="K8S">
 <meta name="twitter:card" content="summary">
@@ -229,7 +231,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-15 23:32:34" itemprop="dateModified" datetime="2022-08-15T23:32:34+08:00">2022-08-15</time>
+                <time title="修改时间：2022-08-16 22:04:27" itemprop="dateModified" datetime="2022-08-16T22:04:27+08:00">2022-08-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,14 +256,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.9k</span>
+              <span>16k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>15 分钟</span>
             </span>
 
         </div>
@@ -428,7 +430,218 @@
 <p>假如上面升级的新版镜像有问题，可以执行kubectl rollout undo命令进行回滚。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl rollout undo deployment redis-web</span><br></pre></td></tr></table></figure>
 
-<h2 id="StatefulSet"><a href="#StatefulSet" class="headerlink" title="StatefulSet"></a><a target="_blank" rel="noopener" href="https://support.huaweicloud.com/basics-cce/kubernetes_0015.html">StatefulSet</a></h2>
+<h2 id="StatefulSet"><a href="#StatefulSet" class="headerlink" title="StatefulSet"></a>StatefulSet</h2><p>Deployment控制器下的Pod都有个共同特点，那就是每个Pod除了名称和IP地址不同，其余完全相同。需要的时候，Deployment可以通过Pod模板创建新的Pod；不需要的时候，Deployment就可以删除任意一个Pod。</p>
+<p>详细分析下有状态应用的需求，分布式有状态的特点主要是应用中每个部分的角色不同（即分工不同），比如数据库有主备，Pod之间有依赖，对应到Kubernetes中就是对Pod有如下要求：</p>
+<ul>
+<li>Pod能够被别的Pod找到，这就要求Pod有固定的标识。</li>
+<li>每个Pod有单独存储，Pod被删除恢复后，读取的数据必须还是以前那份，否则状态就会不一致。</li>
+</ul>
+<p>Kubernetes提供了StatefulSet来解决这个问题，其具体如下：</p>
+<ol>
+<li>StatefulSet给每个Pod提供固定名称，Pod名称增加从0-N的固定后缀，Pod重新调度后Pod名称和HostName不变。</li>
+<li>StatefulSet通过Headless Service给每个Pod提供固定的访问域名，Service的概念会在后面章节中详细介绍。</li>
+<li>StatefulSet通过创建固定标识的PVC保证Pod重新调度后还是能访问到相同的持久化数据。</li>
+</ol>
+<img src="/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220816210111583.png" class title="image-20220816210111583">
+
+
+
+
+
+<h3 id="创建Headless-Service"><a href="#创建Headless-Service" class="headerlink" title="创建Headless Service"></a>创建Headless Service</h3><p>创建Statefulset需要一个Headless Service用于Pod访问</p>
+<p>使用如下文件描述Headless Service，其中：</p>
+<ul>
+<li>spec.clusterIP：必须设置为None，表示Headless Service。</li>
+<li>spec.ports.port：Pod间通信端口号。</li>
+<li>spec.ports.name：Pod间通信端口名称。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span>       <span class="comment"># 对象类型为Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span>     <span class="comment"># Pod间通信的端口名称</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">80</span>        <span class="comment"># Pod间通信的端口号</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span>        <span class="comment"># 选择标签为app:nginx的Pod</span></span><br><span class="line">  <span class="attr">clusterIP:</span> <span class="string">None</span>     <span class="comment"># 必须设置为None，表示Headless Service</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>创建后的service</code></strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl get service  -n mall-dev</span></span><br><span class="line">NAME    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE</span><br><span class="line">nginx   ClusterIP   None            &lt;none&gt;        80/TCP     2m26s</span><br><span class="line">redis   ClusterIP   10.96.121.105   &lt;none&gt;        6379/TCP   147d</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建Statefulset"><a href="#创建Statefulset" class="headerlink" title="创建Statefulset"></a>创建Statefulset</h3><p><strong><code>serviceName指定了Statefulset使用哪个Headless Service</code></strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">StatefulSet</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">serviceName:</span> <span class="string">nginx</span>                             <span class="comment"># headless service的名称</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">container-0</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">          <span class="attr">resources:</span></span><br><span class="line">            <span class="attr">limits:</span></span><br><span class="line">              <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">              <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">            <span class="attr">requests:</span></span><br><span class="line">              <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">              <span class="attr">memory:</span> <span class="string">200Mi</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">default-secret</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="meta"></span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>创建后的pod</code></strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl get pod -n mall-dev</span></span><br><span class="line">NAME                        READY   STATUS    RESTARTS   AGE</span><br><span class="line">nginx-0                     1/1     Running   0          5m43s</span><br><span class="line">nginx-1                     1/1     Running   0          3m59s</span><br><span class="line">nginx-2                     1/1     Running   0          3m55s</span><br><span class="line">redis-web-db6f7cd87-2pzff   1/1     Running   1          22h</span><br><span class="line">redis-web-db6f7cd87-s4nph   1/1     Running   4          59d</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>删除pod后再查看pod</code></strong></p>
+<p>会发现k8s会重新创建一个name一样的pod出来</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl get pod -n mall-dev</span></span><br><span class="line">NAME                        READY   STATUS    RESTARTS   AGE</span><br><span class="line">nginx-0                     1/1     Running   0          11m</span><br><span class="line">nginx-1                     1/1     Running   0          9m24s</span><br><span class="line">nginx-2                     1/1     Running   0          9m20s</span><br><span class="line">redis-web-db6f7cd87-2pzff   1/1     Running   1          22h</span><br><span class="line">redis-web-db6f7cd87-s4nph   1/1     Running   4          59d</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl delete pod nginx-0 -n mall-dev</span></span><br><span class="line">pod <span class="string">&quot;nginx-0&quot;</span> deleted</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl get pod -n mall-dev</span></span><br><span class="line">NAME                        READY   STATUS    RESTARTS   AGE</span><br><span class="line">nginx-0                     1/1     Running   0          2s</span><br><span class="line">nginx-1                     1/1     Running   0          9m50s</span><br><span class="line">nginx-2                     1/1     Running   0          9m46s</span><br><span class="line">redis-web-db6f7cd87-2pzff   1/1     Running   1          22h</span><br><span class="line">redis-web-db6f7cd87-s4nph   1/1     Running   4          59d</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl get pod -n mall-dev</span></span><br><span class="line">NAME                        READY   STATUS    RESTARTS   AGE</span><br><span class="line">nginx-0                     1/1     Running   0          4s</span><br><span class="line">nginx-1                     1/1     Running   0          9m52s</span><br><span class="line">nginx-2                     1/1     Running   0          9m48s</span><br><span class="line">redis-web-db6f7cd87-2pzff   1/1     Running   1          22h</span><br><span class="line">redis-web-db6f7cd87-s4nph   1/1     Running   4          59d</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># </span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>进入pod内部查看hostname</code></strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl exec nginx-0 -n mall-dev -- sh -c &#x27;hostname&#x27; </span></span><br><span class="line">nginx-0</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl exec nginx-1 -n mall-dev -- sh -c &#x27;hostname&#x27; </span></span><br><span class="line">nginx-1</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl exec nginx-2 -n mall-dev -- sh -c &#x27;hostname&#x27; </span></span><br><span class="line">nginx-2</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># </span></span><br></pre></td></tr></table></figure>
+
+<h3 id="StatefulSet的网络标识"><a href="#StatefulSet的网络标识" class="headerlink" title="StatefulSet的网络标识"></a>StatefulSet的网络标识</h3><p>StatefulSet创建后，可以看下Pod是有固定名称的，那Headless Service是如何起作用的呢，那就是使用DNS，为Pod提供固定的域名，这样Pod间就可以使用域名访问，即便Pod被重新创建而导致Pod的IP地址发生变化，这个域名也不会发生变化。</p>
+<p>Headless Service创建后，每个Pod的IP都会有下面格式的域名。</p>
+<p><strong><code>&lt;pod-name&gt;.&lt;svc-name&gt;.&lt;namespace&gt;.svc.cluster.local</code></strong></p>
+<p>例如上面的三个Pod的域名就是：</p>
+<ul>
+<li>nginx-0.nginx.mall-dev.svc.cluster.local</li>
+<li>nginx-1.nginx.mall-dev..svc.cluster.local</li>
+<li>nginx-2.nginx.mall-dev.ult.svc.cluster.local</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl run -it --image=busybox:1.28.3 --restart=Never -n mall-dev dns-test /bin/sh</span></span><br><span class="line">/ <span class="comment">#  nslookup nginx-0.nginx</span></span><br><span class="line">Server:    10.96.0.10</span><br><span class="line">Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local</span><br><span class="line"></span><br><span class="line">Name:      nginx-0.nginx</span><br><span class="line">Address 1: 192.167.58.202 nginx-0.nginx.mall-dev.svc.cluster.local</span><br><span class="line">/ <span class="comment">#  nslookup nginx-1.nginx</span></span><br><span class="line">Server:    10.96.0.10</span><br><span class="line">Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local</span><br><span class="line"></span><br><span class="line">Name:      nginx-1.nginx</span><br><span class="line">Address 1: 192.167.85.204 nginx-1.nginx.mall-dev.svc.cluster.local</span><br><span class="line">/ <span class="comment">#  nslookup nginx-2.nginx</span></span><br><span class="line">Server:    10.96.0.10</span><br><span class="line">Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local</span><br><span class="line"></span><br><span class="line">Name:      nginx-2.nginx</span><br><span class="line">Address 1: 192.167.85.203 nginx-2.nginx.mall-dev.svc.cluster.local</span><br><span class="line">/ <span class="comment"># </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>删除一个pod后在查看dns</code></strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#删除pod</span></span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl get pod -n mall-dev </span></span><br><span class="line">NAME                        READY   STATUS    RESTARTS   AGE</span><br><span class="line">dns-test                    1/1     Running   0          75s</span><br><span class="line">nginx-0                     1/1     Running   0          31m</span><br><span class="line">nginx-1                     1/1     Running   0          41m</span><br><span class="line">nginx-2                     1/1     Running   0          41m</span><br><span class="line">redis-web-db6f7cd87-2pzff   1/1     Running   1          22h</span><br><span class="line">redis-web-db6f7cd87-s4nph   1/1     Running   4          59d</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl delete pod -n mall-dev nginx-0</span></span><br><span class="line">pod <span class="string">&quot;nginx-0&quot;</span> deleted</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl get pod -n mall-dev </span></span><br><span class="line">NAME                        READY   STATUS    RESTARTS   AGE</span><br><span class="line">dns-test                    1/1     Running   0          2m47s</span><br><span class="line">nginx-0                     1/1     Running   0          71s</span><br><span class="line">nginx-1                     1/1     Running   0          43m</span><br><span class="line">nginx-2                     1/1     Running   0          43m</span><br><span class="line">redis-web-db6f7cd87-2pzff   1/1     Running   1          22h</span><br><span class="line">redis-web-db6f7cd87-s4nph   1/1     Running   4          59d</span><br><span class="line">[root@k8s-master yaml]<span class="comment"># </span></span><br><span class="line"></span><br><span class="line">-----------------------------------------------------------------------------------------------</span><br><span class="line"><span class="comment">#查看dns</span></span><br><span class="line">[root@k8s-master yaml]<span class="comment"># kubectl run -it --image=busybox:1.28.3 --restart=Never -n mall-dev dns-test /bin/sh</span></span><br><span class="line"><span class="comment">#####第一次查看#####</span></span><br><span class="line">/ <span class="comment">#  nslookup nginx-0.nginx</span></span><br><span class="line">Server:    10.96.0.10</span><br><span class="line">Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local</span><br><span class="line"></span><br><span class="line">Name:      nginx-0.nginx</span><br><span class="line">Address 1: 192.167.58.202 nginx-0.nginx.mall-dev.svc.cluster.local</span><br><span class="line">/ <span class="comment">#  nslookup nginx-1.nginx</span></span><br><span class="line">Server:    10.96.0.10</span><br><span class="line">Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local</span><br><span class="line"></span><br><span class="line">Name:      nginx-1.nginx</span><br><span class="line">Address 1: 192.167.85.204 nginx-1.nginx.mall-dev.svc.cluster.local</span><br><span class="line">/ <span class="comment">#  nslookup nginx-2.nginx</span></span><br><span class="line">Server:    10.96.0.10</span><br><span class="line">Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local</span><br><span class="line"></span><br><span class="line">Name:      nginx-2.nginx</span><br><span class="line">Address 1: 192.167.85.203 nginx-2.nginx.mall-dev.svc.cluster.local</span><br><span class="line"><span class="comment">#####第二次查看#####</span></span><br><span class="line">/ <span class="comment">#  nslookup nginx-0.nginx</span></span><br><span class="line">Server:    10.96.0.10</span><br><span class="line">Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local</span><br><span class="line"></span><br><span class="line">Name:      nginx-0.nginx</span><br><span class="line">Address 1: 192.167.58.214 nginx-0.nginx.mall-dev.svc.cluster.local</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="StatefulSet存储状态"><a href="#StatefulSet存储状态" class="headerlink" title="StatefulSet存储状态"></a>StatefulSet存储状态</h3><p><strong><code>StatefulSet可以通过PVC做持久化存储，保证Pod重新调度后还是能访问到相同的持久化数据，在删除Pod时，PVC不会被删除。</code></strong></p>
+<img src="/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220816215943427.png" class title="image-20220816215943427">
+
+<h2 id="Job和CronJob"><a href="#Job和CronJob" class="headerlink" title="Job和CronJob"></a>Job和CronJob</h2><p>Job和CronJob是负责批量处理短暂的一次性任务（short lived one-off tasks），即仅执行一次的任务，它保证批处理任务的一个或多个Pod成功结束。</p>
+<ul>
+<li>Job：是Kubernetes用来控制批处理型任务的资源对象。批处理业务与长期伺服业务（Deployment、Statefulset）的主要区别是批处理业务的运行有头有尾，而长期伺服业务在用户不停止的情况下永远运行。Job管理的Pod根据用户的设置把任务成功完成就自动退出（Pod自动删除）。</li>
+<li>CronJob：是基于时间的Job，就类似于Linux系统的crontab文件中的一行，在指定的时间周期运行指定的Job。</li>
+</ul>
+<p>任务负载的这种用完即停止的特性特别适合一次性任务，比如持续集成。</p>
+<table>
+<thead>
+<tr>
+<th>Job类型</th>
+<th>说明</th>
+<th>使用示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一次性Job</td>
+<td>创建一个Pod直至其成功结束</td>
+<td>数据库迁移</td>
+</tr>
+<tr>
+<td>固定结束次数的Job</td>
+<td>依次创建一个Pod运行直至completions个成功结束</td>
+<td>处理工作队列的Pod</td>
+</tr>
+<tr>
+<td>固定结束次数的并行Job</td>
+<td>依次创建多个Pod运行直至completions个成功结束</td>
+<td>多个Pod同时处理工作队列</td>
+</tr>
+<tr>
+<td>并行Job</td>
+<td>创建一个或多个Pod直至有一个成功结束</td>
+<td>多个Pod同时处理工作队列</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: batch/v1</span><br><span class="line">kind: Job</span><br><span class="line">metadata:</span><br><span class="line">  name: pi-with-timeout</span><br><span class="line">spec:</span><br><span class="line">  completions: 50            # 运行的次数，即Job结束需要成功运行的Pod个数</span><br><span class="line">  parallelism: 5             # 并行运行Pod的数量，默认为1</span><br><span class="line">  backoffLimit: 5            # 表示失败Pod的重试最大次数，超过这个次数不会继续重试。</span><br><span class="line">  activeDeadlineSeconds: 10  # 表示Pod超期时间，一旦达到这个时间，Job及其所有的Pod都会停止。</span><br><span class="line">  template:                  # Pod定义</span><br><span class="line">    spec: </span><br><span class="line">      containers:</span><br><span class="line">      - name: pi</span><br><span class="line">        image: perl</span><br><span class="line">        command:</span><br><span class="line">        - perl</span><br><span class="line">        - &quot;-Mbignum=bpi&quot;</span><br><span class="line">        - &quot;-wle&quot;</span><br><span class="line">        - print bpi(2000)</span><br><span class="line">      restartPolicy: Never</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
 
     
@@ -509,7 +722,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-%E7%BB%84%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes 组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E7%9A%84%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">Kubernetes的扩展性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E4%B8%AD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.</span> <span class="nav-text">Kubernetes中的基本对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.</span> <span class="nav-text">Kubernetes对象的描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pod"><span class="nav-number">5.</span> <span class="nav-text">Pod</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF"><span class="nav-number">5.1.</span> <span class="nav-text">Pod基础信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod-%E5%AD%98%E6%B4%BB%E6%8E%A2%E9%92%88%EF%BC%88Liveness-Probe%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">Pod 存活探针（Liveness Probe）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-GET"><span class="nav-number">5.2.1.</span> <span class="nav-text">HTTP GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-Socket"><span class="nav-number">5.2.2.</span> <span class="nav-text">TCP Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec"><span class="nav-number">5.2.3.</span> <span class="nav-text">Exec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E5%B0%B1%E7%BB%AA%E6%8E%A2%E9%92%88%EF%BC%88Readiness-Probe%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">Pod就绪探针（Readiness Probe）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-GET-1"><span class="nav-number">5.3.1.</span> <span class="nav-text">HTTP GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-Socket-1"><span class="nav-number">5.3.2.</span> <span class="nav-text">TCP Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec-1"><span class="nav-number">5.3.3.</span> <span class="nav-text">Exec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label"><span class="nav-number">5.4.</span> <span class="nav-text">Label</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0Label"><span class="nav-number">5.4.1.</span> <span class="nav-text">添加Label</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BLabel"><span class="nav-number">5.4.2.</span> <span class="nav-text">查看Label</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9Label"><span class="nav-number">5.4.3.</span> <span class="nav-text">修改Label</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pod%E7%9A%84%E7%BC%96%E6%8E%92%E4%B8%8E%E8%B0%83%E5%BA%A6"><span class="nav-number">6.</span> <span class="nav-text">Pod的编排与调度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Deployment"><span class="nav-number">6.1.</span> <span class="nav-text">Deployment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">6.1.1.</span> <span class="nav-text">Deployment的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E6%8E%A7%E5%88%B6Pod"><span class="nav-number">6.1.2.</span> <span class="nav-text">Deployment控制Pod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E5%8D%87%E7%BA%A7"><span class="nav-number">6.1.3.</span> <span class="nav-text">Deployment升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E5%9B%9E%E6%BB%9A"><span class="nav-number">6.1.4.</span> <span class="nav-text">Deployment回滚</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StatefulSet"><span class="nav-number">6.2.</span> <span class="nav-text">StatefulSet</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-%E7%BB%84%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes 组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E7%9A%84%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">Kubernetes的扩展性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E4%B8%AD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.</span> <span class="nav-text">Kubernetes中的基本对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.</span> <span class="nav-text">Kubernetes对象的描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pod"><span class="nav-number">5.</span> <span class="nav-text">Pod</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF"><span class="nav-number">5.1.</span> <span class="nav-text">Pod基础信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod-%E5%AD%98%E6%B4%BB%E6%8E%A2%E9%92%88%EF%BC%88Liveness-Probe%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">Pod 存活探针（Liveness Probe）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-GET"><span class="nav-number">5.2.1.</span> <span class="nav-text">HTTP GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-Socket"><span class="nav-number">5.2.2.</span> <span class="nav-text">TCP Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec"><span class="nav-number">5.2.3.</span> <span class="nav-text">Exec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E5%B0%B1%E7%BB%AA%E6%8E%A2%E9%92%88%EF%BC%88Readiness-Probe%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">Pod就绪探针（Readiness Probe）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-GET-1"><span class="nav-number">5.3.1.</span> <span class="nav-text">HTTP GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-Socket-1"><span class="nav-number">5.3.2.</span> <span class="nav-text">TCP Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exec-1"><span class="nav-number">5.3.3.</span> <span class="nav-text">Exec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label"><span class="nav-number">5.4.</span> <span class="nav-text">Label</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0Label"><span class="nav-number">5.4.1.</span> <span class="nav-text">添加Label</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BLabel"><span class="nav-number">5.4.2.</span> <span class="nav-text">查看Label</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9Label"><span class="nav-number">5.4.3.</span> <span class="nav-text">修改Label</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pod%E7%9A%84%E7%BC%96%E6%8E%92%E4%B8%8E%E8%B0%83%E5%BA%A6"><span class="nav-number">6.</span> <span class="nav-text">Pod的编排与调度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Deployment"><span class="nav-number">6.1.</span> <span class="nav-text">Deployment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">6.1.1.</span> <span class="nav-text">Deployment的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E6%8E%A7%E5%88%B6Pod"><span class="nav-number">6.1.2.</span> <span class="nav-text">Deployment控制Pod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E5%8D%87%E7%BA%A7"><span class="nav-number">6.1.3.</span> <span class="nav-text">Deployment升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment%E5%9B%9E%E6%BB%9A"><span class="nav-number">6.1.4.</span> <span class="nav-text">Deployment回滚</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StatefulSet"><span class="nav-number">6.2.</span> <span class="nav-text">StatefulSet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAHeadless-Service"><span class="nav-number">6.2.1.</span> <span class="nav-text">创建Headless Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAStatefulset"><span class="nav-number">6.2.2.</span> <span class="nav-text">创建Statefulset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StatefulSet%E7%9A%84%E7%BD%91%E7%BB%9C%E6%A0%87%E8%AF%86"><span class="nav-number">6.2.3.</span> <span class="nav-text">StatefulSet的网络标识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StatefulSet%E5%AD%98%E5%82%A8%E7%8A%B6%E6%80%81"><span class="nav-number">6.2.4.</span> <span class="nav-text">StatefulSet存储状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Job%E5%92%8CCronJob"><span class="nav-number">6.3.</span> <span class="nav-text">Job和CronJob</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
