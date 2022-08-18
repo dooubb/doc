@@ -202,7 +202,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/08/17/k8s/K8S%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%20/" class="post-title-link" itemprop="url">k8s基础概念</a>
+            <a href="/2022/08/17/k8s/K8S%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%20/" class="post-title-link" itemprop="url">k8s基础命令</a>
         </h2>
 
         <div class="post-meta">
@@ -219,7 +219,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-17 22:44:27" itemprop="dateModified" datetime="2022-08-17T22:44:27+08:00">2022-08-17</time>
+                <time title="修改时间：2022-08-18 18:59:10" itemprop="dateModified" datetime="2022-08-18T18:59:10+08:00">2022-08-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,14 +237,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>26k</span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>24 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -256,31 +256,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Kubernetes-组件"><a href="#Kubernetes-组件" class="headerlink" title="Kubernetes 组件"></a>Kubernetes 组件</h1><p><img src="/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815222135791.png" alt="image-20220815222135791"></p>
-<p><strong>Master节点</strong></p>
-<p>Master节点是集群的控制节点，由API Server、Scheduler、Controller Manager和ETCD四个组件构成。</p>
-<ul>
-<li>API Server：各组件互相通讯的中转站，接受外部请求，并将信息写到ETCD中。</li>
-<li>Controller Manager：执行集群级功能，例如复制组件，跟踪Node节点，处理节点故障等等。</li>
-<li>Scheduler：负责应用调度的组件，根据各种条件（如可用的资源、节点的亲和性等）将容器调度到Node上运行。</li>
-<li>ETCD：一个分布式数据存储组件，负责存储集群的配置信息。</li>
-</ul>
-<p>在生产环境中，为了保障集群的高可用，通常会部署多个master，如CCE的集群高可用模式就是3个master节点。</p>
-<p><strong>Node节点</strong></p>
-<p>Node节点是集群的计算节点，即运行容器化应用的节点。</p>
-<ul>
-<li>kubelet：kubelet主要负责同Container Runtime打交道，并与API Server交互，管理节点上的容器。</li>
-<li>kube-proxy：应用组件间的访问代理，解决节点上应用的访问问题。</li>
-<li>Container Runtime：容器运行时，如Docker，最主要的功能是下载镜像和运行容器。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/17/k8s/K8S%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%20/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          
       
     </div>
 
