@@ -20,28 +20,35 @@
     var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="dooubb">
-<meta property="og:url" content="https://dooubb.github.io/index.html">
+  <meta name="description" content="Unsafe介绍Unsafe类是一个位于sun.misc包下的类，它提供了一些相对底层方法，能够让我们接触到一些更接近操作系统底层的资源，如系统的内存资源、cpu指令、直接使用偏移地址操作对象、数组等等。但是在使用这些方法提供的便利的同时，也存在一些潜在的安全因素，例如对内存的错误操作可能会引起内存泄漏，严重时甚至可能引起jvm崩溃。在程序中过度、不正确使用Unsafe类会使得程序出错的概率变大，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unsafe">
+<meta property="og:url" content="https://dooubb.github.io/2022/09/27/JUC/Unsafe/index.html">
 <meta property="og:site_name" content="dooubb">
+<meta property="og:description" content="Unsafe介绍Unsafe类是一个位于sun.misc包下的类，它提供了一些相对底层方法，能够让我们接触到一些更接近操作系统底层的资源，如系统的内存资源、cpu指令、直接使用偏移地址操作对象、数组等等。但是在使用这些方法提供的便利的同时，也存在一些潜在的安全因素，例如对内存的错误操作可能会引起内存泄漏，严重时甚至可能引起jvm崩溃。在程序中过度、不正确使用Unsafe类会使得程序出错的概率变大，">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dooubb.github.io/2022/09/27/JUC/Unsafe/image-20220927200540366.png">
+<meta property="article:published_time" content="2022-09-27T11:29:14.803Z">
+<meta property="article:modified_time" content="2022-09-27T12:13:38.506Z">
 <meta property="article:author" content="dooubb">
+<meta property="article:tag" content="JUC">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dooubb.github.io/2022/09/27/JUC/Unsafe/image-20220927200540366.png">
 
-<link rel="canonical" href="https://dooubb.github.io/">
+<link rel="canonical" href="https://dooubb.github.io/2022/09/27/JUC/Unsafe/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>dooubb</title>
+  <title>Unsafe | dooubb</title>
   
 
 
@@ -177,9 +184,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -195,10 +203,9 @@
       <meta itemprop="name" content="dooubb">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/27/JUC/Unsafe/" class="post-title-link" itemprop="url">Unsafe</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Unsafe
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -227,6 +234,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -251,7 +265,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Unsafe介绍"><a href="#Unsafe介绍" class="headerlink" title="Unsafe介绍"></a>Unsafe介绍</h1><p>Unsafe类是一个位于<code>sun.misc</code>包下的类，它提供了一些相对底层方法，能够让我们接触到一些更接近操作系统底层的资源，如系统的内存资源、cpu指令、直接使用偏移地址操作对象、数组等等。但是在使用这些方法提供的便利的同时，也存在一些潜在的安全因素，例如对内存的错误操作可能会引起内存泄漏，严重时甚至可能引起jvm崩溃。在程序中过度、不正确使用Unsafe类会使得程序出错的概率变大，使得Java这种安全的语言变得不再“安全”，因此对Unsafe的使用一定要慎重。</p>
+        <h1 id="Unsafe介绍"><a href="#Unsafe介绍" class="headerlink" title="Unsafe介绍"></a>Unsafe介绍</h1><p>Unsafe类是一个位于<code>sun.misc</code>包下的类，它提供了一些相对底层方法，能够让我们接触到一些更接近操作系统底层的资源，如系统的内存资源、cpu指令、直接使用偏移地址操作对象、数组等等。但是在使用这些方法提供的便利的同时，也存在一些潜在的安全因素，例如对内存的错误操作可能会引起内存泄漏，严重时甚至可能引起jvm崩溃。在程序中过度、不正确使用Unsafe类会使得程序出错的概率变大，使得Java这种安全的语言变得不再“安全”，因此对Unsafe的使用一定要慎重。</p>
 <h1 id="获取Unsafe对象"><a href="#获取Unsafe对象" class="headerlink" title="获取Unsafe对象"></a>获取Unsafe对象</h1><h2 id="直接通过new获取对象"><a href="#直接通过new获取对象" class="headerlink" title="直接通过new获取对象"></a>直接通过new获取对象</h2><p>直接使用new来获取对象会编译不通过，因为Unsafe的无参构造方法是<code>private</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		Unsafe unsafe= <span class="keyword">new</span> <span class="title class_">Unsafe</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">会有如下提示</span></span><br><span class="line"><span class="comment">&#x27;Unsafe()&#x27; has private access in &#x27;sun.misc.Unsafe&#x27;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 
@@ -286,215 +300,35 @@
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/02/14/talk-about-java-magic-class-unsafe.html">Java魔法类：Unsafe应用解析 - 美团技术团队 (meituan.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/trunks2008/p/14720811.html">Java双刃剑之Unsafe类详解 - 码农参上 - 博客园 (cnblogs.com)</a></p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/JUC/LockSupport/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="dooubb">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dooubb">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/09/21/JUC/LockSupport/" class="post-title-link" itemprop="url">LockSupport详解</a>
-        </h2>
+          <div class="post-tags">
+              <a href="/tags/JUC/" rel="tag"><i class="fa fa-tag"></i> JUC</a>
+          </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-21 22:22:22" itemprop="dateCreated datePublished" datetime="2022-09-21T22:22:22+08:00">2022-09-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-21 23:30:22" itemprop="dateModified" datetime="2022-09-21T23:30:22+08:00">2022-09-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="LockSupport简介"><a href="#LockSupport简介" class="headerlink" title="LockSupport简介"></a>LockSupport简介</h1><p><code>LockSupport</code>是用来创建锁和其他同步类的基本线程阻塞原语。简而言之，当调用<code>LockSupport.park</code>时，表示当前线程将会等待，直至获得许可证，当调用<code>LockSupport.unpark</code>时，必须把等待获得许可证的线程作为参数进行传递，才能让此线程继续运行。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/21/JUC/LockSupport/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="dooubb">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dooubb">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">JVM内存模型</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-21 19:54:21" itemprop="dateCreated datePublished" datetime="2022-09-21T19:54:21+08:00">2022-09-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-21 21:43:40" itemprop="dateModified" datetime="2022-09-21T21:43:40+08:00">2022-09-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JVM整体结构及内存模型"><a href="#JVM整体结构及内存模型" class="headerlink" title="JVM整体结构及内存模型"></a>JVM整体结构及内存模型</h1><img src="/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png" class title="image-20220921211433082">
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/21/JUC/LockSupport/" rel="prev" title="LockSupport详解">
+      <i class="fa fa-chevron-left"></i> LockSupport详解
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
   
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
 
 
 
@@ -546,6 +380,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Unsafe%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">Unsafe介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96Unsafe%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">获取Unsafe对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E9%80%9A%E8%BF%87new%E8%8E%B7%E5%8F%96%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.1.</span> <span class="nav-text">直接通过new获取对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E8%8E%B7%E5%8F%96%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.2.</span> <span class="nav-text">通过静态方法获取对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E8%BF%BD%E5%8A%A0%E5%BC%95%E5%AF%BC%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%B7%AF%E5%BE%84%E8%8E%B7%E5%8F%96%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.3.</span> <span class="nav-text">通过追加引导类加载器加载的路径获取对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E5%8D%95%E4%BE%8B%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.4.</span> <span class="nav-text">通过反射获取单例对象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unsafe%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">Unsafe功能介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS%E6%93%8D%E4%BD%9C"><span class="nav-number">3.1.</span> <span class="nav-text">CAS操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E8%B0%83%E5%BA%A6"><span class="nav-number">3.2.</span> <span class="nav-text">线程调度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
