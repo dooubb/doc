@@ -183,6 +183,233 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/20/k8s/Kustomization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dooubb">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dooubb">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/20/k8s/Kustomization/" class="post-title-link" itemprop="url">Kustomization的使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-20 14:22:11" itemprop="dateCreated datePublished" datetime="2022-08-20T14:22:11+08:00">2022-08-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-26 16:14:43" itemprop="dateModified" datetime="2022-08-26T16:14:43+08:00">2022-08-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="安装kustomize命令"><a href="#安装kustomize命令" class="headerlink" title="安装kustomize命令"></a>安装kustomize命令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">wget https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v4.5.7/kustomize_v4.5.7_linux_amd64.tar.gz &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">tar -xzvf kustomize_v4.5.7_linux_amd64.tar.gz -C /usr/bin/ &gt;/dev/null 2&gt;&amp;1</span><br><span class="line"><span class="built_in">chmod</span> +x /usr/bin/kustomize</span><br></pre></td></tr></table></figure>
+
+<h1 id="kustomization"><a href="#kustomization" class="headerlink" title="kustomization"></a>kustomization</h1><p>kustomize 是一个通过 kustomization 文件定制 kubernetes 对象的工具，它可以通过一些资源生成一些新的资源，也可以定制不同的资源的集合。</p>
+<h1 id="kustomization常见目录布局"><a href="#kustomization常见目录布局" class="headerlink" title="kustomization常见目录布局"></a>kustomization常见目录布局</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">├──</span> <span class="string">base</span></span><br><span class="line"><span class="string">│</span>   <span class="string">├──</span> <span class="string">deployment.yaml</span></span><br><span class="line"><span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line"><span class="string">│</span>   <span class="string">└──</span> <span class="string">service.yaml</span></span><br><span class="line"><span class="string">└──</span> <span class="string">overlays</span></span><br><span class="line">    <span class="string">├──</span> <span class="string">dev</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">└──</span> <span class="string">patch.yaml</span></span><br><span class="line">    <span class="string">├──</span> <span class="string">prod</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">└──</span> <span class="string">patch.yaml</span></span><br><span class="line">    <span class="string">└──</span> <span class="string">staging</span></span><br><span class="line">        <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">        <span class="string">└──</span> <span class="string">patch.yaml</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>/base</code>目录保存的是基本的配置</p>
+</li>
+<li><p><code>/overlays</code>【此文件夹也可以省略】里放置的不同环境的配置，例如 <code>/dev</code>、<code>/staging</code>，<code>/prod</code>这些就是不同环境的配置，</p>
+</li>
+<li><p><code>/base</code>等文件夹下都有一个 kustomization .yml 文件，用于配置。</p>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/20/k8s/Kustomization/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/18/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dooubb">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dooubb">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/18/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">k8s常用命令</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-18 22:49:29" itemprop="dateCreated datePublished" datetime="2022-08-18T22:49:29+08:00">2022-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-27 19:27:57" itemprop="dateModified" datetime="2022-09-27T19:27:57+08:00">2022-09-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="命令补全提示"><a href="#命令补全提示" class="headerlink" title="命令补全提示"></a>命令补全提示</h1><h2 id="Contos7安装"><a href="#Contos7安装" class="headerlink" title="Contos7安装"></a>Contos7安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y bash-completion</span><br><span class="line"><span class="built_in">source</span> /usr/share/bash-completion/bash_completion</span><br><span class="line"><span class="built_in">source</span> &lt;(kubectl completion bash)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;source &lt;(kubectl completion bash)&quot;</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="macOs安装"><a href="#macOs安装" class="headerlink" title="macOs安装"></a>macOs安装</h2><p>由于mac默认的shell是zsh，查看方式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment">#输出结果</span></span><br><span class="line">/bin/zsh</span><br></pre></td></tr></table></figure>
+
+<p>安装对应macOS的kubectl(我的是m1)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -LO <span class="string">&quot;https://dl.k8s.io/release/<span class="subst">$(curl -L -s https://dl.k8s.io/release/stable.txt)</span>/bin/darwin/arm64/kubectl&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>将 kubectl 置为可执行文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x ./kubectl</span><br></pre></td></tr></table></figure>
+
+<p>将可执行文件 kubectl 移动到系统可寻址路径 <code>PATH</code> 内的一个位置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mv</span> ./kubectl /usr/local/bin/kubectl</span><br><span class="line">sudo <span class="built_in">chown</span> root: /usr/local/bin/kubectl</span><br></pre></td></tr></table></figure>
+
+<p>在文件 <code>~/.zshrc</code>中添加信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将以下代码加入到文件内容顶部</span></span><br><span class="line"> <span class="built_in">autoload</span> -Uz compinit </span><br><span class="line"> compinit</span><br></pre></td></tr></table></figure>
+
+<p>在文件 <code>~/.bash_profile</code> 中导入（Source）补全脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;source &lt;(kubectl completion zsh)&#x27;</span> &gt;&gt;~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>然后分别执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<h1 id="kubectl-上下文和配置"><a href="#kubectl-上下文和配置" class="headerlink" title="kubectl 上下文和配置"></a>kubectl 上下文和配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl config view <span class="comment"># 显示合并的 kubeconfig 配置。</span></span><br><span class="line">kubectl config view -o jsonpath=<span class="string">&#x27;&#123;.users[].name&#125;&#x27;</span>    <span class="comment"># 显示第一个用户</span></span><br><span class="line">kubectl config view -o jsonpath=<span class="string">&#x27;&#123;.users[*].name&#125;&#x27;</span>   <span class="comment"># 获取用户列表</span></span><br><span class="line">kubectl config get-contexts                          <span class="comment"># 显示上下文列表</span></span><br><span class="line">kubectl config current-context                       <span class="comment"># 展示当前所处的上下文</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Kubectl-apply"><a href="#Kubectl-apply" class="headerlink" title="Kubectl apply"></a>Kubectl apply</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f ./my-manifest.yaml           <span class="comment"># 创建资源</span></span><br><span class="line">kubectl apply -f ./my1.yaml -f ./my2.yaml     <span class="comment"># 使用多个文件创建</span></span><br><span class="line">kubectl apply -f ./dir                        <span class="comment"># 基于目录下的所有清单文件创建资源</span></span><br><span class="line">kubectl apply -f https://git.io/vPieo         <span class="comment"># 从 URL 中创建资源</span></span><br><span class="line">kubectl create deployment nginx --image=nginx <span class="comment"># 启动单实例 nginx</span></span><br><span class="line">kubectl explain pods                          <span class="comment"># 获取 pod 清单的文档说明</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/18/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/15/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -291,261 +518,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/13/Linux/Linux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="dooubb">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dooubb">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/13/Linux/Linux/" class="post-title-link" itemprop="url">Linux</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-13 21:26:12" itemprop="dateCreated datePublished" datetime="2022-08-13T21:26:12+08:00">2022-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-14 00:37:12" itemprop="dateModified" datetime="2022-08-14T00:37:12+08:00">2022-08-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Linux基础"><a href="#Linux基础" class="headerlink" title="Linux基础"></a>Linux基础</h1><h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><table>
-<thead>
-<tr>
-<th>目录</th>
-<th>功能描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>&#x2F;bin</td>
-<td>是Binary的缩写，这个目录存放着最经常使用的命令</td>
-</tr>
-<tr>
-<td>&#x2F;sbin</td>
-<td>就是Super User的意思，放的是系统管理员使用的系统管理程序</td>
-</tr>
-<tr>
-<td>&#x2F;home</td>
-<td>存放普通用户的主目录，在Linux中每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的</td>
-</tr>
-<tr>
-<td>&#x2F;root</td>
-<td>该目录为系统管理员</td>
-</tr>
-<tr>
-<td>&#x2F;lib</td>
-<td>系统开机所需要最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库</td>
-</tr>
-<tr>
-<td>&#x2F;lost+found</td>
-<td>这个目录一般情况下是空的，当系统非法关机后，当前文件夹会出现一些文件</td>
-</tr>
-<tr>
-<td>&#x2F;etc</td>
-<td>所有的系统管理所需要的配置文件和子目录</td>
-</tr>
-<tr>
-<td>&#x2F;usr</td>
-<td>用户自己安装的应用程序和文件都放在这个目录下，类似于windows下的program files目录</td>
-</tr>
-<tr>
-<td>&#x2F;usr&#x2F;bin</td>
-<td>系统用户使用的应用程序</td>
-</tr>
-<tr>
-<td>&#x2F;usr&#x2F;sbin</td>
-<td>超级用户使用的比较高级的管理程序和系统守护程</td>
-</tr>
-<tr>
-<td>&#x2F;usr&#x2F;src</td>
-<td>内核源代码默认的放置目录</td>
-</tr>
-<tr>
-<td>&#x2F;run</td>
-<td>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除</td>
-</tr>
-<tr>
-<td>&#x2F;boot</td>
-<td>这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件</td>
-</tr>
-<tr>
-<td>&#x2F;proc</td>
-<td>这个目录是一个虚拟的目录，它是系统内存的映射，可以通过直接访问这个目录来获取系统信息</td></tr></tbody></table>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/13/Linux/Linux/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/12/Hexo/hexo%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="dooubb">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dooubb">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/12/Hexo/hexo%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">Hexo注意事项</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-12 21:21:00" itemprop="dateCreated datePublished" datetime="2022-08-12T21:21:00+08:00">2022-08-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-15 21:11:25" itemprop="dateModified" datetime="2022-08-15T21:11:25+08:00">2022-08-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>667</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="文件和文件夹"><a href="#文件和文件夹" class="headerlink" title="文件和文件夹"></a>文件和文件夹</h1><p><code>编写文章所在目录</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">D:\hexoblog\docblog\<span class="built_in">source</span>\_posts</span><br><span class="line">当前目录下是存放笔记和笔记中所带的图片信息，笔记编辑使用Typora，</span><br><span class="line">图片使用相对位置存放在同级目录并且和笔记名字一致的文件夹中[需要安装插件，在搭建hexo的笔记中有体现]</span><br></pre></td></tr></table></figure>
-
-<p><code>创建不同的文件夹</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">当笔记过多的时候，可以在\_posts下面创建不同的文件夹来存放不同的笔记</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">D:\hexoblog\docblog\<span class="built_in">source</span>\_posts\java  </span><br><span class="line">                            ├── java   <span class="comment">#创建存放笔记的文件夹</span></span><br><span class="line">                                ├── JavaClassLoader   <span class="comment">#存放笔记引用的图片</span></span><br><span class="line">                                ├── JavaClassLoader.md   <span class="comment">#笔记</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="更改侧边栏背景颜色"><a href="#更改侧边栏背景颜色" class="headerlink" title="更改侧边栏背景颜色"></a>更改侧边栏背景颜色</h1><p><code>更改配置文件themes\next\source\css\_common\outline\sidebar\sidebar.styl</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.sidebar &#123;</span><br><span class="line">  background: <span class="variable">$black</span>-deep; <span class="comment">#背景颜色</span></span><br><span class="line">  bottom: 0;</span><br><span class="line">  <span class="keyword">if</span> (!hexo-config(<span class="string">&#x27;back2top.sidebar&#x27;</span>))&#123;</span><br><span class="line">    box-shadow: inset 0 2px 6px black;</span><br><span class="line">  &#125;</span><br><span class="line">  position: fixed;</span><br><span class="line">  top: 0;</span><br><span class="line"></span><br><span class="line">  +tablet-<span class="function"><span class="title">mobile</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!hexo-config(<span class="string">&#x27;sidebar.onmobile&#x27;</span>)) &#123;</span><br><span class="line">      display: none;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>未完待续。。。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -615,16 +587,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -698,7 +670,8 @@
 		document.getElementById("sitetime").innerHTML=" 已运行"+/*diffYears+" 年 "+*/diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
 	}/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
 	siteTime();
-</script></span>
+	</script>
+	</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
     <a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">京ICP备2022022850号-1</a>
