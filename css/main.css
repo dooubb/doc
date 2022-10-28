@@ -1213,7 +1213,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #09fae5;
+  background: #309975;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1459,6 +1459,7 @@ pre .javascript .function {
   color: #ff0000;
   display: inline-block;
   margin: 0 5px;
+  animation: iconAnimate 1.33s ease-in-out infinite;
 }
 .powered-by,
 .theme-info {
@@ -2328,7 +2329,7 @@ hr {
   padding: 10px 0;
 }
 .footer-inner {
-  text-align: left;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .footer-inner {

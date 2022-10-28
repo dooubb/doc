@@ -389,7 +389,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/08/JUC/AQS/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -403,7 +403,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/09/08/JUC/AQS/" class="post-title-link" itemprop="url">AQS</a>
+            <a href="/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/" class="post-title-link" itemprop="url">rke2搭建k8s</a>
         </h2>
 
         <div class="post-meta">
@@ -413,15 +413,24 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-09-08 21:06:55" itemprop="dateCreated datePublished" datetime="2022-09-08T21:06:55+08:00">2022-09-08</time>
+              <time title="创建时间：2022-09-03 16:29:06" itemprop="dateCreated datePublished" datetime="2022-09-03T16:29:06+08:00">2022-09-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-21 22:19:50" itemprop="dateModified" datetime="2022-09-21T22:19:50+08:00">2022-09-21</time>
+                <time title="修改时间：2022-09-03 16:31:44" itemprop="dateModified" datetime="2022-09-03T16:31:44+08:00">2022-09-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -429,14 +438,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>447</span>
+              <span>13k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>12 分钟</span>
             </span>
 
         </div>
@@ -448,18 +457,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="什么是AQS"><a href="#什么是AQS" class="headerlink" title="什么是AQS"></a>什么是AQS</h1><p>java.util.concurrent包中的大多数同步器实现都是围绕着共同的基础行为，比如等待队 列、条件队列、独占获取、共享获取等，而这些行为的抽象就是基于 AbstractQueuedSynchronizer（简称AQS）实现的，AQS是一个抽象同步框架，可以用来实 现一个依赖状态的同步器。 </p>
-<p>下面的架构图来整体了解一下AQS框架：（<a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html"> 图来自美团技术团队 </a>）</p>
-<img src="/2022/09/08/JUC/AQS/82077ccf14127a87b77cefd1ccf562d3253591.png" class title="img">
+          <h1 id="新建7台VM"><a href="#新建7台VM" class="headerlink" title="新建7台VM"></a>新建7台VM</h1><p>设置每台vm的hostname</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname rke-master-default-loadblance</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-3</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-3</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>上图中有颜色的为Method，无颜色的为Attribution。</li>
-<li>总的来说，AQS框架共分为五层，自上而下由浅入深，从AQS对外暴露的API到底层基础数据。</li>
-<li>当有自定义同步器接入时，只需重写第一层所需要的部分方法即可，不需要关注底层具体的实现流程。当自定义同步器进行加锁或者解锁操作时，先经过第一层的API进入AQS内部方法，然后经过第二层进行锁的获取，接着对于获取锁失败的流程，进入第三层和第四层的等待队列处理，而这些处理方式均依赖于第五层的基础数据提供层。</li>
-</ul>
+<p>修改每台vm的hosts文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt;&gt; /etc/hosts &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.0.20  rke-master-default-loadblance</span></span><br><span class="line"><span class="string">192.168.0.21  rke-master-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.22  rke-master-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.23  rke-master-default-nodepool-3</span></span><br><span class="line"><span class="string">192.168.0.24  rke-node-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.25  rke-node-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.26  rke-node-default-nodepool-3 </span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>由于vm是复制出来的，需要重新生成机器码并重启</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> -rf /dev/null /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/09/08/JUC/AQS/#more" rel="contents">
+              <a class="btn" href="/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -482,7 +490,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -548,7 +556,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
