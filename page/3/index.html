@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/20/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/01/02/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/09/20/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/" class="post-title-link" itemprop="url">JVM对象创建和内存分配</a>
+            <a href="/2023/01/02/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B02/" class="post-title-link" itemprop="url">初级爬虫练手02</a>
         </h2>
 
         <div class="post-meta">
@@ -207,14 +207,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-09-20 20:50:01" itemprop="dateCreated datePublished" datetime="2022-09-20T20:50:01+08:00">2022-09-20</time>
+              <time title="创建时间：2023-01-02 13:52:42" itemprop="dateCreated datePublished" datetime="2023-01-02T13:52:42+08:00">2023-01-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-22 19:18:19" itemprop="dateModified" datetime="2022-09-22T19:18:19+08:00">2022-09-22</time>
+                <time title="修改时间：2022-01-04 19:42:23" itemprop="dateModified" datetime="2022-01-04T19:42:23+08:00">2022-01-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,7 +222,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/%E7%88%AC%E8%99%AB%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">爬虫进阶</span></a>
                 </span>
             </span>
 
@@ -232,14 +232,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>15k</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>13 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -251,29 +251,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="JVM对象创建"><a href="#JVM对象创建" class="headerlink" title="JVM对象创建"></a>JVM对象创建</h1><p>对象创建的主要流程如下:</p>
-<img src="/2022/09/20/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/image-20220920205650037.png" class title="image-20220920205650037">
+          <h1 id="彼岸网4K动漫图片"><a href="#彼岸网4K动漫图片" class="headerlink" title="彼岸网4K动漫图片"></a>彼岸网4K动漫图片</h1><p>使用BeautifulSoup来爬取数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">child_domin = <span class="string">&quot;https://pic.netbian.com&quot;</span></span><br><span class="line"><span class="keyword">for</span> page_index <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="number">162</span>):</span><br><span class="line">    domain = <span class="string">f&quot;https://pic.netbian.com/4kdongman/index_<span class="subst">&#123;page_index&#125;</span>.html&quot;</span></span><br><span class="line">    resp = requests.get(domain)</span><br><span class="line">    resp.encoding = <span class="string">&quot;gbk&quot;</span>  <span class="comment"># 指定字符集</span></span><br><span class="line">    page = resp.text</span><br><span class="line">    <span class="comment"># 解析page的内容</span></span><br><span class="line">    context = BeautifulSoup(page, <span class="string">&quot;html.parser&quot;</span>)</span><br><span class="line">    <span class="comment"># 获取页面中的缩略图的路径</span></span><br><span class="line">    aList = context.find(<span class="string">&quot;ul&quot;</span>, class_=<span class="string">&quot;clearfix&quot;</span>).find_all(<span class="string">&quot;a&quot;</span>)</span><br><span class="line">    <span class="comment"># 获取跳转页面的路径</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> aList:</span><br><span class="line">        child_url = child_domin + a.get(<span class="string">&quot;href&quot;</span>)</span><br><span class="line">        <span class="comment"># 获取跳转后的页面源码</span></span><br><span class="line">        child_resp = requests.get(child_url)</span><br><span class="line">        child_resp.encoding = <span class="string">&quot;gbk&quot;</span>  <span class="comment"># 指定字符集</span></span><br><span class="line">        child_page = child_resp.text</span><br><span class="line">        <span class="comment"># 解析二级页面获取到真正的图片的url</span></span><br><span class="line">        child_context = BeautifulSoup(child_page, <span class="string">&quot;html.parser&quot;</span>)</span><br><span class="line">        <span class="comment"># 获取uri</span></span><br><span class="line">        img_uri = child_context.find(<span class="string">&quot;div&quot;</span>, class_=<span class="string">&quot;photo-pic&quot;</span>).find(<span class="string">&quot;img&quot;</span>).get(<span class="string">&quot;src&quot;</span>)</span><br><span class="line">        img_url = child_domin + img_uri</span><br><span class="line">        img_resp = requests.get(img_url)</span><br><span class="line">        img_name = img_url.split(<span class="string">&quot;/&quot;</span>)[-<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># 下载图片 并将图片写入文件夹内</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;img/&quot;</span> + img_name, mode=<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(img_resp.content)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;over!!!&quot;</span>, img_name)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">f.close()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;all over!!!&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="类加载检查"><a href="#类加载检查" class="headerlink" title="类加载检查"></a>类加载检查</h2><p> 虚拟机遇到一条<code>new</code>指令时，首先将去检查这个指令的参数是否能在<code>常量池中</code>定位到一个类的符号引用，并且检查这个符号引用代表的类是否<code>已被加载</code>、<code>解析</code>和<code>初始化过</code>。如果没有，那必须先执行相应的类加载过程。</p>
-<blockquote>
-<p>注：new指令对应到语言层面上讲是，new关键词、对象克隆、对象序列化等。</p>
-</blockquote>
-<h2 id="分配内存"><a href="#分配内存" class="headerlink" title="分配内存"></a>分配内存</h2><p> 在类加载检查通过后，接下来虚拟机将为新生对象分配内存。对象所需内存的大小在类 加载完成后便可完全确定，为对象分配空间的任务等同于把 一块确定大小的内存从Java堆中划分出来。</p>
-<p>在分配内存时，会遇到下面的两个问题</p>
-<ul>
-<li><p>如何划分内存</p>
-</li>
-<li><p>在并发情况下， 可能出现正在给对象A分配内存，指针还没来得及修改，对象B又同时使用了原来的指针来分配内存的情况</p>
-</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/20/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+
       
     </div>
 
@@ -292,7 +273,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/08/JUC/JMM/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/01/02/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -306,7 +287,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/09/08/JUC/JMM/" class="post-title-link" itemprop="url">JMM详解</a>
+            <a href="/2023/01/02/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B01/" class="post-title-link" itemprop="url">初级爬虫练手01</a>
         </h2>
 
         <div class="post-meta">
@@ -316,14 +297,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-09-08 21:08:58" itemprop="dateCreated datePublished" datetime="2022-09-08T21:08:58+08:00">2022-09-08</time>
+              <time title="创建时间：2023-01-02 13:52:42" itemprop="dateCreated datePublished" datetime="2023-01-02T13:52:42+08:00">2023-01-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-21 21:17:29" itemprop="dateModified" datetime="2022-09-21T21:17:29+08:00">2022-09-21</time>
+                <time title="修改时间：2022-01-04 19:40:55" itemprop="dateModified" datetime="2022-01-04T19:40:55+08:00">2022-01-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -331,7 +312,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
+                  <a href="/categories/%E7%88%AC%E8%99%AB%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">爬虫进阶</span></a>
                 </span>
             </span>
 
@@ -341,14 +322,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.5k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -360,17 +341,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="JMM模型"><a href="#JMM模型" class="headerlink" title="JMM模型"></a>JMM模型</h1><p>Java内存模型(Java Memory Model简称JMM)是一种抽象的概念，并不是真正的存在，它描述的是一组规则或规范。通过这组规范定义了程序中各个变量(包括实例字段，静态字段和构成数组对象的元素)的访问方式。JVM运行程序的实体是线程，而每个线程创建时，JVM都会为其创建一个工作内存(栈空间)，用于存储线程私有的数据，而Java内存模型中规定所有变量都存储在主内存中，主内存是共享内存区域，所有线程都可以访问，但线程对变量的操作(读取赋值等)必须在工作内存中进行。</p>
-<p>进行过程为，首先要将变量从主内存拷贝到自己的工作内存中，然后对变量进行操作，操作完成后再将变量写回到主内存，不能直接操作主内存中的变量，工作内存中存储这主内存变量的副本。</p>
-<p>工作内存是每个线程的私有数据区域，所以不同的线程无法访问对方的工作内存，线程的通信(传值)必须通过主内存来完成。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/08/JUC/JMM/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <h1 id="豆瓣电影-Top-250"><a href="#豆瓣电影-Top-250" class="headerlink" title="豆瓣电影 Top 250"></a>豆瓣电影 Top 250</h1><p>使用正则表达式来爬取数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备heater</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;user-agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">lits = [<span class="string">&quot;name&quot;</span>, <span class="string">&quot;year&quot;</span>, <span class="string">&quot;country&quot;</span>, <span class="string">&quot;category&quot;</span>, <span class="string">&quot;score&quot;</span>, <span class="string">&quot;number&quot;</span>, <span class="string">&quot;quote&quot;</span>]</span><br><span class="line"><span class="comment"># 准备文件</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;豆瓣电影 Top 250.csv&quot;</span>, mode=<span class="string">&quot;a&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>, newline=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">csvwriter = csv.writer(f)</span><br><span class="line"><span class="comment"># 写入表头</span></span><br><span class="line">csvwriter.writerow([<span class="string">&quot;电影名称&quot;</span>, <span class="string">&quot;年份&quot;</span>, <span class="string">&quot;国家&quot;</span>, <span class="string">&quot;分类&quot;</span>, <span class="string">&quot;评分&quot;</span>, <span class="string">&quot;评分人数&quot;</span>])</span><br><span class="line"><span class="keyword">for</span> uri <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">250</span>, <span class="number">25</span>):</span><br><span class="line">    url = <span class="string">f&quot;https://movie.douban.com/top250?start=<span class="subst">&#123;uri&#125;</span>&quot;</span></span><br><span class="line">    resp = requests.get(url, headers=headers)</span><br><span class="line">    resp.encoding = <span class="string">&quot;utf-8&quot;</span></span><br><span class="line">    <span class="comment"># 准备正则匹配</span></span><br><span class="line">    obj = re.<span class="built_in">compile</span>(<span class="string">r&#x27;&lt;li&gt;.*?&lt;div class=&quot;item&quot;&gt;.*?&lt;span class=&quot;title&quot;&gt;(?P&lt;name&gt;.*?)&#x27;</span></span><br><span class="line">                     <span class="string">r&#x27;&lt;/span&gt;.*?&lt;p class=&quot;&quot;&gt;.*?&lt;br&gt;(?P&lt;year&gt;.*?)&amp;nbsp;/&amp;nbsp;(?P&lt;country&gt;.*?)&amp;nbsp;/&amp;nbsp;(?P&lt;category&gt;.*?)&lt;/p&gt;&#x27;</span></span><br><span class="line">                     <span class="string">r&#x27;.*?&lt;div class=&quot;star&quot;&gt;.*?&lt;span class=&quot;rating_num&quot; property=&quot;v:average&quot;&gt;(?P&lt;score&gt;.*?)&lt;/span&gt;.*?&#x27;</span></span><br><span class="line">                     <span class="string">r&#x27;&lt;span&gt;(?P&lt;number&gt;.*?)人评价&lt;/span&gt;&#x27;</span>, re.S)</span><br><span class="line">    result = obj.finditer(resp.text)</span><br><span class="line">    <span class="comment"># 循环格式化数据，并且写入文件中</span></span><br><span class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> result:</span><br><span class="line">        dic = it.groupdict()</span><br><span class="line">        dic[<span class="string">&#x27;year&#x27;</span>] = dic[<span class="string">&#x27;year&#x27;</span>].strip()</span><br><span class="line">        dic[<span class="string">&#x27;category&#x27;</span>] = dic[<span class="string">&#x27;category&#x27;</span>].strip()</span><br><span class="line">        csvwriter.writerow(dic.values())</span><br><span class="line">f.close()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;写入完成。。。&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -389,7 +363,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/01/02/Nginx/Nginx%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -403,7 +377,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/" class="post-title-link" itemprop="url">rke2搭建k8s</a>
+            <a href="/2023/01/02/Nginx/Nginx%E5%AE%89%E8%A3%85/" class="post-title-link" itemprop="url">Nginx的安装</a>
         </h2>
 
         <div class="post-meta">
@@ -413,14 +387,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-09-03 16:29:06" itemprop="dateCreated datePublished" datetime="2022-09-03T16:29:06+08:00">2022-09-03</time>
+              <time title="创建时间：2023-01-02 13:52:42" itemprop="dateCreated datePublished" datetime="2023-01-02T13:52:42+08:00">2023-01-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-03 16:31:44" itemprop="dateModified" datetime="2022-09-03T16:31:44+08:00">2022-09-03</time>
+                <time title="修改时间：2022-09-20 23:15:07" itemprop="dateModified" datetime="2022-09-20T23:15:07+08:00">2022-09-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -428,7 +402,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/Nginx/" itemprop="url" rel="index"><span itemprop="name">Nginx</span></a>
                 </span>
             </span>
 
@@ -438,14 +412,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>13k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>12 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -457,17 +431,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="新建7台VM"><a href="#新建7台VM" class="headerlink" title="新建7台VM"></a>新建7台VM</h1><p>设置每台vm的hostname</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname rke-master-default-loadblance</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-3</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-3</span><br></pre></td></tr></table></figure>
+          <h1 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line">yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel</span><br><span class="line"><span class="comment"># 安装wget工具</span></span><br><span class="line">yum -y install wget </span><br><span class="line"><span class="comment"># 切换目录</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/</span><br><span class="line"><span class="comment"># 下载安装包</span></span><br><span class="line">wget https://nginx.org/download/nginx-1.21.4.tar.gz</span><br><span class="line"><span class="comment"># 解压到当前文件夹</span></span><br><span class="line">tar -xvf nginx-1.21.4.tar.gz</span><br><span class="line"><span class="comment"># 进入到nginx目录</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.21.4</span><br><span class="line"><span class="comment"># 添加模块(可以通过http请求来查看nginx状态)</span></span><br><span class="line">./configure --prefix=/usr/local/nginx --with-http_stub_status_module</span><br><span class="line"><span class="comment"># 编译</span></span><br><span class="line">make</span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
-<p>修改每台vm的hosts文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt;&gt; /etc/hosts &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.0.20  rke-master-default-loadblance</span></span><br><span class="line"><span class="string">192.168.0.21  rke-master-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.22  rke-master-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.23  rke-master-default-nodepool-3</span></span><br><span class="line"><span class="string">192.168.0.24  rke-node-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.25  rke-node-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.26  rke-node-default-nodepool-3 </span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h1 id="修改默认配置文件"><a href="#修改默认配置文件" class="headerlink" title="修改默认配置文件"></a>修改默认配置文件</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       81; # 修改默认端口</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">		# 新增查看nginx状态接口</span><br><span class="line">		location /ngx_status &#123;</span><br><span class="line">		    stub_status on;</span><br><span class="line">		    access_log off;</span><br><span class="line">		   #allow 127.0.0.1;</span><br><span class="line">		   #deny all;</span><br><span class="line">		 &#125;</span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>由于vm是复制出来的，需要重新生成机器码并重启</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> -rf /dev/null /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<p>检查配置文件</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/#more" rel="contents">
+              <a class="btn" href="/2023/01/02/Nginx/Nginx%E5%AE%89%E8%A3%85/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -602,7 +573,7 @@
 
 <div class="copyright" text-align:center>
   &copy; 2021 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
