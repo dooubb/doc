@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/qpp.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/qpp.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="Linux基础目录结构   目录 功能描述    &#x2F;bin 是Binary的缩写，这个目录存放着最经常使用的命令   &#x2F;sbin 就是Super User的意思，放的是系统管理员使用的系统管理程序   &#x2F;home 存放普通用户的主目录，在Linux中每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的   &#x2F;root 该目录为系统管理员   &amp;#x2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux">
+<meta property="og:url" content="https://dooubb.github.io/2022/08/14/Linux/Linux/index.html">
+<meta property="og:site_name" content="doubao">
+<meta property="og:description" content="Linux基础目录结构   目录 功能描述    &#x2F;bin 是Binary的缩写，这个目录存放着最经常使用的命令   &#x2F;sbin 就是Super User的意思，放的是系统管理员使用的系统管理程序   &#x2F;home 存放普通用户的主目录，在Linux中每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的   &#x2F;root 该目录为系统管理员   &amp;#x2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-13T16:00:00.000Z">
+<meta property="article:author" content="doubao">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://dooubb.github.io/2022/08/14/Linux/Linux/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux | doubao</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">doubao</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/14/Linux/Linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-14 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-14T00:00:00+08:00">2022-08-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Linux基础"><a href="#Linux基础" class="headerlink" title="Linux基础"></a>Linux基础</h1><h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;bin</td>
+<td>是Binary的缩写，这个目录存放着最经常使用的命令</td>
+</tr>
+<tr>
+<td>&#x2F;sbin</td>
+<td>就是Super User的意思，放的是系统管理员使用的系统管理程序</td>
+</tr>
+<tr>
+<td>&#x2F;home</td>
+<td>存放普通用户的主目录，在Linux中每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的</td>
+</tr>
+<tr>
+<td>&#x2F;root</td>
+<td>该目录为系统管理员</td>
+</tr>
+<tr>
+<td>&#x2F;lib</td>
+<td>系统开机所需要最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库</td>
+</tr>
+<tr>
+<td>&#x2F;lost+found</td>
+<td>这个目录一般情况下是空的，当系统非法关机后，当前文件夹会出现一些文件</td>
+</tr>
+<tr>
+<td>&#x2F;etc</td>
+<td>所有的系统管理所需要的配置文件和子目录</td>
+</tr>
+<tr>
+<td>&#x2F;usr</td>
+<td>用户自己安装的应用程序和文件都放在这个目录下，类似于windows下的program files目录</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;bin</td>
+<td>系统用户使用的应用程序</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;sbin</td>
+<td>超级用户使用的比较高级的管理程序和系统守护程</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;src</td>
+<td>内核源代码默认的放置目录</td>
+</tr>
+<tr>
+<td>&#x2F;run</td>
+<td>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除</td>
+</tr>
+<tr>
+<td>&#x2F;boot</td>
+<td>这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件</td>
+</tr>
+<tr>
+<td>&#x2F;proc</td>
+<td>这个目录是一个虚拟的目录，它是系统内存的映射，可以通过直接访问这个目录来获取系统信息<span id="more"></span></td>
+</tr>
+<tr>
+<td>&#x2F;srv</td>
+<td>service缩写，该目录存放一些服务启动之后需要提取的数据。</td>
+</tr>
+<tr>
+<td>&#x2F;sys</td>
+<td>这是Linux2.6内核的一个很大的变化。该目录下安装了2.6内核中新出现的一个文件系统sysfs</td>
+</tr>
+<tr>
+<td>&#x2F;tmp</td>
+<td>这个目录是用来存放一些临时文件的,Linux会自动清理当前目录内的内容[tmpwatch这个定时任务]</td>
+</tr>
+<tr>
+<td>&#x2F;dev</td>
+<td>类似于windows的设备管理器，把所有的硬件用文件的形式存储。</td>
+</tr>
+<tr>
+<td>&#x2F;media</td>
+<td>Linux系统会自动识别一些设备，例如U盘、光驱等等<br>当识别后Linux会把识别的设备挂载到这个目录下<br>CentOS7迁移到&#x2F;run&#x2F;media</td>
+</tr>
+<tr>
+<td>&#x2F;mnt</td>
+<td>临时挂载文件系统，可以将外部的存储挂载在&#x2F;mnt&#x2F;上，然后进入该目录就可以查看里的内容了</td>
+</tr>
+<tr>
+<td>&#x2F;opt</td>
+<td>这是给主机额外安装软件所摆放的目录，默认是空的。</td>
+</tr>
+<tr>
+<td>&#x2F;var</td>
+<td>这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</td>
+</tr>
+</tbody></table>
+<h2 id="VI-x2F-VIM-编辑器"><a href="#VI-x2F-VIM-编辑器" class="headerlink" title="VI&#x2F;VIM 编辑器"></a><strong>VI&#x2F;VIM</strong> 编辑器</h2><p><strong>注: <a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-vim.html">图文并茂请看菜鸟教程</a></strong></p>
+<blockquote>
+<p>VI 是 Unix 操作系统和类 Unix 操作系统中最通用的文本编辑器。<br>VIM 编辑器是从 VI 发展出来的一个性能更强大的文本编辑器。可以主动的以字体颜色辨别语法的正确性，方便程序设计。<br>VIM 与 VI 编辑器完全兼容。</p>
+</blockquote>
+<h3 id="常用语法之移动光标"><a href="#常用语法之移动光标" class="headerlink" title="常用语法之移动光标"></a><code>常用语法之移动光标</code></h3><table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">h 或 向左箭头键(←)</td>
+<td align="left">光标向左移动一个字符</td>
+</tr>
+<tr>
+<td align="left">j 或 向下箭头键(↓)</td>
+<td align="left">光标向下移动一个字符</td>
+</tr>
+<tr>
+<td align="left">k 或 向上箭头键(↑)</td>
+<td align="left">光标向上移动一个字符</td>
+</tr>
+<tr>
+<td align="left">l 或 向右箭头键(→)</td>
+<td align="left">光标向右移动一个字符</td>
+</tr>
+<tr>
+<td align="left">[Ctrl] + [f]</td>
+<td align="left">屏幕『向下』移动一页，相当于 [Page Down]按键</td>
+</tr>
+<tr>
+<td align="left">[Ctrl] + [b]</td>
+<td align="left">屏幕『向上』移动一页，相当于 [Page Up] 按键</td>
+</tr>
+<tr>
+<td align="left">[Ctrl] + [d]</td>
+<td align="left">屏幕『向下』移动半页</td>
+</tr>
+</tbody></table>
+<h3 id="常用语法之搜索替换"><a href="#常用语法之搜索替换" class="headerlink" title="常用语法之搜索替换"></a><code>常用语法之搜索替换</code></h3><table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">&#x2F;word</td>
+<td align="left">向光标之下寻找一个名称为 word 的字符串</td>
+</tr>
+<tr>
+<td align="left">?word</td>
+<td align="left">向光标之上寻找一个字符串名称为 word 的字符串</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td align="left">这个 n 是英文按键。代表重复前一个搜寻的动作。举例来说， 如果刚刚我们执行 &#x2F;word去向下搜寻 word这个字符串，则按下 n 后，会向下继续搜寻下一个名称为 word 的字符串。如果是执行 ?word的话，那么按下 n 则会向上继续搜寻名称为 word的字符串</td>
+</tr>
+<tr>
+<td align="left">N</td>
+<td align="left">这个 N 是英文按键。与 n 刚好相反，为『反向』进行前一个搜寻动作。 例如 &#x2F;word后，按下 N 则表示『向上』搜寻 word</td>
+</tr>
+<tr>
+<td align="left">:n1,n2s&#x2F;word1&#x2F;word2&#x2F;g</td>
+<td align="left">n1 与 n2 为数字。在第 n1 与 n2 行之间寻找 word1 这个字符串，并将该字符串取代为 word2 ！举例来说，在 100 到 200 行之间搜寻 vbird 并取代为 VBIRD 则： 『:100,200s&#x2F;vbird&#x2F;VBIRD&#x2F;g』</td>
+</tr>
+<tr>
+<td align="left">:1,$s&#x2F;word1&#x2F;word2&#x2F;g或 :%s&#x2F;word1&#x2F;word2&#x2F;g</td>
+<td align="left">从第一行到最后一行寻找 word1 字符串，并将该字符串取代为 word2</td>
+</tr>
+</tbody></table>
+<h3 id="常用语法之复制粘贴"><a href="#常用语法之复制粘贴" class="headerlink" title="常用语法之复制粘贴"></a><code>常用语法之复制粘贴</code></h3><table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">x, X</td>
+<td align="left">在一行字当中，x 为向后删除一个字符 (相当于 [del] 按键)， X 为向前删除一个字符(相当于 [backspace] 亦即是退格键) (常用)</td>
+</tr>
+<tr>
+<td align="left">nx</td>
+<td align="left">n 为数字，连续向后删除 n 个字符。举例来说，我要连续删除 10 个字符， 『10x』。</td>
+</tr>
+<tr>
+<td align="left">dd</td>
+<td align="left">剪切游标所在的那一整行(常用)，用 p&#x2F;P 可以粘贴。</td>
+</tr>
+<tr>
+<td align="left">ndd</td>
+<td align="left">n 为数字。剪切光标所在的向下 n 行，例如 20dd 则是剪切 20 行(常用)，用 p&#x2F;P 可以粘贴。</td>
+</tr>
+<tr>
+<td align="left">d1G</td>
+<td align="left">删除光标所在到第一行的所有数据</td>
+</tr>
+<tr>
+<td align="left">dG</td>
+<td align="left">删除光标所在到最后一行的所有数据</td>
+</tr>
+<tr>
+<td align="left">d$</td>
+<td align="left">删除游标所在处，到该行的最后一个字符</td>
+</tr>
+<tr>
+<td align="left">d0</td>
+<td align="left">那个是数字的 0 ，删除游标所在处，到该行的最前面一个字符</td>
+</tr>
+<tr>
+<td align="left">yy</td>
+<td align="left">复制游标所在的那一行(常用)</td>
+</tr>
+<tr>
+<td align="left">nyy</td>
+<td align="left">n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 20 行</td>
+</tr>
+<tr>
+<td align="left">y1G</td>
+<td align="left">复制游标所在行到第一行的所有数据</td>
+</tr>
+<tr>
+<td align="left">yG</td>
+<td align="left">复制游标所在行到最后一行的所有数据</td>
+</tr>
+<tr>
+<td align="left">y0</td>
+<td align="left">复制光标所在的那个字符到该行行首的所有数据</td>
+</tr>
+<tr>
+<td align="left">y$</td>
+<td align="left">复制光标所在的那个字符到该行行尾的所有数据</td>
+</tr>
+<tr>
+<td align="left">p, P</td>
+<td align="left">p 为将已复制的数据在光标下一行贴上，P 则为贴在游标上一行！ 举例来说，我目前光标在第 20 行，且已经复制了 10 行数据。则按下 p 后， 那 10 行数据会贴在原本的 20 行之后，亦即由 21 行开始贴。但如果是按下 P 呢？ 那么原本的第 20 行会被推到变成 30 行</td>
+</tr>
+<tr>
+<td align="left">J</td>
+<td align="left">将光标所在行与下一行的数据结合成同一行</td>
+</tr>
+<tr>
+<td align="left">c</td>
+<td align="left">重复删除多个数据，例如向下删除 10 行，[ 10cj ]</td>
+</tr>
+<tr>
+<td align="left">u</td>
+<td align="left">复原前一个动作。(常用)</td>
+</tr>
+<tr>
+<td align="left">[Ctrl]+r</td>
+<td align="left">重做上一个动作。(常用)</td>
+</tr>
+<tr>
+<td align="left">.</td>
+<td align="left">不要怀疑！这就是小数点！意思是重复前一个动作的意思。 如果你想要重复删除、重复贴上等等动作，按下小数点『.』就好了</td>
+</tr>
+</tbody></table>
+<h3 id="常用语法之模式切换"><a href="#常用语法之模式切换" class="headerlink" title="常用语法之模式切换"></a><code>常用语法之模式切换</code></h3><table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">i, I</td>
+<td align="left">进入输入模式(Insert mode)： i 为『从目前光标所在处输入』， I 为『在目前所在行的第一个非空格符处开始输入』</td>
+</tr>
+<tr>
+<td align="left">a, A</td>
+<td align="left">进入输入模式(Insert mode)： a 为『从目前光标所在的下一个字符处开始输入』， A 为『从光标所在行的最后一个字符处开始输入』</td>
+</tr>
+<tr>
+<td align="left">o, O</td>
+<td align="left">进入输入模式(Insert mode)： 这是英文字母 o 的大小写。o 为在目前光标所在的下一行处输入新的一行； O 为在目前光标所在的上一行处输入新的一行！(常用)</td>
+</tr>
+<tr>
+<td align="left">r, R</td>
+<td align="left">进入取代模式(Replace mode)： r 只会取代光标所在的那一个字符一次；R会一直取代光标所在的文字，直到按下 ESC 为止</td>
+</tr>
+<tr>
+<td align="left">[Esc]</td>
+<td align="left">退出编辑模式，回到一般模式中</td>
+</tr>
+<tr>
+<td align="left">:w</td>
+<td align="left">将编辑的数据写入硬盘档案中(常用)</td>
+</tr>
+<tr>
+<td align="left">:w!</td>
+<td align="left">若文件属性为『只读』时，强制写入该档案。</td>
+</tr>
+<tr>
+<td align="left">:q</td>
+<td align="left">离开 vi</td>
+</tr>
+<tr>
+<td align="left">:q!</td>
+<td align="left">若曾修改过档案，又不想储存，使用 ! 为强制离开不储存档案。</td>
+</tr>
+<tr>
+<td align="left">:wq</td>
+<td align="left">储存后离开，若为 :wq! 则为强制储存后离开</td>
+</tr>
+<tr>
+<td align="left">ZZ</td>
+<td align="left">这是大写的 Z 喔！如果修改过，保存当前文件，然后退出！效果等同于(保存并退出)</td>
+</tr>
+<tr>
+<td align="left">ZQ</td>
+<td align="left">不保存，强制退出。效果等同于 **:q!**。</td>
+</tr>
+<tr>
+<td align="left">:w [filename]</td>
+<td align="left">将编辑的数据储存成另一个档案（类似另存新档）</td>
+</tr>
+<tr>
+<td align="left">:r [filename]</td>
+<td align="left">在编辑的数据中，读入另一个档案的数据。亦即将 『filename』 这个档案内容加到游标所在行后面</td>
+</tr>
+<tr>
+<td align="left">:n1,n2 w [filename]</td>
+<td align="left">将 n1 到 n2 的内容储存成 filename 这个档案。</td>
+</tr>
+<tr>
+<td align="left">:! command</td>
+<td align="left">暂时离开 vi 到指令行模式下执行 command 的显示结果！例如 『:! ls &#x2F;home』即可在 vi 当中察看 &#x2F;home 底下以 ls 输出的档案信息！</td>
+</tr>
+</tbody></table>
+<h2 id="Linux-中的服务管理"><a href="#Linux-中的服务管理" class="headerlink" title="Linux 中的服务管理"></a>Linux 中的服务管理</h2><p>计算机中，一个正在执行的程序或命令，被叫做“进程”（process）</p>
+<p>启动之后一只存在、常驻内存的进程，一般被称作“服务”（service）</p>
+<h3 id="systemctl常用命令"><a href="#systemctl常用命令" class="headerlink" title="systemctl常用命令"></a><code>systemctl常用命令</code></h3><table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">systemctl start service_name</td>
+<td align="left">启动某个服务</td>
+</tr>
+<tr>
+<td align="left">systemctl status service_name</td>
+<td align="left">查看某个服务当前状态</td>
+</tr>
+<tr>
+<td align="left">systemctl restart service_name</td>
+<td align="left">重启某个服务</td>
+</tr>
+<tr>
+<td align="left">systemctl stop service_name</td>
+<td align="left">停止某个服务</td>
+</tr>
+<tr>
+<td align="left">systemctl daemon-reload</td>
+<td align="left">重新加载配置文件</td>
+</tr>
+<tr>
+<td align="left">systemctl disable service_name</td>
+<td align="left">关掉指定服务的自动启动</td>
+</tr>
+<tr>
+<td align="left">systemctl enable service_name</td>
+<td align="left">开启指定服务的自动启动</td>
+</tr>
+<tr>
+<td align="left">systemctl list-unit-files</td>
+<td align="left">查看服务开机启动状态</td>
+</tr>
+<tr>
+<td align="left">systemctl list-unit-files –type&#x3D;service</td>
+<td align="left">列出所有服务（包括启用的和禁用的）</td>
+</tr>
+<tr>
+<td align="left">systemctl list-unit-files –type&#x3D;mount</td>
+<td align="left">所有系统挂载点</td>
+</tr>
+<tr>
+<td align="left">systemctl is-enabled service_name</td>
+<td align="left">检查指定服务是否启用</td>
+</tr>
+<tr>
+<td align="left">systemctl kill service_name</td>
+<td align="left">杀死服务</td>
+</tr>
+<tr>
+<td align="left">systemctl show service_name</td>
+<td align="left">检查指定服务的所有配置细节</td>
+</tr>
+<tr>
+<td align="left">systemctl get-default</td>
+<td align="left">查看当前运行级别</td>
+</tr>
+<tr>
+<td align="left">systemctl set-default TARGET.target</td>
+<td align="left">修改当前运行级别[TARGET 取 multi-user 或者 graphical]</td>
+</tr>
+<tr>
+<td align="left">systemctl show -p CPUShares httpd.service</td>
+<td align="left">获取当前服务的CPU分配额（如httpd）</td>
+</tr>
+<tr>
+<td align="left">systemctl set-property httpd.service CPUShares&#x3D;2000</td>
+<td align="left">将（httpd.service）的CPU分配份额限制为2000 CPUShares<br>（新增文件&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;httpd.service.d&#x2F;90-CPUShares.conf ）</td>
+</tr>
+</tbody></table>
+<p>查看服务的方法</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -al /usr/lib/systemd/system</span><br></pre></td></tr></table></figure>
+
+<p>注：</p>
+<p><strong>Linux系统有7种运行级别(runlevel):常用的是级别3和5</strong></p>
+<p>运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动</p>
+<p>运行级别1：单用户工作状态，oot权限，用于系统维护，禁止远程登陆</p>
+<p>运行级别2：多用户状态（没有NFS),不支持网络</p>
+<p>运行级别3：完全的多用户状态（有NFS),登陆后进入控制台命令行模式</p>
+<p>运行级别4：系统未使用，保留</p>
+<p>运行级别5：X11控制台，登陆后进入图形GU模式</p>
+<p>运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动</p>
+<p><strong>CentOS7</strong> <strong>的运行级别简化为</strong><strong>:</strong> </p>
+<p>multi-user.target 等价于原运行级别 3（多用户有网，无图形界面） </p>
+<p>graphical.target 等价于原运行级别 5（多用户有网，有图形界面）</p>
+<h2 id="常用基本命令"><a href="#常用基本命令" class="headerlink" title="常用基本命令"></a>常用基本命令</h2><h3 id="常用命令之文件目录"><a href="#常用命令之文件目录" class="headerlink" title="常用命令之文件目录"></a><code>常用命令之文件目录</code></h3><table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">pwd</td>
+<td align="left">显示当前工作目录的绝对路径</td>
+</tr>
+<tr>
+<td align="left">ls -al</td>
+<td align="left">列出当前目录全部文件，包括[.开头的文件]<br>每行列出的信息依次是：<br> 文件类型与权限 链接数 文件属主 文件属组 文件大小用byte来表示 建立或最近修改的时间 名字</td>
+</tr>
+<tr>
+<td align="left">cd 绝对路径</td>
+<td align="left">切换路径</td>
+</tr>
+<tr>
+<td align="left">cd 相对路径</td>
+<td align="left">切换路径</td>
+</tr>
+<tr>
+<td align="left">cd ~或者 cd</td>
+<td align="left">回到自己的家目录</td>
+</tr>
+<tr>
+<td align="left">cd -</td>
+<td align="left">回到上一次所在目录</td>
+</tr>
+<tr>
+<td align="left">cd ..</td>
+<td align="left">回到当前目录的上一级目录</td>
+</tr>
+<tr>
+<td align="left">cd -P</td>
+<td align="left">跳转到实际物理路径，而非快捷方式路径</td>
+</tr>
+<tr>
+<td align="left">mkdir -p xxx</td>
+<td align="left">创建多层目录</td>
+</tr>
+<tr>
+<td align="left">rmdir xxx</td>
+<td align="left">删除一个空的文件夹</td>
+</tr>
+<tr>
+<td align="left">touch 文件名称</td>
+<td align="left">创建空文件</td>
+</tr>
+<tr>
+<td align="left">cp  source dest</td>
+<td align="left">source[源文件] dest[目标文件]  复制文件</td>
+</tr>
+<tr>
+<td align="left">cp  -r source dest</td>
+<td align="left">递归复制整个文件夹</td>
+</tr>
+<tr>
+<td align="left">rm -r xxx</td>
+<td align="left">递归删除目录中所有内容</td>
+</tr>
+<tr>
+<td align="left">rm -f xxx</td>
+<td align="left">强制执行删除操作，而不提示用于进行确认</td>
+</tr>
+<tr>
+<td align="left">rm  -v xxx</td>
+<td align="left">显示指令的详细执行过程</td>
+</tr>
+<tr>
+<td align="left">mv oldNameFile newNameFile</td>
+<td align="left">重命名</td>
+</tr>
+<tr>
+<td align="left">mv &#x2F;temp&#x2F;movefile &#x2F;targetFolder</td>
+<td align="left">移动文件</td>
+</tr>
+</tbody></table>
+<h3 id="常用命令之文件查看"><a href="#常用命令之文件查看" class="headerlink" title="常用命令之文件查看"></a><code>常用命令之文件查看</code></h3><h4 id="more-文件内容分屏查看器"><a href="#more-文件内容分屏查看器" class="headerlink" title="more 文件内容分屏查看器"></a><strong>more 文件内容分屏查看器</strong></h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">more 要查看的文件</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">空白键 (space)</td>
+<td align="left">代表向下翻一页</td>
+</tr>
+<tr>
+<td align="left">Enter</td>
+<td align="left">代表向下翻『一行』</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="left">代表立刻离开 more ，不再显示该文件内容</td>
+</tr>
+<tr>
+<td align="left">Ctrl+F</td>
+<td align="left">向下滚动一屏</td>
+</tr>
+<tr>
+<td align="left">Ctrl+B</td>
+<td align="left">返回上一屏</td>
+</tr>
+<tr>
+<td align="left">&#x3D;</td>
+<td align="left">输出当前行的行号</td>
+</tr>
+<tr>
+<td align="left">:f</td>
+<td align="left">输出文件名和当前行的行号</td>
+</tr>
+</tbody></table>
+<h4 id="less分屏显示文件内容"><a href="#less分屏显示文件内容" class="headerlink" title="less分屏显示文件内容"></a><strong>less分屏显示文件内容</strong></h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">less 要查看的文件</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">空白键 (space)</td>
+<td align="left">代表向下翻一页</td>
+</tr>
+<tr>
+<td align="left">[pagedown]</td>
+<td align="left">向下翻动一页</td>
+</tr>
+<tr>
+<td align="left">[pageup]</td>
+<td align="left">向上翻动一页</td>
+</tr>
+<tr>
+<td align="left">&#x2F;字串</td>
+<td align="left">向下搜寻『字串』的功能；n：向下查找；N：向上查找；</td>
+</tr>
+<tr>
+<td align="left">?字串</td>
+<td align="left">向上搜寻『字串』的功能；n：向上查找；N：向下查找；</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="left">离开 less 这个程序；</td>
+</tr>
+</tbody></table>
+<h4 id="head显示文件头部内容"><a href="#head显示文件头部内容" class="headerlink" title="head显示文件头部内容"></a><strong>head显示文件头部内容</strong></h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">head</span> 文件</span><br><span class="line"><span class="built_in">head</span> -n 5 文件 <span class="comment"># 指定显示头部内容的行数,可以是任意行数</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="tail输出文件尾部内容"><a href="#tail输出文件尾部内容" class="headerlink" title="tail输出文件尾部内容"></a><strong>tail输出文件尾部内容</strong></h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">tail</span> 文件</span><br><span class="line"><span class="built_in">tail</span> -n 5 文件 <span class="comment">#查看文件尾部5行内容,5可以是任意行数</span></span><br><span class="line"><span class="built_in">tail</span> -f 文件  <span class="comment">#实时追踪该文档的所有更新</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="gt-输出重定向和-gt-gt-追加"><a href="#gt-输出重定向和-gt-gt-追加" class="headerlink" title="&gt;输出重定向和&gt;&gt;追加"></a><strong>&gt;输出重定向和&gt;&gt;追加</strong></h4><table>
+<thead>
+<tr>
+<th align="left">语法</th>
+<th align="left">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ls -al &gt; a.txt</td>
+<td align="left">列表的内容写入文件 a.txt 中（<strong>覆盖写</strong>）</td>
+</tr>
+<tr>
+<td align="left">ls -al &gt;&gt; aa.txt</td>
+<td align="left">列表的内容<strong>追加</strong>到文件 aa.txt 的末尾</td>
+</tr>
+<tr>
+<td align="left">cat 文件 1 &gt; 文件 2</td>
+<td align="left">将文件 1 的内容覆盖到文件 2</td>
+</tr>
+<tr>
+<td align="left">echo “内容” &gt;&gt; 文件</td>
+<td align="left">内容<strong>追加</strong>到文件的末尾</td>
+</tr>
+</tbody></table>
+<h4 id="ln软链接"><a href="#ln软链接" class="headerlink" title="ln软链接"></a><strong>ln软链接</strong></h4><p><code>软链接也称为符号链接，类似于 windows 里的快捷方式，有自己的数据块.</code> </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s [原文件或目录] [软链接名] <span class="comment">#给原文件创建一个软链接</span></span><br><span class="line"><span class="built_in">rm</span> -rf 软链接名 <span class="comment">#删除软链接(注意不要在软链接最后写/)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="常用命令之用户管理"><a href="#常用命令之用户管理" class="headerlink" title="常用命令之用户管理"></a><code>常用命令之用户管理</code></h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/12/Hexo/Hexo%E4%BD%BF%E7%94%A8Next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" rel="prev" title="Hexo搭建博客">
+      <i class="fa fa-chevron-left"></i> Hexo搭建博客
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/08/17/k8s/K8S%E5%9F%BA%E7%A1%80/" rel="next" title="k8s基础">
+      k8s基础 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">Linux基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VI-x2F-VIM-%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">VI&#x2F;VIM 编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E4%B9%8B%E7%A7%BB%E5%8A%A8%E5%85%89%E6%A0%87"><span class="nav-number">1.2.1.</span> <span class="nav-text">常用语法之移动光标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%9B%BF%E6%8D%A2"><span class="nav-number">1.2.2.</span> <span class="nav-text">常用语法之搜索替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4"><span class="nav-number">1.2.3.</span> <span class="nav-text">常用语法之复制粘贴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E4%B9%8B%E6%A8%A1%E5%BC%8F%E5%88%87%E6%8D%A2"><span class="nav-number">1.2.4.</span> <span class="nav-text">常用语法之模式切换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">Linux 中的服务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#systemctl%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">1.3.1.</span> <span class="nav-text">systemctl常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">常用基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B9%8B%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">常用命令之文件目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B9%8B%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B"><span class="nav-number">1.4.2.</span> <span class="nav-text">常用命令之文件查看</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#more-%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E5%88%86%E5%B1%8F%E6%9F%A5%E7%9C%8B%E5%99%A8"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">more 文件内容分屏查看器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#less%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">less分屏显示文件内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#head%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E5%A4%B4%E9%83%A8%E5%86%85%E5%AE%B9"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">head显示文件头部内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tail%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6%E5%B0%BE%E9%83%A8%E5%86%85%E5%AE%B9"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">tail输出文件尾部内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gt-%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8C-gt-gt-%E8%BF%BD%E5%8A%A0"><span class="nav-number">1.4.2.5.</span> <span class="nav-text">&gt;输出重定向和&gt;&gt;追加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ln%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">1.4.2.6.</span> <span class="nav-text">ln软链接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B9%8B%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="nav-number">1.4.3.</span> <span class="nav-text">常用命令之用户管理</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">doubao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dooubb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dooubb" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/oge@live.com" title="E-Mail → oge@live.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright" text-align:center>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">doubao <span id="sitetime"></span>
+ <!-- <script language=javascript>
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+		/* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+		year - 作为date对象的年份，为4位年份值
+		month - 0-11之间的整数，做为date对象的月份
+		day - 1-31之间的整数，做为date对象的天数
+		hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+		minutes - 0-59之间的整数，做为date对象的分钟数
+		seconds - 0-59之间的整数，做为date对象的秒数
+		microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+		var t1 = Date.UTC(2018,02,13,15,00,00); //北京时间2018-2-13 00:00:00
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		document.getElementById("sitetime").innerHTML=" 已运行"+/*diffYears+" 年 "+*/diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+	}/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+	siteTime();
+	</script>
+	--!>
+	</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

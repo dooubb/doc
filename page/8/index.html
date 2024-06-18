@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">k8s基础概念</a>
+            <a href="/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/" class="post-title-link" itemprop="url">rke2搭建k8s</a>
         </h2>
 
         <div class="post-meta">
@@ -207,15 +207,8 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2022-09-03 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-03T00:00:00+08:00">2022-09-03</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-20 14:21:36" itemprop="dateModified" datetime="2022-08-20T14:21:36+08:00">2022-08-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -232,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>39k</span>
+              <span>13k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>36 分钟</span>
+              <span>12 分钟</span>
             </span>
 
         </div>
@@ -251,27 +244,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Kubernetes-组件"><a href="#Kubernetes-组件" class="headerlink" title="Kubernetes 组件"></a>Kubernetes 组件</h1><img src="/2023/07/04/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/image-20220815222135791.png" class title="image-20220815222135791">
+          <h1 id="新建7台VM"><a href="#新建7台VM" class="headerlink" title="新建7台VM"></a>新建7台VM</h1><p>设置每台vm的hostname</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname rke-master-default-loadblance</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-3</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-3</span><br></pre></td></tr></table></figure>
 
-<p><strong>Master节点</strong></p>
-<p>Master节点是集群的控制节点，由API Server、Scheduler、Controller Manager和ETCD四个组件构成。</p>
-<ul>
-<li>API Server：各组件互相通讯的中转站，接受外部请求，并将信息写到ETCD中。</li>
-<li>Controller Manager：执行集群级功能，例如复制组件，跟踪Node节点，处理节点故障等等。</li>
-<li>Scheduler：负责应用调度的组件，根据各种条件（如可用的资源、节点的亲和性等）将容器调度到Node上运行。</li>
-<li>ETCD：一个分布式数据存储组件，负责存储集群的配置信息。</li>
-</ul>
-<p>在生产环境中，为了保障集群的高可用，通常会部署多个master，如CCE的集群高可用模式就是3个master节点。</p>
-<p><strong>Node节点</strong></p>
-<p>Node节点是集群的计算节点，即运行容器化应用的节点。</p>
-<ul>
-<li>kubelet：kubelet主要负责同Container Runtime打交道，并与API Server交互，管理节点上的容器。</li>
-<li>kube-proxy：应用组件间的访问代理，解决节点上应用的访问问题。</li>
-<li>Container Runtime：容器运行时，如Docker，最主要的功能是下载镜像和运行容器。</li>
-</ul>
+<p>修改每台vm的hosts文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt;&gt; /etc/hosts &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.0.20  rke-master-default-loadblance</span></span><br><span class="line"><span class="string">192.168.0.21  rke-master-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.22  rke-master-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.23  rke-master-default-nodepool-3</span></span><br><span class="line"><span class="string">192.168.0.24  rke-node-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.25  rke-node-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.26  rke-node-default-nodepool-3 </span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>由于vm是复制出来的，需要重新生成机器码并重启</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> -rf /dev/null /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/07/04/k8s/K8S%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/#more" rel="contents">
+              <a class="btn" href="/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -295,7 +278,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/k8s/K8S%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/26/Git-Action/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -309,7 +292,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/k8s/K8S%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">k8s基础架构</a>
+            <a href="/2022/08/26/Git-Action/" class="post-title-link" itemprop="url">Git Action</a>
         </h2>
 
         <div class="post-meta">
@@ -319,22 +302,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2022-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-26T00:00:00+08:00">2022-08-26</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-17 22:52:52" itemprop="dateModified" datetime="2022-08-17T22:52:52+08:00">2022-08-17</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/CICD/" itemprop="url" rel="index"><span itemprop="name">CICD</span></a>
                 </span>
             </span>
 
@@ -344,125 +320,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="k8s设计架构"><a href="#k8s设计架构" class="headerlink" title="k8s设计架构"></a>k8s设计架构</h2><p>Kubernetes集群包含有节点代理kubelet和Master组件(APIs, scheduler, etc)，一切都基于分布式的存储系统。下面这张图是Kubernetes的架构图。</p>
-<img src="/2023/07/04/k8s/K8S%E5%9F%BA%E7%A1%80/architecture.png" class title="architecture.png">
-
-<hr>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>在这张系统架构图中，我们把服务分为运行在工作节点上的服务和组成集群级别控制板的服务。</p>
-<p>Kubernetes节点有运行应用容器必备的服务，而这些都是受Master的控制。</p>
-<p>每次个节点上当然都要运行Docker。Docker来负责所有具体的映像下载和容器运行。</p>
-<p>Kubernetes主要由以下几个核心组件组成：</p>
-<ul>
-<li><p>etcd保存了整个集群的状态；</p>
-</li>
-<li><p>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</p>
-</li>
-<li><p>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</p>
-</li>
-<li><p>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</p>
-</li>
-<li><p>kubelet负责维护容器的生命周期，同时也负责Volume（CVI）和网络（CNI）的管理；</p>
-</li>
-<li><p>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</p>
-</li>
-<li><p>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</p>
-</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/07/04/k8s/K8S%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/k8s/Ingress/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/07/04/k8s/Ingress/" class="post-title-link" itemprop="url">Ingress</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-16 23:19:02" itemprop="dateModified" datetime="2023-03-16T23:19:02+08:00">2023-03-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>664</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -481,9 +339,116 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Ingress过滤掉某些接口"><a href="#Ingress过滤掉某些接口" class="headerlink" title="Ingress过滤掉某些接口"></a>Ingress过滤掉某些接口</h1><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">ingress-wp-dev</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="comment">#请求路径重写</span></span><br><span class="line">    <span class="attr">nginx.ingress.kubernetes.io/rewrite-target:</span> <span class="string">/$2</span></span><br><span class="line">    <span class="comment">#限制上传文件大小</span></span><br><span class="line">    <span class="attr">nginx.ingress.kubernetes.io/proxy-body-size:</span> <span class="string">&quot;100m&quot;</span></span><br><span class="line">    <span class="comment">#匹配到请求路径直接返回404</span></span><br><span class="line">    <span class="attr">nginx.ingress.kubernetes.io/server-snippet:</span> <span class="string">|</span></span><br><span class="line"><span class="string">      if ( $request_uri ~*  (/health|/api|/swagger)) &#123;</span></span><br><span class="line"><span class="string">                 return 404;</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string"></span><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ingressClassName:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">host:</span> <span class="string">doubao.fun</span></span><br><span class="line">      <span class="attr">http:</span></span><br><span class="line">        <span class="attr">paths:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/far/(|$)(.*)</span> <span class="comment">#匹配路径中带有far的请求, 然后将far去掉</span></span><br><span class="line">            <span class="attr">pathType:</span> <span class="string">Prefix</span></span><br><span class="line">            <span class="attr">backend:</span></span><br><span class="line">              <span class="attr">service:</span></span><br><span class="line">                <span class="attr">name:</span> <span class="string">uiservice</span></span><br><span class="line">                <span class="attr">port:</span></span><br><span class="line">                  <span class="attr">number:</span> <span class="number">8080</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/boo/(|$)(.*)</span> <span class="comment">#匹配路径中带有boo的请求, 然后将boo去掉</span></span><br><span class="line">            <span class="attr">pathType:</span> <span class="string">Prefix</span></span><br><span class="line">            <span class="attr">backend:</span></span><br><span class="line">              <span class="attr">service:</span></span><br><span class="line">                <span class="attr">name:</span> <span class="string">service</span></span><br><span class="line">                <span class="attr">port:</span></span><br><span class="line">                  <span class="attr">number:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+          <h1 id="Actions-secrets"><a href="#Actions-secrets" class="headerlink" title="Actions secrets"></a>Actions secrets</h1><p>在<strong>Actions secrets</strong>中添加的变量，可以直接在Git Action中使用个来直接获取到<code>$&#123;&#123;&#125;&#125;</code>，并且打印到CI流程中是***。</p>
+<p>在添加Actions secrets，也无法查看到Actions secrets的value。也保证了私密信息的安全性。</p>
+<h1 id="Git-Action"><a href="#Git-Action" class="headerlink" title="Git Action"></a>Git Action</h1><p>在项目的根目录下创建一个文件夹，文件夹中创建一个yml文件，目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.github</span><br><span class="line">---workflows</span><br><span class="line">------main.yml</span><br></pre></td></tr></table></figure>
 
+<p>在创建的main.yml中编写项目的CI</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the workflow will run</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Allows you to run this workflow manually from the Actions tab</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># This workflow contains a single job called &quot;build&quot;</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="comment"># The type of runner that the job will run on</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">JDK</span> <span class="number">1.8</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-java@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">java-version:</span> <span class="number">1.8</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">with</span> <span class="string">Maven</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">mvn</span> <span class="string">-B</span> <span class="string">package</span> <span class="string">--file</span> <span class="string">pom.xml</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">BuildDockerImage</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">.</span> <span class="string">--file</span> <span class="string">Dockerfile</span> <span class="string">--tag</span> <span class="string">my-image-name:$(date</span> <span class="string">+%s)</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Login</span> <span class="string">to</span> <span class="string">DockerHub</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">docker/login-action@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DOCKER_USERNAME</span> <span class="string">&#125;&#125;</span> <span class="comment"># 这个Actions secrets中添加的秘钥</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DOCKER_PASSWORD</span> <span class="string">&#125;&#125;</span> <span class="comment"># 这个Actions secrets中添加的秘钥</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Publish</span> <span class="string">to</span> <span class="string">Docker</span> <span class="string">Repository</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">docker/build-push-action@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">          <span class="attr">push:</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">tags:</span> <span class="string">fanq1213/app:latest</span></span><br></pre></td></tr></table></figure>
 
+<p>当有新的代码提交后，会自动触发Git Action实现CI流程。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/26/k8s/Kustomization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/26/k8s/Kustomization/" class="post-title-link" itemprop="url">Kustomization的使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-26T00:00:00+08:00">2022-08-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="安装kustomize命令"><a href="#安装kustomize命令" class="headerlink" title="安装kustomize命令"></a>安装kustomize命令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">wget https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v4.5.7/kustomize_v4.5.7_linux_amd64.tar.gz &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">tar -xzvf kustomize_v4.5.7_linux_amd64.tar.gz -C /usr/bin/ &gt;/dev/null 2&gt;&amp;1</span><br><span class="line"><span class="built_in">chmod</span> +x /usr/bin/kustomize</span><br></pre></td></tr></table></figure>
+
+<h1 id="kustomization"><a href="#kustomization" class="headerlink" title="kustomization"></a>kustomization</h1><p>kustomize 是一个通过 kustomization 文件定制 kubernetes 对象的工具，它可以通过一些资源生成一些新的资源，也可以定制不同的资源的集合。</p>
+<h1 id="kustomization常见目录布局"><a href="#kustomization常见目录布局" class="headerlink" title="kustomization常见目录布局"></a>kustomization常见目录布局</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">├──</span> <span class="string">base</span></span><br><span class="line"><span class="string">│</span>   <span class="string">├──</span> <span class="string">deployment.yaml</span></span><br><span class="line"><span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line"><span class="string">│</span>   <span class="string">└──</span> <span class="string">service.yaml</span></span><br><span class="line"><span class="string">└──</span> <span class="string">overlays</span></span><br><span class="line">    <span class="string">├──</span> <span class="string">dev</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">└──</span> <span class="string">patch.yaml</span></span><br><span class="line">    <span class="string">├──</span> <span class="string">prod</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">└──</span> <span class="string">patch.yaml</span></span><br><span class="line">    <span class="string">└──</span> <span class="string">staging</span></span><br><span class="line">        <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">        <span class="string">└──</span> <span class="string">patch.yaml</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>/base</code>目录保存的是基本的配置</p>
+</li>
+<li><p><code>/overlays</code>【此文件夹也可以省略】里放置的不同环境的配置，例如 <code>/dev</code>、<code>/staging</code>，<code>/prod</code>这些就是不同环境的配置，</p>
+</li>
+<li><p><code>/base</code>等文件夹下都有一个 kustomization .yml 文件，用于配置。</p>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/26/k8s/Kustomization/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

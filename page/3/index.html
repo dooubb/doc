@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Redis/Redis/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/02/11/Shell/shell%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/Redis/Redis/" class="post-title-link" itemprop="url">Linux安装Redis</a>
+            <a href="/2023/02/11/Shell/shell%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">Shell基础</a>
         </h2>
 
         <div class="post-meta">
@@ -207,22 +207,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2023-02-11 00:00:00" itemprop="dateCreated datePublished" datetime="2023-02-11T00:00:00+08:00">2023-02-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-23 20:58:31" itemprop="dateModified" datetime="2021-11-23T20:58:31+08:00">2021-11-23</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+                  <a href="/categories/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
                 </span>
             </span>
 
@@ -232,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>7.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -251,12 +244,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Linux安装单机Redis"><a href="#Linux安装单机Redis" class="headerlink" title="Linux安装单机Redis"></a>Linux安装单机Redis</h1><h2 id="安装gcc"><a href="#安装gcc" class="headerlink" title="安装gcc"></a>安装gcc</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc</span><br></pre></td></tr></table></figure>
+          <h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><p><code>shell支持三种定义变量的方式</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var=dooubb</span><br><span class="line">var=<span class="string">&#x27;dooubb&#x27;</span></span><br><span class="line">var=<span class="string">&quot;dooubb&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="进入usr-x2F-local文件夹下"><a href="#进入usr-x2F-local文件夹下" class="headerlink" title="进入usr&#x2F;local文件夹下"></a>进入usr&#x2F;local文件夹下</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.3.tar.gz</span><br></pre></td></tr></table></figure>
+<p>如果赋值变量的值没有空格或者tab缩进，不加引号也可以</p>
+<p>如果赋值变量的值有空格或者tab缩进，则需要加引号</p>
+<p>单引号和双引号也是有区别的</p>
+<ol>
+<li>由单引号<code>&#39; &#39;</code>包围的字符串：</li>
+</ol>
+<ul>
+<li>任何字符都会原样输出，在其中使用变量是无效的。</li>
+<li>字符串中不能出现单引号，即使对单引号进行转义也不行。</li>
+</ul>
+<ol>
+<li>由双引号<code>&quot; &quot;</code>包围的字符串：</li>
+</ol>
+<ul>
+<li>如果其中包含了某个变量，那么该变量会被解析（得到该变量的值），而不是原样输出。</li>
+<li>字符串中可以出现双引号，只要它被转义了就行。</li>
+</ul>
+<ol>
+<li>不被引号包围的字符串</li>
+</ol>
+<ul>
+<li>不被引号包围的字符串中出现变量时也会被解析，这一点和双引号<code>&quot; &quot;</code>包围的字符串一样。</li>
+<li>字符串中不能出现空格，否则空格后边的字符串会作为其他变量或者命令解析。</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">var=dooubb</span><br><span class="line">str1=<span class="built_in">test</span><span class="variable">$var</span></span><br><span class="line">str2=<span class="string">&quot;shell \&quot;script\&quot; <span class="variable">$var</span>&quot;</span></span><br><span class="line">str3=<span class="string">&#x27;print  $var&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$str1</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$str2</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$str3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#输出结果</span></span><br><span class="line">testdooubb</span><br><span class="line">shell <span class="string">&quot;script&quot;</span> dooubb</span><br><span class="line"><span class="built_in">print</span> <span class="variable">$var</span></span><br><span class="line">使用变量</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line">var=dooubb</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;var&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#输出结果</span></span><br><span class="line">dooubb</span><br><span class="line">dooubb</span><br></pre></td></tr></table></figure>
+
+<p>加花括号是为了帮助解释器识别变量的边界</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/07/04/Redis/Redis/#more" rel="contents">
+              <a class="btn" href="/2023/02/11/Shell/shell%E5%9F%BA%E7%A1%80/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -280,7 +300,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B04/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/02/11/Shell/shell%E8%BF%9B%E9%98%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -294,7 +314,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B04/" class="post-title-link" itemprop="url">初级爬虫练手04</a>
+            <a href="/2023/02/11/Shell/shell%E8%BF%9B%E9%98%B6/" class="post-title-link" itemprop="url">Shell进阶</a>
         </h2>
 
         <div class="post-meta">
@@ -304,22 +324,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2023-02-11 00:00:00" itemprop="dateCreated datePublished" datetime="2023-02-11T00:00:00+08:00">2023-02-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-04 19:46:23" itemprop="dateModified" datetime="2022-01-04T19:46:23+08:00">2022-01-04</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%88%AC%E8%99%AB%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">爬虫进阶</span></a>
+                  <a href="/categories/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
                 </span>
             </span>
 
@@ -329,14 +342,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.1k</span>
+              <span>765</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -348,9 +361,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="网易云音乐热评"><a href="#网易云音乐热评" class="headerlink" title="网易云音乐热评"></a>网易云音乐热评</h1><p>主要是网易使用js来加密请求数据，他们会定期修改方法函数和隐藏请求体，需要花费时间进行追踪和解密加密方式。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64encode</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">js中赋值的方法</span></span><br><span class="line"><span class="string"> e9f.data = j9a.cq9h(&#123;</span></span><br><span class="line"><span class="string">                params: bVj0x.encText,</span></span><br><span class="line"><span class="string">                encSecKey: bVj0x.encSecKey</span></span><br><span class="line"><span class="string">            &#125;)</span></span><br><span class="line"><span class="string">js中加密请求数据的方法  </span></span><br><span class="line"><span class="string">    获取一个随机的字符串          </span></span><br><span class="line"><span class="string">    function a(a) &#123;</span></span><br><span class="line"><span class="string">        var d, e, b = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;, c = &quot;&quot;;</span></span><br><span class="line"><span class="string">        for (d = 0; a &gt; d; d += 1)</span></span><br><span class="line"><span class="string">            e = Math.random() * b.length,</span></span><br><span class="line"><span class="string">            e = Math.floor(e),</span></span><br><span class="line"><span class="string">            c += b.charAt(e);</span></span><br><span class="line"><span class="string">        return c</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    使用AES就行对称加密</span></span><br><span class="line"><span class="string">    function b(a, b) &#123;</span></span><br><span class="line"><span class="string">        var c = CryptoJS.enc.Utf8.parse(b) b=0CoJUm6Qyw8W8jud</span></span><br><span class="line"><span class="string">          , d = CryptoJS.enc.Utf8.parse(&quot;0102030405060708&quot;)</span></span><br><span class="line"><span class="string">          , e = CryptoJS.enc.Utf8.parse(a) a=传入的数据 </span></span><br><span class="line"><span class="string">          , f = CryptoJS.AES.encrypt(e, c, &#123;</span></span><br><span class="line"><span class="string">            iv: d,</span></span><br><span class="line"><span class="string">            mode: CryptoJS.mode.CBC</span></span><br><span class="line"><span class="string">        &#125;);</span></span><br><span class="line"><span class="string">        return f.toString()</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    使用RSA非对称加密</span></span><br><span class="line"><span class="string">    function c(a, b, c) &#123;</span></span><br><span class="line"><span class="string">        var d, e;</span></span><br><span class="line"><span class="string">        return setMaxDigits(131),</span></span><br><span class="line"><span class="string">        d = new RSAKeyPair(b,&quot;&quot;,c),</span></span><br><span class="line"><span class="string">        e = encryptedString(d, a)</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    真正的加密方法</span></span><br><span class="line"><span class="string">    function d(d, e, f, g) &#123; ) </span></span><br><span class="line"><span class="string">        var h = &#123;&#125;</span></span><br><span class="line"><span class="string">          , i = a(16); 是一个16位的字符串 &quot;8nPYfHhrGEIu5JjP&quot;</span></span><br><span class="line"><span class="string">        return h.encText = b(d, g),</span></span><br><span class="line"><span class="string">        h.encText = b(h.encText, i),</span></span><br><span class="line"><span class="string">        h.encSecKey = c(i, e, f),</span></span><br><span class="line"><span class="string">        h</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">url = <span class="string">&quot;https://music.163.com/weapi/comment/resource/comments/get?csrf_token=&quot;</span></span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;rid&quot;</span>: <span class="string">&quot;R_SO_4_569213220&quot;</span>, <span class="comment"># 歌曲对应的id</span></span><br><span class="line">    <span class="string">&quot;threadId&quot;</span>: <span class="string">&quot;R_SO_4_569213220&quot;</span>,</span><br><span class="line">    <span class="string">&quot;pageNo&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;pageSize&quot;</span>: <span class="string">&quot;20&quot;</span>,</span><br><span class="line">    <span class="string">&quot;cursor&quot;</span>: <span class="string">&quot;-1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;offset&quot;</span>: <span class="string">&quot;0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;orderType&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;csrf_token&quot;</span>: <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 用来加密data用的参数</span></span><br><span class="line">f = <span class="string">&quot;00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7&quot;</span></span><br><span class="line">g = <span class="string">&quot;0CoJUm6Qyw8W8jud&quot;</span></span><br><span class="line">i = <span class="string">&quot;8nPYfHhrGEIu5JjP&quot;</span></span><br><span class="line">e = <span class="string">&quot;010001&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 由于i可以debug获取到，所以d方法中的c方法最终的结果就是一个字符串</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_encSecKey</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;73e99ee217cdb4d07b6947635c74047bff778823dd433ab870e0f11c2e7056add7bf7a4daf7c598f96192e5559c17ceee8d267fe7e9121511d224e8b74138b49e94e9983768e75641adccbda73b5b9d9b5809a82277dc017ed4f557561bdaab8b80cfed70a84538c2dbf02a637c462b842c0f7fa2443589a85395d99aaff22c3&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密过程</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">enc_params</span>(<span class="params">data, key</span>):</span><br><span class="line">    iv = <span class="string">&quot;0102030405060708&quot;</span></span><br><span class="line">    data = to_16(data)</span><br><span class="line">    aes = AES.new(key=key.encode(<span class="string">&quot;utf-8&quot;</span>), IV=iv.encode(<span class="string">&#x27;utf-8&#x27;</span>), mode=AES.MODE_CBC)  <span class="comment"># 创建加密器</span></span><br><span class="line">    bs = aes.encrypt(data.encode(<span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># 加密, 加密的内容的长度必须是16的倍数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span>(b64encode(bs), <span class="string">&quot;utf-8&quot;</span>)  <span class="comment"># 转化成字符串返回,</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">param = <span class="string">&quot;QKjNbInsQdG7ignRVvh+DrvYYtPrFNeMMMdriP7RWLRSG3Pgbj1/Rk39K+BpukpSwbFY9JIkmWGBAxCW2WLlkDtI0aP0S9JodTb4YX8wLOsTB/+I6XVIHtAKd204b4wGYFtspC6oYK147otyETw9qe+HsMpYA3ZkawcTxqrx1+ns4Kh5mgra2IFlaKDw9jGRG4m5tPKGItxNOjBf0awMfkUYHJqCqzd/Ed2KsH6X8sbgthlDzMvn8Qz+6REbmpxy1GOVuPWmZKVPAFFjNFuqpHEPfZxUduV8xp35go+d44A=&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 转化成16的倍数, 位下方的加密算法服务</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">to_16</span>(<span class="params">data</span>):</span><br><span class="line">    pad = <span class="number">16</span> - <span class="built_in">len</span>(data) % <span class="number">16</span></span><br><span class="line">    data += <span class="built_in">chr</span>(pad) * pad</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把参数进行加密</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_params</span>(<span class="params">data</span>):  <span class="comment"># 默认这里接收到的是字符串</span></span><br><span class="line">    first = enc_params(data, g)</span><br><span class="line">    second = enc_params(first, i)</span><br><span class="line">    <span class="keyword">return</span> second  <span class="comment"># 返回的就是params</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间戳转成时间</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">timeStamp</span>(<span class="params">timeNum</span>):</span><br><span class="line">    timeStamp = <span class="built_in">float</span>(timeNum/<span class="number">1000</span>)</span><br><span class="line">    timeArray = time.localtime(timeStamp)</span><br><span class="line">    otherStyleTime = time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, timeArray)</span><br><span class="line">    <span class="keyword">return</span> otherStyleTime</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_data</span>():</span><br><span class="line">    resp = requests.post(url, data=&#123;</span><br><span class="line">        <span class="string">&quot;params&quot;</span>: get_params(json.dumps(data)),</span><br><span class="line">        <span class="string">&quot;encSecKey&quot;</span>: get_encSecKey()</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> resp.json()[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;hotComments&#x27;</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 准备文件</span></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&quot;网易云音乐热评.csv&quot;</span>, mode=<span class="string">&quot;a&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>, newline=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    csvwriter = csv.writer(f)</span><br><span class="line">    <span class="comment"># 写入表头</span></span><br><span class="line">    csvwriter.writerow([<span class="string">&quot;昵称&quot;</span>, <span class="string">&quot;热评&quot;</span>, <span class="string">&quot;点赞数&quot;</span>, <span class="string">&quot;评论时间&quot;</span>])</span><br><span class="line">    <span class="comment"># 获取数据</span></span><br><span class="line">    hotComments = get_data()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> hotComment <span class="keyword">in</span> hotComments:</span><br><span class="line">        csvwriter.writerow([hotComment[<span class="string">&quot;user&quot;</span>][<span class="string">&quot;nickname&quot;</span>],hotComment[<span class="string">&quot;content&quot;</span>],hotComment[<span class="string">&quot;likedCount&quot;</span>],timeStamp(hotComment[<span class="string">&quot;time&quot;</span>])])</span><br><span class="line">    f.close()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+          <h1 id="获取当前所执行的shell的文件夹"><a href="#获取当前所执行的shell的文件夹" class="headerlink" title="获取当前所执行的shell的文件夹"></a>获取当前所执行的shell的文件夹</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">dir</span>=<span class="string">&quot;<span class="subst">$( cd <span class="string">&quot;<span class="subst">$( dirname <span class="string">&quot;<span class="variable">$&#123;BASH_SOURCE[0]&#125;</span>&quot;</span> )</span>&quot;</span> &amp;&amp; pwd )</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$dir</span></span><br><span class="line"><span class="built_in">cd</span> <span class="string">&quot;<span class="variable">$&#123;dir&#125;</span>/..&quot;</span></span><br><span class="line"><span class="built_in">pwd</span></span><br></pre></td></tr></table></figure>
 
+<p><code>$&#123;BASH_SOURCE[0]&#125;</code>表示bash脚本的第一个参数（如果第一个参数是bash，表明这是要执行bash脚本，这时<code>&quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>自动转换为第二个参数），例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh /data/shell/shell.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>&quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>代表的是<code>/data/shell/shell.sh</code>。<br><code>&quot;dirname&quot;</code>表示提取参数里的目录，<code>dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>表示提取bash脚本第一个参数里的目录，例如<code>/data/shell/shell.sh”的目录为&quot;/data/shell</code>。<br><code>cd &quot;$( dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot; )</code>“表示切换到刚才提取的目录，<br><code>dir=cd &quot;$( dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot; )&quot; &amp;&amp; pwd</code>则表示，如果第一条语句顺利执行，就执行<code>pwd</code>显示当前目录，并将结果赋值给变量<code>dir</code>。<br><code>cd &quot;$&#123;dir&#125;/..</code>切换到<code>dir</code>变量所指目录的上一级目录。</p>
 
       
     </div>
@@ -370,7 +386,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B03/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/10/29/Spring/Spring_2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -384,7 +400,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B03/" class="post-title-link" itemprop="url">初级爬虫练手03</a>
+            <a href="/2022/10/29/Spring/Spring_2/" class="post-title-link" itemprop="url">Spring核心原理(二)</a>
         </h2>
 
         <div class="post-meta">
@@ -394,22 +410,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2022-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2022-10-29T00:00:00+08:00">2022-10-29</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-04 19:43:28" itemprop="dateModified" datetime="2022-01-04T19:43:28+08:00">2022-01-04</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%88%AC%E8%99%AB%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">爬虫进阶</span></a>
+                  <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
                 </span>
             </span>
 
@@ -419,14 +428,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>10 分钟</span>
             </span>
 
         </div>
@@ -438,10 +447,29 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="电影天堂"><a href="#电影天堂" class="headerlink" title="电影天堂"></a>电影天堂</h1><p>使用正则表达式来爬取数据</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备url</span></span><br><span class="line">domian = <span class="string">&quot;https://www.dytt89.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备heater</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;user-agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">resp = requests.get(domian, headers=headers)</span><br><span class="line"><span class="comment"># 指定字符集</span></span><br><span class="line">resp.encoding = <span class="string">&quot;gb2312&quot;</span></span><br><span class="line"><span class="comment"># 获取首页中2021必看热片的跳转连接</span></span><br><span class="line">obj = re.<span class="built_in">compile</span>(<span class="string">r&quot;2021必看热片.*?&lt;ul&gt;.*?&lt;li&gt;&lt;a href=&#x27;(?P&lt;uris&gt;.*?)&lt;/ul&gt;&quot;</span>, re.S)</span><br><span class="line">result = obj.finditer(resp.text)</span><br><span class="line"><span class="comment"># 获取a标签中的href连接</span></span><br><span class="line">href = re.<span class="built_in">compile</span>(<span class="string">r&quot;&lt;li&gt;&lt;a href=&#x27;(?P&lt;uri&gt;.*?)&#x27;&quot;</span>, re.S)</span><br><span class="line"><span class="comment"># 循环构造完整连接</span></span><br><span class="line">data = re.<span class="built_in">compile</span>(<span class="string">r&#x27;◎片　　名(?P&lt;movie&gt;.*?)&lt;br /&gt;.*?&lt;td &#x27;</span></span><br><span class="line">                  <span class="string">r&#x27;style=&quot;WORD-WRAP: break-word&quot; bgcolor=&quot;#fdfddf&quot;&gt;&lt;a href=&quot;(?P&lt;download&gt;.*?)&quot;&gt;&#x27;</span>, re.S)</span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;电影天堂必看热片.csv&quot;</span>, mode=<span class="string">&quot;a&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>, newline=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">csvwriter = csv.writer(f)</span><br><span class="line"><span class="comment"># 写入表头</span></span><br><span class="line">csvwriter.writerow([<span class="string">&quot;电影名称&quot;</span>, <span class="string">&quot;下载连接&quot;</span>])</span><br><span class="line"><span class="keyword">for</span> it <span class="keyword">in</span> result:</span><br><span class="line">    uris = href.finditer(it.group(<span class="string">&quot;uris&quot;</span>))</span><br><span class="line">    <span class="keyword">for</span> uri <span class="keyword">in</span> uris:</span><br><span class="line">        url = domian + uri.group(<span class="string">&quot;uri&quot;</span>)</span><br><span class="line">        <span class="comment"># 在从urls中循环获取二级页面内的下载路径</span></span><br><span class="line">        child_resp = requests.get(url, headers=headers)</span><br><span class="line">        child_resp.encoding = <span class="string">&quot;gb2312&quot;</span></span><br><span class="line">        result_data = data.search(child_resp.text)</span><br><span class="line">        dic = result_data.groupdict()</span><br><span class="line">        csvwriter.writerow(dic.values())</span><br><span class="line">f.close()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;下载完成。。。&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-
+          <h1 id="BeanDefinition"><a href="#BeanDefinition" class="headerlink" title="BeanDefinition"></a>BeanDefinition</h1><p>BeanDefinition是一个interface，表示Bean定义，BeanDefinition中存在很多属性用来描述一个Bean的特点。比如：</p>
+<ul>
+<li>class，表示Bean类型</li>
+<li>scope，表示Bean作用域，单例或原型等</li>
+<li>lazyInit：表示Bean是否是懒加载</li>
+<li>initMethodName：表示Bean初始化时要执行的方法</li>
+<li>destroyMethodName：表示Bean销毁时要执行的方法<br>…</li>
+</ul>
+<p>在Spring中，我们经常会通过以下几种方式来定义Bean：</p>
+<ol>
+<li><code>&lt;bean/&gt;</code></li>
+<li><code>@Bean</code></li>
+<li><code>@Component(@Service,@Controller)</code></li>
+</ol>
+<p>以上我们可以称之<strong>申明式定义Bean</strong>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/10/29/Spring/Spring_2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

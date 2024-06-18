@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Dubbo/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2021/11/21/Zookeeper/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/Dubbo/" class="post-title-link" itemprop="url">Dubbo</a>
+            <a href="/2021/11/21/Zookeeper/" class="post-title-link" itemprop="url">Zookeeper</a>
         </h2>
 
         <div class="post-meta">
@@ -207,22 +207,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2021-11-21 00:00:00" itemprop="dateCreated datePublished" datetime="2021-11-21T00:00:00+08:00">2021-11-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-05 22:44:27" itemprop="dateModified" datetime="2021-05-05T22:44:27+08:00">2021-05-05</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Dubbo/" itemprop="url" rel="index"><span itemprop="name">Dubbo</span></a>
+                  <a href="/categories/Zookeeper/" itemprop="url" rel="index"><span itemprop="name">Zookeeper</span></a>
                 </span>
             </span>
 
@@ -232,7 +225,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>740</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -251,7 +244,45 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <h1 id="什么是Zookeeper"><a href="#什么是Zookeeper" class="headerlink" title="什么是Zookeeper"></a>什么是Zookeeper</h1><p>官方文档上解释说，zookeeper它是一个分布式协调框架，主要是用来解决分布式应用中经常遇到得一些数据管理问题。例如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。。。</p>
+<h1 id="Zookeeper核心概念"><a href="#Zookeeper核心概念" class="headerlink" title="Zookeeper核心概念"></a>Zookeeper核心概念</h1><p>Zookeeper是一个用于存储少量数据的基于内存的数据库，主要有两个核心概念：文件系统数据结构和监听通知机制。</p>
+<h2 id="文件系统数据结构"><a href="#文件系统数据结构" class="headerlink" title="文件系统数据结构"></a>文件系统数据结构</h2><p>Zookeeper维护一个类似文件系统的数据结构，如下图</p>
+<img src="/2021/11/21/Zookeeper/image-20210508182538218.png" class title="image-20210508182538218">
+
+<p>每个子目录都被称为**znode(目录节点)**，和文件系统类似，我们可以自由增加、删除znode，在znode下增加、删除znode。</p>
+<h3 id="Zookeeper有六种类型的znode-新版本又增加了两个"><a href="#Zookeeper有六种类型的znode-新版本又增加了两个" class="headerlink" title="Zookeeper有六种类型的znode(新版本又增加了两个)"></a>Zookeeper有六种类型的znode(新版本又增加了两个)</h3><ul>
+<li><h4 id="PERSISTENT-持久化目录节点"><a href="#PERSISTENT-持久化目录节点" class="headerlink" title="PERSISTENT-持久化目录节点"></a>PERSISTENT-持久化目录节点</h4></li>
+</ul>
+<p>客户端与Zookeeper断开连接后，该节点依然存在，只要不手动删除改节点，它将一直存在。</p>
+<ul>
+<li><h4 id="PERSISTENT-SEQUENTIAL-持久化顺序编号目录节点"><a href="#PERSISTENT-SEQUENTIAL-持久化顺序编号目录节点" class="headerlink" title="PERSISTENT_SEQUENTIAL-持久化顺序编号目录节点"></a>PERSISTENT_SEQUENTIAL-持久化顺序编号目录节点</h4></li>
+</ul>
+<p>客户端与Zookeeper断开连接后，该节点依然存在，只是Zookeeper给该节点名称进行顺序编号</p>
+<ul>
+<li><h4 id="EPHEMERAL-临时目录节点"><a href="#EPHEMERAL-临时目录节点" class="headerlink" title="EPHEMERAL-临时目录节点"></a>EPHEMERAL-临时目录节点</h4></li>
+</ul>
+<p>客户端与zookeeper断开连接后，该节点被删除</p>
+<ul>
+<li><h4 id="EPHEMERAL-SEQUENTIAL-临时顺序编号目录节点"><a href="#EPHEMERAL-SEQUENTIAL-临时顺序编号目录节点" class="headerlink" title="EPHEMERAL_SEQUENTIAL-临时顺序编号目录节点"></a>EPHEMERAL_SEQUENTIAL-临时顺序编号目录节点</h4></li>
+</ul>
+<p>客户端与zookeeper断开连接后，该节点被删除，只是Zookeeper给该节点名称进行顺序编号</p>
+<ul>
+<li><h4 id="Container-节点"><a href="#Container-节点" class="headerlink" title="Container 节点"></a>Container 节点</h4></li>
+</ul>
+<p>3.5.3 版本新增，如果Container节点下面没有子节点，则Container节点在未来会被Zookeeper自动清除,定时任务默认60s 检查一次</p>
+<ul>
+<li><h4 id="TTL-节点"><a href="#TTL-节点" class="headerlink" title="TTL 节点"></a>TTL 节点</h4></li>
+</ul>
+<p> 默认禁用，只能通过系统配置 <em>zookeeper.extendedTypesEnabled&#x3D;true</em> 开启，不稳定</p>
+<img src="/2021/11/21/Zookeeper/image-20210508183449347.png" class title="image-20210508183449347">
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/21/Zookeeper/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

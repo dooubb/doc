@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/k8s/%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/k8s/%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/" class="post-title-link" itemprop="url">搭建k8s集群</a>
+            <a href="/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">JVM内存模型</a>
         </h2>
 
         <div class="post-meta">
@@ -207,22 +207,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2022-09-21 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-21T00:00:00+08:00">2022-09-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-22 19:09:38" itemprop="dateModified" datetime="2022-08-22T19:09:38+08:00">2022-08-22</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -232,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>14k</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>13 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -251,47 +244,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="准备机器"><a href="#准备机器" class="headerlink" title="准备机器"></a>准备机器</h1><p>本地安装三台虚拟机</p>
-<table>
-<thead>
-<tr>
-<th align="center">节点</th>
-<th align="center">hostname</th>
-<th align="center">版本</th>
-<th align="center">CPU</th>
-<th align="center">内存</th>
-<th align="center">硬盘</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">master</td>
-<td align="center">k8s-master</td>
-<td align="center">CentOS7.8</td>
-<td align="center">4</td>
-<td align="center">4G</td>
-<td align="center">40G</td>
-</tr>
-<tr>
-<td align="center">node01</td>
-<td align="center">k8s-node01</td>
-<td align="center">CentOS7.8</td>
-<td align="center">2</td>
-<td align="center">4G</td>
-<td align="center">40G</td>
-</tr>
-<tr>
-<td align="center">node02</td>
-<td align="center">k8s-node02</td>
-<td align="center">CentOS7.8</td>
-<td align="center">2</td>
-<td align="center">4G</td>
-<td align="center">40G</td>
-</tr>
-</tbody></table>
-<h1 id="基础环境-都执行"><a href="#基础环境-都执行" class="headerlink" title="基础环境(都执行)"></a>基础环境(都执行)</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##########################################################################</span></span><br><span class="line"><span class="comment">#关闭防火墙： 如果是云服务器，需要设置安全组策略放行端口</span></span><br><span class="line"><span class="comment"># https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#check-required-ports</span></span><br><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 hostname 分别执行</span></span><br><span class="line">hostnamectl set-hostname k8s-master</span><br><span class="line">hostnamectl set-hostname k8s-node01</span><br><span class="line">hostnamectl set-hostname k8s-node02</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 hostname 解析</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;127.0.0.1   <span class="subst">$(hostname)</span>&quot;</span> &gt;&gt; /etc/hosts</span><br><span class="line"><span class="built_in">cat</span> &gt;&gt; /etc/hosts &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">192.168.56.106 k8s-master</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">192.168.56.107 k8s-node01</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">192.168.56.108 k8s-node02</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看修改结果</span></span><br><span class="line">hostnamectl status</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭 selinux： </span></span><br><span class="line">sed -i <span class="string">&#x27;s/enforcing/disabled/&#x27;</span> /etc/selinux/config</span><br><span class="line">setenforce 0</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭 swap：</span></span><br><span class="line">swapoff -a  </span><br><span class="line">sed -ri <span class="string">&#x27;s/.*swap.*/#&amp;/&#x27;</span> /etc/fstab </span><br><span class="line"></span><br><span class="line"><span class="comment">#允许 iptables 检查桥接流量</span></span><br><span class="line"><span class="comment">#https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#%E5%85%81%E8%AE%B8-iptables-%E6%A3%80%E6%9F%A5%E6%A1%A5%E6%8E%A5%E6%B5%81%E9%87%8F</span></span><br><span class="line"><span class="comment">## 开启br_netfilter</span></span><br><span class="line">sudo modprobe br_netfilter</span><br><span class="line"><span class="comment">## 确认下</span></span><br><span class="line">lsmod | grep br_netfilter</span><br><span class="line"></span><br><span class="line"><span class="comment">## 修改配置</span></span><br><span class="line"><span class="comment">#将桥接的 IPv4 流量传递到 iptables 的链：</span></span><br><span class="line"><span class="comment"># 修改 /etc/sysctl.conf</span></span><br><span class="line"><span class="comment"># 如果有配置，则修改</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s#^net.ipv4.ip_forward.*#net.ipv4.ip_forward=1#g&quot;</span>  /etc/sysctl.conf</span><br><span class="line">sed -i <span class="string">&quot;s#^net.bridge.bridge-nf-call-ip6tables.*#net.bridge.bridge-nf-call-ip6tables=1#g&quot;</span>  /etc/sysctl.conf</span><br><span class="line">sed -i <span class="string">&quot;s#^net.bridge.bridge-nf-call-iptables.*#net.bridge.bridge-nf-call-iptables=1#g&quot;</span>  /etc/sysctl.conf</span><br><span class="line">sed -i <span class="string">&quot;s#^net.ipv6.conf.all.disable_ipv6.*#net.ipv6.conf.all.disable_ipv6=1#g&quot;</span>  /etc/sysctl.conf</span><br><span class="line">sed -i <span class="string">&quot;s#^net.ipv6.conf.default.disable_ipv6.*#net.ipv6.conf.default.disable_ipv6=1#g&quot;</span>  /etc/sysctl.conf</span><br><span class="line">sed -i <span class="string">&quot;s#^net.ipv6.conf.lo.disable_ipv6.*#net.ipv6.conf.lo.disable_ipv6=1#g&quot;</span>  /etc/sysctl.conf</span><br><span class="line">sed -i <span class="string">&quot;s#^net.ipv6.conf.all.forwarding.*#net.ipv6.conf.all.forwarding=1#g&quot;</span>  /etc/sysctl.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可能没有，追加</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;net.ipv4.ip_forward = 1&quot;</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;net.bridge.bridge-nf-call-ip6tables = 1&quot;</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;net.bridge.bridge-nf-call-iptables = 1&quot;</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;net.ipv6.conf.all.disable_ipv6 = 1&quot;</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;net.ipv6.conf.default.disable_ipv6 = 1&quot;</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;net.ipv6.conf.lo.disable_ipv6 = 1&quot;</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;net.ipv6.conf.all.forwarding = 1&quot;</span>  &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="comment"># 执行命令以应用</span></span><br><span class="line">sysctl -p</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+          <h1 id="JVM整体结构及内存模型"><a href="#JVM整体结构及内存模型" class="headerlink" title="JVM整体结构及内存模型"></a>JVM整体结构及内存模型</h1><img src="/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png" class title="image-20220921211433082">
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/07/04/k8s/%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/#more" rel="contents">
+              <a class="btn" href="/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -315,7 +271,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/k8s/yaml/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/JUC/JMM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -329,7 +285,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/k8s/yaml/" class="post-title-link" itemprop="url">yaml</a>
+            <a href="/2022/09/21/JUC/JMM/" class="post-title-link" itemprop="url">JMM详解</a>
         </h2>
 
         <div class="post-meta">
@@ -339,22 +295,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2022-09-21 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-21T00:00:00+08:00">2022-09-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-26 12:12:06" itemprop="dateModified" datetime="2022-08-26T12:12:06+08:00">2022-08-26</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
                 </span>
             </span>
 
@@ -364,14 +313,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>862</span>
+              <span>4.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -383,14 +332,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="文本块"><a href="#文本块" class="headerlink" title="文本块"></a>文本块</h1><p>多行字符串可以使用<code>|</code>保留换行符，也可以使用<code>&gt;</code>折叠换行</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key1:</span> <span class="string">|</span></span><br><span class="line"><span class="string">  value1</span></span><br><span class="line"><span class="string">  value2</span></span><br><span class="line"><span class="string"></span><span class="attr">key2:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">  value1</span></span><br><span class="line"><span class="string">  value2</span></span><br></pre></td></tr></table></figure>
-
-<p>转换成json格式</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;key1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;value1\nvalue2\n&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;key2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;value1 value2\n&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+          <h1 id="JMM模型"><a href="#JMM模型" class="headerlink" title="JMM模型"></a>JMM模型</h1><p>Java内存模型(Java Memory Model简称JMM)是一种抽象的概念，并不是真正的存在，它描述的是一组规则或规范。通过这组规范定义了程序中各个变量(包括实例字段，静态字段和构成数组对象的元素)的访问方式。JVM运行程序的实体是线程，而每个线程创建时，JVM都会为其创建一个工作内存(栈空间)，用于存储线程私有的数据，而Java内存模型中规定所有变量都存储在主内存中，主内存是共享内存区域，所有线程都可以访问，但线程对变量的操作(读取赋值等)必须在工作内存中进行。</p>
+<p>进行过程为，首先要将变量从主内存拷贝到自己的工作内存中，然后对变量进行操作，操作完成后再将变量写回到主内存，不能直接操作主内存中的变量，工作内存中存储这主内存变量的副本。</p>
+<p>工作内存是每个线程的私有数据区域，所以不同的线程无法访问对方的工作内存，线程的通信(传值)必须通过主内存来完成。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/07/04/k8s/yaml/#more" rel="contents">
+              <a class="btn" href="/2022/09/21/JUC/JMM/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -414,7 +361,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/k8s/rke2%E6%90%AD%E5%BB%BAk8s/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/JUC/LockSupport/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -428,7 +375,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/k8s/rke2%E6%90%AD%E5%BB%BAk8s/" class="post-title-link" itemprop="url">rke2搭建k8s</a>
+            <a href="/2022/09/21/JUC/LockSupport/" class="post-title-link" itemprop="url">LockSupport详解</a>
         </h2>
 
         <div class="post-meta">
@@ -438,22 +385,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2022-09-21 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-21T00:00:00+08:00">2022-09-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-03 16:31:44" itemprop="dateModified" datetime="2022-09-03T16:31:44+08:00">2022-09-03</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
                 </span>
             </span>
 
@@ -463,14 +403,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>13k</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>12 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -482,17 +422,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="新建7台VM"><a href="#新建7台VM" class="headerlink" title="新建7台VM"></a>新建7台VM</h1><p>设置每台vm的hostname</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname rke-master-default-loadblance</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-3</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-3</span><br></pre></td></tr></table></figure>
-
-<p>修改每台vm的hosts文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt;&gt; /etc/hosts &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.0.20  rke-master-default-loadblance</span></span><br><span class="line"><span class="string">192.168.0.21  rke-master-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.22  rke-master-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.23  rke-master-default-nodepool-3</span></span><br><span class="line"><span class="string">192.168.0.24  rke-node-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.25  rke-node-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.26  rke-node-default-nodepool-3 </span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-
-<p>由于vm是复制出来的，需要重新生成机器码并重启</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> -rf /dev/null /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+          <h1 id="LockSupport简介"><a href="#LockSupport简介" class="headerlink" title="LockSupport简介"></a>LockSupport简介</h1><p><code>LockSupport</code>是用来创建锁和其他同步类的基本线程阻塞原语。简而言之，当调用<code>LockSupport.park</code>时，表示当前线程将会等待，直至获得许可证，当调用<code>LockSupport.unpark</code>时，必须把等待获得许可证的线程作为参数进行传递，才能让此线程继续运行。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/07/04/k8s/rke2%E6%90%AD%E5%BB%BAk8s/#more" rel="contents">
+              <a class="btn" href="/2022/09/21/JUC/LockSupport/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

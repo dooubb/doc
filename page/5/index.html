@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Nginx/Nginx/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/27/JUC/Unsafe/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/07/04/Nginx/Nginx/" class="post-title-link" itemprop="url">Nginx</a>
+            <a href="/2022/09/27/JUC/Unsafe/" class="post-title-link" itemprop="url">Unsafe</a>
         </h2>
 
         <div class="post-meta">
@@ -207,22 +207,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
+              <time title="创建时间：2022-09-27 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-27T00:00:00+08:00">2022-09-27</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-28 19:20:35" itemprop="dateModified" datetime="2022-09-28T19:20:35+08:00">2022-09-28</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Nginx/" itemprop="url" rel="index"><span itemprop="name">Nginx</span></a>
+                  <a href="/categories/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
                 </span>
             </span>
 
@@ -232,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>19k</span>
+              <span>3.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -251,279 +244,232 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Nginx特点"><a href="#Nginx特点" class="headerlink" title="Nginx特点"></a>Nginx特点</h1><p>Nginx 是一款轻量级的 Web 服务器&#x2F;反向代理服务器及电子邮件（IMAP&#x2F;POP3）代理服务器，其特点是占有内存少，并发能力强。</p>
-<p>Nginx 做为 HTTP 服务器，有以下几项基本特性：</p>
+          <h1 id="Unsafe介绍"><a href="#Unsafe介绍" class="headerlink" title="Unsafe介绍"></a>Unsafe介绍</h1><p>Unsafe类是一个位于<code>sun.misc</code>包下的类，它提供了一些相对底层方法，能够让我们接触到一些更接近操作系统底层的资源，如系统的内存资源、cpu指令、直接使用偏移地址操作对象、数组等等。但是在使用这些方法提供的便利的同时，也存在一些潜在的安全因素，例如对内存的错误操作可能会引起内存泄漏，严重时甚至可能引起jvm崩溃。在程序中过度、不正确使用Unsafe类会使得程序出错的概率变大，使得Java这种安全的语言变得不再“安全”，因此对Unsafe的使用一定要慎重。</p>
+<h1 id="获取Unsafe对象"><a href="#获取Unsafe对象" class="headerlink" title="获取Unsafe对象"></a>获取Unsafe对象</h1><h2 id="直接通过new获取对象"><a href="#直接通过new获取对象" class="headerlink" title="直接通过new获取对象"></a>直接通过new获取对象</h2><p>直接使用new来获取对象会编译不通过，因为Unsafe的无参构造方法是<code>private</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		Unsafe unsafe= <span class="keyword">new</span> <span class="title class_">Unsafe</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">会有如下提示</span></span><br><span class="line"><span class="comment">&#x27;Unsafe()&#x27; has private access in &#x27;sun.misc.Unsafe&#x27;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/09/27/JUC/Unsafe/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/27/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/27/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">k8s常用命令</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-27 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-27T00:00:00+08:00">2022-09-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="命令补全提示"><a href="#命令补全提示" class="headerlink" title="命令补全提示"></a>命令补全提示</h1><h2 id="Contos7安装"><a href="#Contos7安装" class="headerlink" title="Contos7安装"></a>Contos7安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y bash-completion</span><br><span class="line"><span class="built_in">source</span> /usr/share/bash-completion/bash_completion</span><br><span class="line"><span class="built_in">source</span> &lt;(kubectl completion bash)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;source &lt;(kubectl completion bash)&quot;</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="macOs安装"><a href="#macOs安装" class="headerlink" title="macOs安装"></a>macOs安装</h2><p>由于mac默认的shell是zsh，查看方式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment">#输出结果</span></span><br><span class="line">/bin/zsh</span><br></pre></td></tr></table></figure>
+
+<p>安装对应macOS的kubectl(我的是m1)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -LO <span class="string">&quot;https://dl.k8s.io/release/<span class="subst">$(curl -L -s https://dl.k8s.io/release/stable.txt)</span>/bin/darwin/arm64/kubectl&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>将 kubectl 置为可执行文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x ./kubectl</span><br></pre></td></tr></table></figure>
+
+<p>将可执行文件 kubectl 移动到系统可寻址路径 <code>PATH</code> 内的一个位置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mv</span> ./kubectl /usr/local/bin/kubectl</span><br><span class="line">sudo <span class="built_in">chown</span> root: /usr/local/bin/kubectl</span><br></pre></td></tr></table></figure>
+
+<p>在文件 <code>~/.zshrc</code>中添加信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将以下代码加入到文件内容顶部</span></span><br><span class="line"> <span class="built_in">autoload</span> -Uz compinit </span><br><span class="line"> compinit</span><br></pre></td></tr></table></figure>
+
+<p>在文件 <code>~/.bash_profile</code> 中导入（Source）补全脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;source &lt;(kubectl completion zsh)&#x27;</span> &gt;&gt;~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>然后分别执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<h1 id="kubectl-上下文和配置"><a href="#kubectl-上下文和配置" class="headerlink" title="kubectl 上下文和配置"></a>kubectl 上下文和配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl config view <span class="comment"># 显示合并的 kubeconfig 配置。</span></span><br><span class="line">kubectl config view -o jsonpath=<span class="string">&#x27;&#123;.users[].name&#125;&#x27;</span>    <span class="comment"># 显示第一个用户</span></span><br><span class="line">kubectl config view -o jsonpath=<span class="string">&#x27;&#123;.users[*].name&#125;&#x27;</span>   <span class="comment"># 获取用户列表</span></span><br><span class="line">kubectl config get-contexts                          <span class="comment"># 显示上下文列表</span></span><br><span class="line">kubectl config current-context                       <span class="comment"># 展示当前所处的上下文</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Kubectl-apply"><a href="#Kubectl-apply" class="headerlink" title="Kubectl apply"></a>Kubectl apply</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f ./my-manifest.yaml           <span class="comment"># 创建资源</span></span><br><span class="line">kubectl apply -f ./my1.yaml -f ./my2.yaml     <span class="comment"># 使用多个文件创建</span></span><br><span class="line">kubectl apply -f ./dir                        <span class="comment"># 基于目录下的所有清单文件创建资源</span></span><br><span class="line">kubectl apply -f https://git.io/vPieo         <span class="comment"># 从 URL 中创建资源</span></span><br><span class="line">kubectl create deployment nginx --image=nginx <span class="comment"># 启动单实例 nginx</span></span><br><span class="line">kubectl explain pods                          <span class="comment"># 获取 pod 清单的文档说明</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/09/27/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/22/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/22/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/" class="post-title-link" itemprop="url">JVM对象创建和内存分配</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-22 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-22T00:00:00+08:00">2022-09-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JVM对象创建"><a href="#JVM对象创建" class="headerlink" title="JVM对象创建"></a>JVM对象创建</h1><p>对象创建的主要流程如下:</p>
+<img src="/2022/09/22/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/image-20220920205650037.png" class title="image-20220920205650037">
+
+<h2 id="类加载检查"><a href="#类加载检查" class="headerlink" title="类加载检查"></a>类加载检查</h2><p> 虚拟机遇到一条<code>new</code>指令时，首先将去检查这个指令的参数是否能在<code>常量池中</code>定位到一个类的符号引用，并且检查这个符号引用代表的类是否<code>已被加载</code>、<code>解析</code>和<code>初始化过</code>。如果没有，那必须先执行相应的类加载过程。</p>
+<blockquote>
+<p>注：new指令对应到语言层面上讲是，new关键词、对象克隆、对象序列化等。</p>
+</blockquote>
+<h2 id="分配内存"><a href="#分配内存" class="headerlink" title="分配内存"></a>分配内存</h2><p> 在类加载检查通过后，接下来虚拟机将为新生对象分配内存。对象所需内存的大小在类 加载完成后便可完全确定，为对象分配空间的任务等同于把 一块确定大小的内存从Java堆中划分出来。</p>
+<p>在分配内存时，会遇到下面的两个问题</p>
 <ul>
-<li>处理静态文件，索引文件以及自动索引；打开文件描述符缓冲．</li>
-<li>无缓存的反向代理加速，简单的负载均衡和容错．</li>
-<li>FastCGI，简单的负载均衡和容错．</li>
-<li>模块化的结构。包括 gzipping, byte ranges, chunked responses,以及 SSI-filter 等 filter。如果由 FastCGI 或其它代理服务器处理单页中存在的多个 SSI，则这项处理可以并行运行，而不需要相互等待。</li>
-<li>支持 SSL 和 TLSSNI．</li>
+<li><p>如何划分内存</p>
+</li>
+<li><p>在并发情况下， 可能出现正在给对象A分配内存，指针还没来得及修改，对象B又同时使用了原来的指针来分配内存的情况</p>
+</li>
 </ul>
-<p>Nginx 性能高，而 Nginx 的高性能与其架构是分不开的。那么 Nginx 究竟是怎么样的呢？这一节我们先来初识一下 Nginx 框架吧。</p>
-<p>Nginx 在启动后，在 unix 系统中会以 daemon （守护进程）的方式在后台运行，后台进程包含一个 master 进程和多个 worker 进程。</p>
-<h1 id="docker启动nginx"><a href="#docker启动nginx" class="headerlink" title="docker启动nginx"></a>docker启动nginx</h1><p>启动命令</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -d --name nginx  -p 80:80 -v /data/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf  -v /data/nginx/conf/nginx.conf:/etc/nginx/nginx.conf nginx</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/07/04/Nginx/Nginx/#more" rel="contents">
+              <a class="btn" href="/2022/09/22/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Linux/Linux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/07/04/Linux/Linux/" class="post-title-link" itemprop="url">Linux</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-14 00:37:12" itemprop="dateModified" datetime="2022-08-14T00:37:12+08:00">2022-08-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Linux基础"><a href="#Linux基础" class="headerlink" title="Linux基础"></a>Linux基础</h1><h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><table>
-<thead>
-<tr>
-<th>目录</th>
-<th>功能描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>&#x2F;bin</td>
-<td>是Binary的缩写，这个目录存放着最经常使用的命令</td>
-</tr>
-<tr>
-<td>&#x2F;sbin</td>
-<td>就是Super User的意思，放的是系统管理员使用的系统管理程序</td>
-</tr>
-<tr>
-<td>&#x2F;home</td>
-<td>存放普通用户的主目录，在Linux中每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的</td>
-</tr>
-<tr>
-<td>&#x2F;root</td>
-<td>该目录为系统管理员</td>
-</tr>
-<tr>
-<td>&#x2F;lib</td>
-<td>系统开机所需要最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库</td>
-</tr>
-<tr>
-<td>&#x2F;lost+found</td>
-<td>这个目录一般情况下是空的，当系统非法关机后，当前文件夹会出现一些文件</td>
-</tr>
-<tr>
-<td>&#x2F;etc</td>
-<td>所有的系统管理所需要的配置文件和子目录</td>
-</tr>
-<tr>
-<td>&#x2F;usr</td>
-<td>用户自己安装的应用程序和文件都放在这个目录下，类似于windows下的program files目录</td>
-</tr>
-<tr>
-<td>&#x2F;usr&#x2F;bin</td>
-<td>系统用户使用的应用程序</td>
-</tr>
-<tr>
-<td>&#x2F;usr&#x2F;sbin</td>
-<td>超级用户使用的比较高级的管理程序和系统守护程</td>
-</tr>
-<tr>
-<td>&#x2F;usr&#x2F;src</td>
-<td>内核源代码默认的放置目录</td>
-</tr>
-<tr>
-<td>&#x2F;run</td>
-<td>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除</td>
-</tr>
-<tr>
-<td>&#x2F;boot</td>
-<td>这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件</td>
-</tr>
-<tr>
-<td>&#x2F;proc</td>
-<td>这个目录是一个虚拟的目录，它是系统内存的映射，可以通过直接访问这个目录来获取系统信息</td></tr></tbody></table>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/07/04/Linux/Linux/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Linux/wsl2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/07/04/Linux/wsl2/" class="post-title-link" itemprop="url">WSL2安装ubuntu</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-07-04 22:24:52" itemprop="dateCreated datePublished" datetime="2023-07-04T22:24:52+08:00">2023-07-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-11 22:27:42" itemprop="dateModified" datetime="2024-01-11T22:27:42+08:00">2024-01-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>731</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Win安装wsl2"><a href="#Win安装wsl2" class="headerlink" title="Win安装wsl2"></a>Win安装wsl2</h1><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/wsl/install">https://learn.microsoft.com/zh-cn/windows/wsl/install</a></p>
-<h1 id="Win安装ubuntu"><a href="#Win安装ubuntu" class="headerlink" title="Win安装ubuntu"></a>Win安装ubuntu</h1><p>可以直接在Microsoft Store中直接安装</p>
-<h1 id="Win升级wsl"><a href="#Win升级wsl" class="headerlink" title="Win升级wsl"></a>Win升级wsl</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">确保 WSL 版本为 0.67.6 或更高版本。 （若要检查，请运行 wsl --version。若要更新，请运行 wsl --update </span><br></pre></td></tr></table></figure>
-
-<h1 id="ubuntu开启systemd支持"><a href="#ubuntu开启systemd支持" class="headerlink" title="ubuntu开启systemd支持"></a>ubuntu开启systemd支持</h1><p>在ubuntu系统中新建<code>/etc/wsl.conf</code>文件，内容如下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="更改ubuntu网络配置"><a href="#更改ubuntu网络配置" class="headerlink" title="更改ubuntu网络配置"></a>更改ubuntu网络配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config iptables</span><br><span class="line">There are 2 choices <span class="keyword">for</span> the alternative iptables (providing /usr/sbin/iptables).</span><br><span class="line"> </span><br><span class="line">  Selection    Path                       Priority   Status</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">* 0            /usr/sbin/iptables-nft      20        auto mode</span><br><span class="line">  1            /usr/sbin/iptables-legacy   10        manual mode</span><br><span class="line">  2            /usr/sbin/iptables-nft      20        manual mode</span><br><span class="line"> </span><br><span class="line">Press &lt;enter&gt; to keep the current choice[*], or <span class="built_in">type</span> selection number: 1</span><br><span class="line">update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) <span class="keyword">in</span> manual mode</span><br></pre></td></tr></table></figure>
-
-
       
     </div>
 
