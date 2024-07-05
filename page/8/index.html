@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/27/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/" class="post-title-link" itemprop="url">rke2搭建k8s</a>
+            <a href="/2022/09/27/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">k8s常用命令</a>
         </h2>
 
         <div class="post-meta">
@@ -207,7 +207,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-09-03 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-03T00:00:00+08:00">2022-09-03</time>
+              <time title="创建时间：2022-09-27 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-27T00:00:00+08:00">2022-09-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -244,17 +244,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="新建7台VM"><a href="#新建7台VM" class="headerlink" title="新建7台VM"></a>新建7台VM</h1><p>设置每台vm的hostname</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname rke-master-default-loadblance</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-master-default-nodepool-3</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-1</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-2</span><br><span class="line">hostnamectl set-hostname rke-node-default-nodepool-3</span><br></pre></td></tr></table></figure>
+          <h1 id="命令补全提示"><a href="#命令补全提示" class="headerlink" title="命令补全提示"></a>命令补全提示</h1><h2 id="Contos7安装"><a href="#Contos7安装" class="headerlink" title="Contos7安装"></a>Contos7安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y bash-completion</span><br><span class="line"><span class="built_in">source</span> /usr/share/bash-completion/bash_completion</span><br><span class="line"><span class="built_in">source</span> &lt;(kubectl completion bash)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;source &lt;(kubectl completion bash)&quot;</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
 
-<p>修改每台vm的hosts文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt;&gt; /etc/hosts &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.0.20  rke-master-default-loadblance</span></span><br><span class="line"><span class="string">192.168.0.21  rke-master-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.22  rke-master-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.23  rke-master-default-nodepool-3</span></span><br><span class="line"><span class="string">192.168.0.24  rke-node-default-nodepool-1</span></span><br><span class="line"><span class="string">192.168.0.25  rke-node-default-nodepool-2</span></span><br><span class="line"><span class="string">192.168.0.26  rke-node-default-nodepool-3 </span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h2 id="macOs安装"><a href="#macOs安装" class="headerlink" title="macOs安装"></a>macOs安装</h2><p>由于mac默认的shell是zsh，查看方式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment">#输出结果</span></span><br><span class="line">/bin/zsh</span><br></pre></td></tr></table></figure>
 
-<p>由于vm是复制出来的，需要重新生成机器码并重启</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> -rf /dev/null /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<p>安装对应macOS的kubectl(我的是m1)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -LO <span class="string">&quot;https://dl.k8s.io/release/<span class="subst">$(curl -L -s https://dl.k8s.io/release/stable.txt)</span>/bin/darwin/arm64/kubectl&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>将 kubectl 置为可执行文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x ./kubectl</span><br></pre></td></tr></table></figure>
+
+<p>将可执行文件 kubectl 移动到系统可寻址路径 <code>PATH</code> 内的一个位置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mv</span> ./kubectl /usr/local/bin/kubectl</span><br><span class="line">sudo <span class="built_in">chown</span> root: /usr/local/bin/kubectl</span><br></pre></td></tr></table></figure>
+
+<p>在文件 <code>~/.zshrc</code>中添加信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将以下代码加入到文件内容顶部</span></span><br><span class="line"> <span class="built_in">autoload</span> -Uz compinit </span><br><span class="line"> compinit</span><br></pre></td></tr></table></figure>
+
+<p>在文件 <code>~/.bash_profile</code> 中导入（Source）补全脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;source &lt;(kubectl completion zsh)&#x27;</span> &gt;&gt;~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>然后分别执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<h1 id="kubectl-上下文和配置"><a href="#kubectl-上下文和配置" class="headerlink" title="kubectl 上下文和配置"></a>kubectl 上下文和配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl config view <span class="comment"># 显示合并的 kubeconfig 配置。</span></span><br><span class="line">kubectl config view -o jsonpath=<span class="string">&#x27;&#123;.users[].name&#125;&#x27;</span>    <span class="comment"># 显示第一个用户</span></span><br><span class="line">kubectl config view -o jsonpath=<span class="string">&#x27;&#123;.users[*].name&#125;&#x27;</span>   <span class="comment"># 获取用户列表</span></span><br><span class="line">kubectl config get-contexts                          <span class="comment"># 显示上下文列表</span></span><br><span class="line">kubectl config current-context                       <span class="comment"># 展示当前所处的上下文</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Kubectl-apply"><a href="#Kubectl-apply" class="headerlink" title="Kubectl apply"></a>Kubectl apply</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f ./my-manifest.yaml           <span class="comment"># 创建资源</span></span><br><span class="line">kubectl apply -f ./my1.yaml -f ./my2.yaml     <span class="comment"># 使用多个文件创建</span></span><br><span class="line">kubectl apply -f ./dir                        <span class="comment"># 基于目录下的所有清单文件创建资源</span></span><br><span class="line">kubectl apply -f https://git.io/vPieo         <span class="comment"># 从 URL 中创建资源</span></span><br><span class="line">kubectl create deployment nginx --image=nginx <span class="comment"># 启动单实例 nginx</span></span><br><span class="line">kubectl explain pods                          <span class="comment"># 获取 pod 清单的文档说明</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/09/03/k8s/rke2%E6%90%AD%E5%BB%BAk8s/#more" rel="contents">
+              <a class="btn" href="/2022/09/27/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -278,7 +296,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/26/Git-Action/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/22/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -292,7 +310,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/08/26/Git-Action/" class="post-title-link" itemprop="url">Git Action</a>
+            <a href="/2022/09/22/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/" class="post-title-link" itemprop="url">JVM对象创建和内存分配</a>
         </h2>
 
         <div class="post-meta">
@@ -302,7 +320,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-26T00:00:00+08:00">2022-08-26</time>
+              <time title="创建时间：2022-09-22 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-22T00:00:00+08:00">2022-09-22</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -310,7 +328,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CICD/" itemprop="url" rel="index"><span itemprop="name">CICD</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -320,14 +338,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>15k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>13 分钟</span>
             </span>
 
         </div>
@@ -339,16 +357,29 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Actions-secrets"><a href="#Actions-secrets" class="headerlink" title="Actions secrets"></a>Actions secrets</h1><p>在<strong>Actions secrets</strong>中添加的变量，可以直接在Git Action中使用个来直接获取到<code>$&#123;&#123;&#125;&#125;</code>，并且打印到CI流程中是***。</p>
-<p>在添加Actions secrets，也无法查看到Actions secrets的value。也保证了私密信息的安全性。</p>
-<h1 id="Git-Action"><a href="#Git-Action" class="headerlink" title="Git Action"></a>Git Action</h1><p>在项目的根目录下创建一个文件夹，文件夹中创建一个yml文件，目录结构如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.github</span><br><span class="line">---workflows</span><br><span class="line">------main.yml</span><br></pre></td></tr></table></figure>
+          <h1 id="JVM对象创建"><a href="#JVM对象创建" class="headerlink" title="JVM对象创建"></a>JVM对象创建</h1><p>对象创建的主要流程如下:</p>
+<img src="/2022/09/22/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/image-20220920205650037.png" class title="image-20220920205650037">
 
-<p>在创建的main.yml中编写项目的CI</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the workflow will run</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Allows you to run this workflow manually from the Actions tab</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># This workflow contains a single job called &quot;build&quot;</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="comment"># The type of runner that the job will run on</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">JDK</span> <span class="number">1.8</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-java@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">java-version:</span> <span class="number">1.8</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">with</span> <span class="string">Maven</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">mvn</span> <span class="string">-B</span> <span class="string">package</span> <span class="string">--file</span> <span class="string">pom.xml</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">BuildDockerImage</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">.</span> <span class="string">--file</span> <span class="string">Dockerfile</span> <span class="string">--tag</span> <span class="string">my-image-name:$(date</span> <span class="string">+%s)</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Login</span> <span class="string">to</span> <span class="string">DockerHub</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">docker/login-action@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DOCKER_USERNAME</span> <span class="string">&#125;&#125;</span> <span class="comment"># 这个Actions secrets中添加的秘钥</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DOCKER_PASSWORD</span> <span class="string">&#125;&#125;</span> <span class="comment"># 这个Actions secrets中添加的秘钥</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Publish</span> <span class="string">to</span> <span class="string">Docker</span> <span class="string">Repository</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">docker/build-push-action@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">          <span class="attr">push:</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">tags:</span> <span class="string">fanq1213/app:latest</span></span><br></pre></td></tr></table></figure>
-
-<p>当有新的代码提交后，会自动触发Git Action实现CI流程。</p>
-
+<h2 id="类加载检查"><a href="#类加载检查" class="headerlink" title="类加载检查"></a>类加载检查</h2><p> 虚拟机遇到一条<code>new</code>指令时，首先将去检查这个指令的参数是否能在<code>常量池中</code>定位到一个类的符号引用，并且检查这个符号引用代表的类是否<code>已被加载</code>、<code>解析</code>和<code>初始化过</code>。如果没有，那必须先执行相应的类加载过程。</p>
+<blockquote>
+<p>注：new指令对应到语言层面上讲是，new关键词、对象克隆、对象序列化等。</p>
+</blockquote>
+<h2 id="分配内存"><a href="#分配内存" class="headerlink" title="分配内存"></a>分配内存</h2><p> 在类加载检查通过后，接下来虚拟机将为新生对象分配内存。对象所需内存的大小在类 加载完成后便可完全确定，为对象分配空间的任务等同于把 一块确定大小的内存从Java堆中划分出来。</p>
+<p>在分配内存时，会遇到下面的两个问题</p>
+<ul>
+<li><p>如何划分内存</p>
+</li>
+<li><p>在并发情况下， 可能出现正在给对象A分配内存，指针还没来得及修改，对象B又同时使用了原来的指针来分配内存的情况</p>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/09/22/JVM/JVM%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -367,7 +398,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/26/k8s/Kustomization/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/JUC/JMM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -381,7 +412,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/08/26/k8s/Kustomization/" class="post-title-link" itemprop="url">Kustomization的使用</a>
+            <a href="/2022/09/21/JUC/JMM/" class="post-title-link" itemprop="url">JMM详解</a>
         </h2>
 
         <div class="post-meta">
@@ -391,7 +422,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-26T00:00:00+08:00">2022-08-26</time>
+              <time title="创建时间：2022-09-21 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-21T00:00:00+08:00">2022-09-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -399,7 +430,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
                 </span>
             </span>
 
@@ -409,14 +440,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.6k</span>
+              <span>4.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -428,22 +459,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="安装kustomize命令"><a href="#安装kustomize命令" class="headerlink" title="安装kustomize命令"></a>安装kustomize命令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">wget https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v4.5.7/kustomize_v4.5.7_linux_amd64.tar.gz &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">tar -xzvf kustomize_v4.5.7_linux_amd64.tar.gz -C /usr/bin/ &gt;/dev/null 2&gt;&amp;1</span><br><span class="line"><span class="built_in">chmod</span> +x /usr/bin/kustomize</span><br></pre></td></tr></table></figure>
-
-<h1 id="kustomization"><a href="#kustomization" class="headerlink" title="kustomization"></a>kustomization</h1><p>kustomize 是一个通过 kustomization 文件定制 kubernetes 对象的工具，它可以通过一些资源生成一些新的资源，也可以定制不同的资源的集合。</p>
-<h1 id="kustomization常见目录布局"><a href="#kustomization常见目录布局" class="headerlink" title="kustomization常见目录布局"></a>kustomization常见目录布局</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">├──</span> <span class="string">base</span></span><br><span class="line"><span class="string">│</span>   <span class="string">├──</span> <span class="string">deployment.yaml</span></span><br><span class="line"><span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line"><span class="string">│</span>   <span class="string">└──</span> <span class="string">service.yaml</span></span><br><span class="line"><span class="string">└──</span> <span class="string">overlays</span></span><br><span class="line">    <span class="string">├──</span> <span class="string">dev</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">└──</span> <span class="string">patch.yaml</span></span><br><span class="line">    <span class="string">├──</span> <span class="string">prod</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">    <span class="string">│</span>   <span class="string">└──</span> <span class="string">patch.yaml</span></span><br><span class="line">    <span class="string">└──</span> <span class="string">staging</span></span><br><span class="line">        <span class="string">├──</span> <span class="string">kustomization.yaml</span></span><br><span class="line">        <span class="string">└──</span> <span class="string">patch.yaml</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><code>/base</code>目录保存的是基本的配置</p>
-</li>
-<li><p><code>/overlays</code>【此文件夹也可以省略】里放置的不同环境的配置，例如 <code>/dev</code>、<code>/staging</code>，<code>/prod</code>这些就是不同环境的配置，</p>
-</li>
-<li><p><code>/base</code>等文件夹下都有一个 kustomization .yml 文件，用于配置。</p>
-</li>
-</ul>
+          <h1 id="JMM模型"><a href="#JMM模型" class="headerlink" title="JMM模型"></a>JMM模型</h1><p>Java内存模型(Java Memory Model简称JMM)是一种抽象的概念，并不是真正的存在，它描述的是一组规则或规范。通过这组规范定义了程序中各个变量(包括实例字段，静态字段和构成数组对象的元素)的访问方式。JVM运行程序的实体是线程，而每个线程创建时，JVM都会为其创建一个工作内存(栈空间)，用于存储线程私有的数据，而Java内存模型中规定所有变量都存储在主内存中，主内存是共享内存区域，所有线程都可以访问，但线程对变量的操作(读取赋值等)必须在工作内存中进行。</p>
+<p>进行过程为，首先要将变量从主内存拷贝到自己的工作内存中，然后对变量进行操作，操作完成后再将变量写回到主内存，不能直接操作主内存中的变量，工作内存中存储这主内存变量的副本。</p>
+<p>工作内存是每个线程的私有数据区域，所以不同的线程无法访问对方的工作内存，线程的通信(传值)必须通过主内存来完成。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/08/26/k8s/Kustomization/#more" rel="contents">
+              <a class="btn" href="/2022/09/21/JUC/JMM/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -466,7 +487,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -532,16 +553,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

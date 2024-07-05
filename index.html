@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/05/11/Linux/windows%E5%AD%90%E7%B3%BB%E7%BB%9F/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/07/05/Linux/Ubuntu24/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/05/11/Linux/windows%E5%AD%90%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">WSL2下ubuntu更改安装地址</a>
+            <a href="/2024/07/05/Linux/Ubuntu24/" class="post-title-link" itemprop="url">Ubuntu24</a>
         </h2>
 
         <div class="post-meta">
@@ -207,7 +207,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2024-05-11 00:00:00" itemprop="dateCreated datePublished" datetime="2024-05-11T00:00:00+08:00">2024-05-11</time>
+              <time title="创建时间：2024-07-05 00:00:00" itemprop="dateCreated datePublished" datetime="2024-07-05T00:00:00+08:00">2024-07-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -225,7 +225,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>897</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -244,18 +244,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="修改ubuntu子系统安装目录"><a href="#修改ubuntu子系统安装目录" class="headerlink" title="修改ubuntu子系统安装目录"></a>修改ubuntu子系统安装目录</h1><p>因为默认是安装ubuntu在C盘，那我一般不喜欢在C盘装软件，所以把ubuntu该到了H盘。</p>
-<h2 id="查看wsl运行状态，将其保持在关闭状态"><a href="#查看wsl运行状态，将其保持在关闭状态" class="headerlink" title="查看wsl运行状态，将其保持在关闭状态"></a>查看wsl运行状态，将其保持在关闭状态</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
+          <h1 id="Ubuntu24"><a href="#Ubuntu24" class="headerlink" title="Ubuntu24"></a>Ubuntu24</h1><h2 id="配置静态-ip"><a href="#配置静态-ip" class="headerlink" title="配置静态 ip"></a>配置静态 ip</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/netplan/50-cloud-init.yaml </span><br><span class="line"><span class="comment"># This file is generated from information provided by the datasource.  Changes</span></span><br><span class="line"><span class="comment"># to it will not persist across an instance reboot.  To disable cloud-init&#x27;s</span></span><br><span class="line"><span class="comment"># network configuration capabilities, write a file</span></span><br><span class="line"><span class="comment"># /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:</span></span><br><span class="line"><span class="comment"># network: &#123;config: disabled&#125;</span></span><br><span class="line">network:</span><br><span class="line">    renderer: networkd</span><br><span class="line">    ethernets:</span><br><span class="line">        ens33: <span class="comment"># 替换为你的网络接口名称</span></span><br><span class="line">            dhcp4: <span class="literal">false</span> <span class="comment"># 关闭 DHCP</span></span><br><span class="line">            dhcp6: <span class="literal">false</span> <span class="comment"># 关闭 DHCP</span></span><br><span class="line">            addresses: [192.168.121.201/24] <span class="comment"># 静态 IP 地址和子网掩码</span></span><br><span class="line">            routes:</span><br><span class="line">              - to: default</span><br><span class="line">                via: 192.168.121.2 <span class="comment"># 网关地址</span></span><br><span class="line">            nameservers:</span><br><span class="line">                addresses: <span class="comment"># dns地址</span></span><br><span class="line">                  - 1.2.4.8</span><br><span class="line">                  - 114.114.114.114</span><br><span class="line">                  - 8.8.8.8</span><br><span class="line">                </span><br><span class="line">    version: 2</span><br></pre></td></tr></table></figure>
 
-<h2 id="关闭ubuntu子系统"><a href="#关闭ubuntu子系统" class="headerlink" title="关闭ubuntu子系统"></a>关闭ubuntu子系统</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">wsl --shutdown</span><br><span class="line"></span><br><span class="line"><span class="comment">#log</span></span><br><span class="line">C:\Users\oge&gt;wsl -l -v</span><br><span class="line">  NAME            STATE           VERSION</span><br><span class="line">* Ubuntu-22.04    Running         2</span><br><span class="line">  Ubuntu-24.04    Running         2</span><br><span class="line"></span><br><span class="line">C:\Users\oge&gt;wsl --shutdown</span><br><span class="line"></span><br><span class="line">C:\Users\oge&gt;wsl -l -v</span><br><span class="line">  NAME            STATE           VERSION</span><br><span class="line">* Ubuntu-22.04    Stopped         2</span><br><span class="line">  Ubuntu-24.04    Stopped         2</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/05/11/Linux/windows%E5%AD%90%E7%B3%BB%E7%BB%9F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+
+
+<h2 id="配置阿里源加速"><a href="#配置阿里源加速" class="headerlink" title="配置阿里源加速"></a>配置阿里源加速</h2><p> <code>24.04 源文件地址 已经更换为 /etc/apt/sources.list.d/ubuntu.sources</code><br>备份当前的源列表：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/apt/sources.list.d/ubuntu.sources  /etc/apt/sources.list.d/ubuntu.sources.bak</span><br></pre></td></tr></table></figure>
+
+<p>设置阿里源地址</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; /etc/apt/sources.list.d/ubuntu.sources  &lt;&lt;<span class="string">EOF  </span></span><br><span class="line"><span class="string"># 阿里云</span></span><br><span class="line"><span class="string">Types: deb</span></span><br><span class="line"><span class="string">URIs: http://mirrors.aliyun.com/ubuntu/</span></span><br><span class="line"><span class="string">Suites: noble noble-updates noble-security</span></span><br><span class="line"><span class="string">Components: main restricted universe multiverse</span></span><br><span class="line"><span class="string">Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>更新源列表</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置docker的阿里源"><a href="#配置docker的阿里源" class="headerlink" title="配置docker的阿里源"></a>配置docker的阿里源</h2><p>新的目录来存储密钥：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /etc/apt/keyrings</span><br></pre></td></tr></table></figure>
+
+<p>下载并添加新的 GPG 密钥：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg</span><br></pre></td></tr></table></figure>
+
+<p>更新 Docker 的软件源配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null</span><br></pre></td></tr></table></figure>
+
+<p>更新软件包列表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+
+<p>在安装docker和相关插件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -274,7 +291,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/01/16/k8s/kaniko/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/06/24/Dubbo/Dubbo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -288,7 +305,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/01/16/k8s/kaniko/" class="post-title-link" itemprop="url">Kaniko</a>
+            <a href="/2024/06/24/Dubbo/Dubbo/" class="post-title-link" itemprop="url">Dubbo</a>
         </h2>
 
         <div class="post-meta">
@@ -298,7 +315,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2024-01-16 00:00:00" itemprop="dateCreated datePublished" datetime="2024-01-16T00:00:00+08:00">2024-01-16</time>
+              <time title="创建时间：2024-06-24 00:00:00" itemprop="dateCreated datePublished" datetime="2024-06-24T00:00:00+08:00">2024-06-24</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -306,7 +323,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/Dubbo/" itemprop="url" rel="index"><span itemprop="name">Dubbo</span></a>
                 </span>
             </span>
 
@@ -316,97 +333,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Kaniko：在-k8s和-Container-环境中构建-Docker-镜像"><a href="#Kaniko：在-k8s和-Container-环境中构建-Docker-镜像" class="headerlink" title="Kaniko：在 k8s和 Container 环境中构建 Docker 镜像"></a>Kaniko：在 k8s和 Container 环境中构建 Docker 镜像</h1><h2 id="什么是-Kaniko？"><a href="#什么是-Kaniko？" class="headerlink" title="什么是 Kaniko？"></a>什么是 Kaniko？</h2><p>Kaniko 是一个在 k8s集群或 Container 环境中构建容器镜像的工具。它不依赖于 Docker 守护进程，并且完全在用户空间中执行 Dockerfile 中的每个命令，这使得能够在无 Docker 守护程序的环境中构建容器镜像。</p>
-<h2 id="为什么要使用-Kaniko？"><a href="#为什么要使用-Kaniko？" class="headerlink" title="为什么要使用 Kaniko？"></a>为什么要使用 Kaniko？</h2><p>在传统的 Docker 构建过程中，我们需要依赖 Docker 守护进程。然而，在某些环境中，例如 k8s集群，我们可能无法或不希望运行 Docker 守护进程。这时，Kaniko 就派上了用场。它可以在没有 Docker 守护进程的环境中构建 Docker 镜像，使得我们可以在更多的环境中构建和部署我们的应用。</p>
-<h2 id="Kaniko-是如何工作的？"><a href="#Kaniko-是如何工作的？" class="headerlink" title="Kaniko 是如何工作的？"></a>Kaniko 是如何工作的？</h2><p>Kaniko 在用户空间中执行 Dockerfile 中的每个命令，而不是在 Docker 守护进程中执行。这意味着它可以在任何容器化的环境中运行，包括 k8s集群。Kaniko 读取你的 Dockerfile，然后一步步地执行每个指令，最后生成一个 Docker 镜像，并将其推送到你指定的镜像仓库。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/01/16/k8s/kaniko/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Linux/wsl2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/07/04/Linux/wsl2/" class="post-title-link" itemprop="url">WSL2安装ubuntu</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-07-04 00:00:00" itemprop="dateCreated datePublished" datetime="2023-07-04T00:00:00+08:00">2023-07-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>731</span>
+              <span>5</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -425,16 +352,87 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Win安装wsl2"><a href="#Win安装wsl2" class="headerlink" title="Win安装wsl2"></a>Win安装wsl2</h1><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/wsl/install">https://learn.microsoft.com/zh-cn/windows/wsl/install</a></p>
-<h1 id="Win安装ubuntu"><a href="#Win安装ubuntu" class="headerlink" title="Win安装ubuntu"></a>Win安装ubuntu</h1><p>可以直接在Microsoft Store中直接安装</p>
-<h1 id="Win升级wsl"><a href="#Win升级wsl" class="headerlink" title="Win升级wsl"></a>Win升级wsl</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">确保 WSL 版本为 0.67.6 或更高版本。 （若要检查，请运行 wsl --version。若要更新，请运行 wsl --update </span><br></pre></td></tr></table></figure>
+          <h1 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a>Dubbo</h1>
+      
+    </div>
 
-<h1 id="ubuntu开启systemd支持"><a href="#ubuntu开启systemd支持" class="headerlink" title="ubuntu开启systemd支持"></a>ubuntu开启systemd支持</h1><p>在ubuntu系统中新建<code>/etc/wsl.conf</code>文件，内容如下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-<h1 id="更改ubuntu网络配置"><a href="#更改ubuntu网络配置" class="headerlink" title="更改ubuntu网络配置"></a>更改ubuntu网络配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config iptables</span><br><span class="line">There are 2 choices <span class="keyword">for</span> the alternative iptables (providing /usr/sbin/iptables).</span><br><span class="line"> </span><br><span class="line">  Selection    Path                       Priority   Status</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">* 0            /usr/sbin/iptables-nft      20        auto mode</span><br><span class="line">  1            /usr/sbin/iptables-legacy   10        manual mode</span><br><span class="line">  2            /usr/sbin/iptables-nft      20        manual mode</span><br><span class="line"> </span><br><span class="line">Press &lt;enter&gt; to keep the current choice[*], or <span class="built_in">type</span> selection number: 1</span><br><span class="line">update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) <span class="keyword">in</span> manual mode</span><br></pre></td></tr></table></figure>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/06/24/MQ/MQ/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
 
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/06/24/MQ/MQ/" class="post-title-link" itemprop="url">Mq</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-06-24 00:00:00" itemprop="dateCreated datePublished" datetime="2024-06-24T00:00:00+08:00">2024-06-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mq/" itemprop="url" rel="index"><span itemprop="name">Mq</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Mq"><a href="#Mq" class="headerlink" title="Mq"></a>Mq</h1>
       
     </div>
 
@@ -452,7 +450,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -518,16 +516,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

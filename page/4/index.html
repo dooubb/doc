@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/10/28/Hexo/hexo%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/01/16/k8s/kaniko/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -197,7 +197,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/10/28/Hexo/hexo%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" class="post-title-link" itemprop="url">Hexo主题美化</a>
+            <a href="/2024/01/16/k8s/kaniko/" class="post-title-link" itemprop="url">Kaniko</a>
         </h2>
 
         <div class="post-meta">
@@ -207,7 +207,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-10-28 00:00:00" itemprop="dateCreated datePublished" datetime="2022-10-28T00:00:00+08:00">2022-10-28</time>
+              <time title="创建时间：2024-01-16 00:00:00" itemprop="dateCreated datePublished" datetime="2024-01-16T00:00:00+08:00">2024-01-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -215,7 +215,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
                 </span>
             </span>
 
@@ -225,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>3.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -244,118 +244,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="文件和文件夹"><a href="#文件和文件夹" class="headerlink" title="文件和文件夹"></a>文件和文件夹</h1><p><code>编写文章所在目录</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">D:\hexoblog\docblog\<span class="built_in">source</span>\_posts</span><br><span class="line">当前目录下是存放笔记和笔记中所带的图片信息，笔记编辑使用Typora，</span><br><span class="line">图片使用相对位置存放在同级目录并且和笔记名字一致的文件夹中[需要安装插件，在搭建hexo的笔记中有体现]</span><br></pre></td></tr></table></figure>
-
-<p><code>创建不同的文件夹</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">当笔记过多的时候，可以在\_posts下面创建不同的文件夹来存放不同的笔记</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">D:\hexoblog\docblog\<span class="built_in">source</span>\_posts\java  </span><br><span class="line">                            ├── java   <span class="comment">#创建存放笔记的文件夹</span></span><br><span class="line">                                ├── JavaClassLoader   <span class="comment">#存放笔记引用的图片</span></span><br><span class="line">                                ├── JavaClassLoader.md   <span class="comment">#笔记</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="更改侧边栏背景颜色"><a href="#更改侧边栏背景颜色" class="headerlink" title="更改侧边栏背景颜色"></a>更改侧边栏背景颜色</h1><p><code>更改配置文件themes\next\source\css\_common\outline\sidebar\sidebar.styl</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.sidebar &#123;</span><br><span class="line">  background: <span class="variable">$black</span>-deep; <span class="comment">#背景颜色</span></span><br><span class="line">  bottom: 0;</span><br><span class="line">  <span class="keyword">if</span> (!hexo-config(<span class="string">&#x27;back2top.sidebar&#x27;</span>))&#123;</span><br><span class="line">    box-shadow: inset 0 2px 6px black;</span><br><span class="line">  &#125;</span><br><span class="line">  position: fixed;</span><br><span class="line">  top: 0;</span><br><span class="line"></span><br><span class="line">  +tablet-<span class="function"><span class="title">mobile</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!hexo-config(<span class="string">&#x27;sidebar.onmobile&#x27;</span>)) &#123;</span><br><span class="line">      display: none;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="修改底部用户图标为跳动的心"><a href="#修改底部用户图标为跳动的心" class="headerlink" title="修改底部用户图标为跳动的心"></a>修改底部用户图标为跳动的心</h1><p>在主题的<code>_config.yml</code>中修改如下</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#网站的页脚设置部分</span></span><br><span class="line"><span class="attr">footer:</span></span><br><span class="line">  <span class="comment"># Specify the date when the site was setup. If not defined, current year will be used.</span></span><br><span class="line">  <span class="attr">since:</span> <span class="number">2021</span> <span class="comment">#网站的建站时间</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Icon between year and copyright info.</span></span><br><span class="line">  <span class="attr">icon:</span> <span class="comment">#这里的icon是页脚建站时间和网站名字之间的图标，默认是 `user`图标</span></span><br><span class="line">    <span class="comment"># Icon name in Font Awesome. See: https://fontawesome.com/icons</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">fa</span> <span class="string">fa-heart</span>  <span class="comment">#图标名称</span></span><br><span class="line">    <span class="comment"># If you want to animate the icon, set it to true.</span></span><br><span class="line">    <span class="attr">animated:</span> <span class="literal">true</span> <span class="comment">#是否是动画，默认</span></span><br><span class="line">    <span class="comment"># Change the color of icon, using Hex Code.</span></span><br><span class="line">    <span class="attr">color:</span> <span class="string">&quot;#ff0000&quot;</span> <span class="comment">#图标颜色</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="修改底部信息居中"><a href="#修改底部信息居中" class="headerlink" title="修改底部信息居中"></a>修改底部信息居中</h1><p>修改文件<code>D:\hexoblog\docblog\themes\next\source\css\_schemes\Mist\_layout.styl</code></p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">//</span> <span class="string">Tags</span></span><br><span class="line"><span class="string">//</span> <span class="string">--------------------------------------------------</span></span><br><span class="line"><span class="string">hr</span> &#123;</span><br><span class="line">  <span class="attr">height:</span> <span class="string">2px;</span></span><br><span class="line">  <span class="attr">margin:</span> <span class="string">20px</span> <span class="number">0</span><span class="string">;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">Components</span></span><br><span class="line"><span class="string">//</span> <span class="string">--------------------------------------------------</span></span><br><span class="line"><span class="string">.btn</span> &#123;</span><br><span class="line">  <span class="attr">padding:</span> <span class="number">0</span> <span class="string">10px;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">.headband</span> &#123;</span><br><span class="line">  <span class="attr">display:</span> <span class="string">none;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">Page</span> <span class="bullet">-</span> <span class="string">Container</span></span><br><span class="line"><span class="string">//</span> <span class="string">--------------------------------------------------</span></span><br><span class="line"><span class="string">.main-inner</span> &#123;</span><br><span class="line">  <span class="attr">padding-bottom:</span> <span class="string">80px;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">+mobile()</span> &#123;</span><br><span class="line">    <span class="attr">width:</span> <span class="string">auto;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">.content</span> &#123;</span><br><span class="line">  <span class="attr">padding-top:</span> <span class="string">80px;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">+mobile()</span> &#123;</span><br><span class="line">    <span class="attr">padding-top:</span> <span class="string">60px;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">Pagination</span></span><br><span class="line"><span class="string">//</span> <span class="string">--------------------------------------------------</span></span><br><span class="line"><span class="string">.pagination</span> &#123;</span><br><span class="line">  <span class="attr">margin:</span> <span class="string">120px</span> <span class="number">0</span> <span class="number">0</span><span class="string">;</span></span><br><span class="line">  <span class="attr">text-align:</span> <span class="string">left;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">+mobile()</span> &#123;</span><br><span class="line">    <span class="attr">margin:</span> <span class="string">80px</span> <span class="string">10px</span> <span class="number">0</span><span class="string">;</span></span><br><span class="line">    <span class="attr">text-align:</span> <span class="string">center;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">Footer</span></span><br><span class="line"><span class="string">//</span> <span class="string">--------------------------------------------------</span></span><br><span class="line"><span class="string">.footer</span> &#123;</span><br><span class="line">  <span class="attr">background:</span> <span class="string">var(--content-bg-color);</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">var(--text-color);</span></span><br><span class="line">  <span class="attr">padding:</span> <span class="string">10px</span> <span class="number">0</span><span class="string">;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">.footer-inner</span> &#123;</span><br><span class="line">  <span class="attr">text-align:</span> <span class="string">center;</span>  <span class="comment">#left改为center</span></span><br><span class="line"></span><br><span class="line">  <span class="string">+mobile()</span> &#123;</span><br><span class="line">    <span class="attr">text-align:</span> <span class="string">center;</span></span><br><span class="line">    <span class="attr">width:</span> <span class="string">auto;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>未完待续。。。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/10/18/Spring/Spring_1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/18/Spring/Spring_1/" class="post-title-link" itemprop="url">Spring核心原理(一)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-18 00:00:00" itemprop="dateCreated datePublished" datetime="2022-10-18T00:00:00+08:00">2022-10-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h1><p>Bean创建的生命周期，大致过程如下</p>
-<ol>
-<li>利用该类的构造方法来实例化得到一个对象（但是如何一个类中有多个构造方法，Spring则会进行选择，这个叫做<strong>推断构造方法</strong>）</li>
-<li>得到一个对象后，Spring会判断该对象中是否存在被@Autowired注解了的属性，把这些属性找出来并由Spring进行赋值（<strong>依赖注入</strong>）</li>
-<li>依赖注入后，Spring会判断该对象是否实现了BeanNameAware接口、BeanClassLoaderAware接口、BeanFactoryAware接口，如果实现了，就表示当前对象必须实现该接口中所定义的setBeanName()、setBeanClassLoader()、setBeanFactory()方法，那Spring就会调用这些方法并传入相应的参数（<strong>Aware回调</strong>）</li>
-<li>Aware回调后，Spring会判断该对象中是否存在某个方法被@PostConstruct注解了，如果存在，Spring会调用当前对象的此方法（<strong>初始化前</strong>）</li>
-<li>紧接着，Spring会判断该对象是否实现了InitializingBean接口，如果实现了，就表示当前对象必须实现该接口中的afterPropertiesSet()方法，那Spring就会调用当前对象中的afterPropertiesSet()方法（<strong>初始化</strong>）</li>
-<li>最后，Spring会判断当前对象需不需要进行AOP，如果不需要那么Bean就创建完了，如果需要进行AOP，则会进行动态代理并生成一个代理对象做为Bean（<strong>初始化后</strong>）</li>
-</ol>
+          <h1 id="Kaniko：在-k8s和-Container-环境中构建-Docker-镜像"><a href="#Kaniko：在-k8s和-Container-环境中构建-Docker-镜像" class="headerlink" title="Kaniko：在 k8s和 Container 环境中构建 Docker 镜像"></a>Kaniko：在 k8s和 Container 环境中构建 Docker 镜像</h1><h2 id="什么是-Kaniko？"><a href="#什么是-Kaniko？" class="headerlink" title="什么是 Kaniko？"></a>什么是 Kaniko？</h2><p>Kaniko 是一个在 k8s集群或 Container 环境中构建容器镜像的工具。它不依赖于 Docker 守护进程，并且完全在用户空间中执行 Dockerfile 中的每个命令，这使得能够在无 Docker 守护程序的环境中构建容器镜像。</p>
+<h2 id="为什么要使用-Kaniko？"><a href="#为什么要使用-Kaniko？" class="headerlink" title="为什么要使用 Kaniko？"></a>为什么要使用 Kaniko？</h2><p>在传统的 Docker 构建过程中，我们需要依赖 Docker 守护进程。然而，在某些环境中，例如 k8s集群，我们可能无法或不希望运行 Docker 守护进程。这时，Kaniko 就派上了用场。它可以在没有 Docker 守护进程的环境中构建 Docker 镜像，使得我们可以在更多的环境中构建和部署我们的应用。</p>
+<h2 id="Kaniko-是如何工作的？"><a href="#Kaniko-是如何工作的？" class="headerlink" title="Kaniko 是如何工作的？"></a>Kaniko 是如何工作的？</h2><p>Kaniko 在用户空间中执行 Dockerfile 中的每个命令，而不是在 Docker 守护进程中执行。这意味着它可以在任何容器化的环境中运行，包括 k8s集群。Kaniko 读取你的 Dockerfile，然后一步步地执行每个指令，最后生成一个 Docker 镜像，并将其推送到你指定的镜像仓库。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/10/18/Spring/Spring_1/#more" rel="contents">
+              <a class="btn" href="/2024/01/16/k8s/kaniko/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -379,7 +273,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/28/Nginx/Nginx/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/07/04/Linux/wsl2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -393,7 +287,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/09/28/Nginx/Nginx/" class="post-title-link" itemprop="url">Nginx</a>
+            <a href="/2023/07/04/Linux/wsl2/" class="post-title-link" itemprop="url">WSL2安装ubuntu</a>
         </h2>
 
         <div class="post-meta">
@@ -403,7 +297,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-09-28 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-28T00:00:00+08:00">2022-09-28</time>
+              <time title="创建时间：2023-07-04 00:00:00" itemprop="dateCreated datePublished" datetime="2023-07-04T00:00:00+08:00">2023-07-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -411,7 +305,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Nginx/" itemprop="url" rel="index"><span itemprop="name">Nginx</span></a>
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
                 </span>
             </span>
 
@@ -421,14 +315,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>19k</span>
+              <span>731</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -440,22 +334,107 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Nginx特点"><a href="#Nginx特点" class="headerlink" title="Nginx特点"></a>Nginx特点</h1><p>Nginx 是一款轻量级的 Web 服务器&#x2F;反向代理服务器及电子邮件（IMAP&#x2F;POP3）代理服务器，其特点是占有内存少，并发能力强。</p>
-<p>Nginx 做为 HTTP 服务器，有以下几项基本特性：</p>
-<ul>
-<li>处理静态文件，索引文件以及自动索引；打开文件描述符缓冲．</li>
-<li>无缓存的反向代理加速，简单的负载均衡和容错．</li>
-<li>FastCGI，简单的负载均衡和容错．</li>
-<li>模块化的结构。包括 gzipping, byte ranges, chunked responses,以及 SSI-filter 等 filter。如果由 FastCGI 或其它代理服务器处理单页中存在的多个 SSI，则这项处理可以并行运行，而不需要相互等待。</li>
-<li>支持 SSL 和 TLSSNI．</li>
-</ul>
-<p>Nginx 性能高，而 Nginx 的高性能与其架构是分不开的。那么 Nginx 究竟是怎么样的呢？这一节我们先来初识一下 Nginx 框架吧。</p>
-<p>Nginx 在启动后，在 unix 系统中会以 daemon （守护进程）的方式在后台运行，后台进程包含一个 master 进程和多个 worker 进程。</p>
-<h1 id="docker启动nginx"><a href="#docker启动nginx" class="headerlink" title="docker启动nginx"></a>docker启动nginx</h1><p>启动命令</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  -d --name nginx  -p 80:80 -v /data/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf  -v /data/nginx/conf/nginx.conf:/etc/nginx/nginx.conf nginx</span><br></pre></td></tr></table></figure>
+          <h1 id="Win安装wsl2"><a href="#Win安装wsl2" class="headerlink" title="Win安装wsl2"></a>Win安装wsl2</h1><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/wsl/install">https://learn.microsoft.com/zh-cn/windows/wsl/install</a></p>
+<h1 id="Win安装ubuntu"><a href="#Win安装ubuntu" class="headerlink" title="Win安装ubuntu"></a>Win安装ubuntu</h1><p>可以直接在Microsoft Store中直接安装</p>
+<h1 id="Win升级wsl"><a href="#Win升级wsl" class="headerlink" title="Win升级wsl"></a>Win升级wsl</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">确保 WSL 版本为 0.67.6 或更高版本。 （若要检查，请运行 wsl --version。若要更新，请运行 wsl --update </span><br></pre></td></tr></table></figure>
+
+<h1 id="ubuntu开启systemd支持"><a href="#ubuntu开启systemd支持" class="headerlink" title="ubuntu开启systemd支持"></a>ubuntu开启systemd支持</h1><p>在ubuntu系统中新建<code>/etc/wsl.conf</code>文件，内容如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="更改ubuntu网络配置"><a href="#更改ubuntu网络配置" class="headerlink" title="更改ubuntu网络配置"></a>更改ubuntu网络配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config iptables</span><br><span class="line">There are 2 choices <span class="keyword">for</span> the alternative iptables (providing /usr/sbin/iptables).</span><br><span class="line"> </span><br><span class="line">  Selection    Path                       Priority   Status</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">* 0            /usr/sbin/iptables-nft      20        auto mode</span><br><span class="line">  1            /usr/sbin/iptables-legacy   10        manual mode</span><br><span class="line">  2            /usr/sbin/iptables-nft      20        manual mode</span><br><span class="line"> </span><br><span class="line">Press &lt;enter&gt; to keep the current choice[*], or <span class="built_in">type</span> selection number: 1</span><br><span class="line">update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) <span class="keyword">in</span> manual mode</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/05/16/Docker/docker-compose/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/16/Docker/docker-compose/" class="post-title-link" itemprop="url">Docker compose</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-16 00:00:00" itemprop="dateCreated datePublished" datetime="2023-05-16T00:00:00+08:00">2023-05-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-24 00:00:00" itemprop="dateModified" datetime="2024-06-24T00:00:00+08:00">2024-06-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><p>docker-compose 是一个基于 docker 的开源项目，一般用来管理容器服务，通过调用 docker 服务的 API 实现对 docker 容器集群的快速编排。docker-compose 可以使用 YAML 文件来定义和配置应用程序需要的所有服务，包括容器的镜像、端口、环境变量、依赖关系、网络、存储等。通过一个简单的命令，就可以启动或停止应用程序的所有服务，而不需要逐个操作容器。</p>
+<h1 id="docker-compose-1"><a href="#docker-compose-1" class="headerlink" title="docker compose"></a>docker compose</h1><p>docker compose 是 docker 1.27 版本后引入的一个新特性，它是一个命令行工具，可以直接使用 docker 命令来运行 docker-compose 文件。docker compose 的目标是替代 docker-compose，提供更好的性能和兼容性，以及更简洁的语法和功能。docker compose 还支持使用云原生应用模型（CNAB）来打包和共享多容器应用。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/09/28/Nginx/Nginx/#more" rel="contents">
+              <a class="btn" href="/2023/05/16/Docker/docker-compose/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -478,7 +457,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -544,16 +523,16 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
