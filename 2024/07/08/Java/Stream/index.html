@@ -14,10 +14,11 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+    var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="LambdaLambda表达式是Java 8引入的一个重要特性,它提供了一种更简洁的方式来创建匿名函数。 基本语法：1(parameters) -&gt; &amp;#123; body &amp;#125;   参数列表可以为空,也可以包含一个或多个参数 箭头 -&gt; 将参数列表与Lambda主体分开 主体可以是单个表达式或语句块  简化写法:当只有一个参数时,可以省略括号: 1s -&gt; s.leng">
@@ -412,12 +413,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/07/05/Linux/Ubuntu24/" rel="prev" title="Ubuntu24">
-      <i class="fa fa-chevron-left"></i> Ubuntu24
+    <a href="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/" rel="prev" title="rancher管理k8s">
+      <i class="fa fa-chevron-left"></i> rancher管理k8s
     </a></div>
       <div class="post-nav-item">
-    <a href="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/" rel="next" title="rancher管理k8s">
-      rancher管理k8s <i class="fa fa-chevron-right"></i>
+    <a href="/2024/07/08/Hexo/next%E4%B8%BB%E9%A2%98%E5%90%AF%E7%94%A8fancybox/" rel="next" title="Next启用Fancybox">
+      Next启用Fancybox <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -491,7 +492,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -597,6 +598,8 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
