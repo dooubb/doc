@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/qpp.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/qpp.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="初始化rke2集群新建4台Ubuntu24设置每台vm的hostname 1234hostnamectl set-hostname master-nodehostnamectl set-hostname worker-node-01hostnamectl set-hostname worker-node-02hostnamectl set-hostname devops  由于vm是复制出来的，需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rancher管理k8s">
+<meta property="og:url" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/index.html">
+<meta property="og:site_name" content="doubao">
+<meta property="og:description" content="初始化rke2集群新建4台Ubuntu24设置每台vm的hostname 1234hostnamectl set-hostname master-nodehostnamectl set-hostname worker-node-01hostnamectl set-hostname worker-node-02hostnamectl set-hostname devops  由于vm是复制出来的，需">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103122048.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708114924594.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708115216963.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708115324529.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708115427611.png">
+<meta property="article:published_time" content="2024-07-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-07T16:00:00.000Z">
+<meta property="article:author" content="doubao">
+<meta property="article:tag" content="Rancher">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png">
+
+<link rel="canonical" href="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>rancher管理k8s | doubao</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">doubao</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          rancher管理k8s
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-07-08 00:00:00" itemprop="dateCreated datePublished" datetime="2024-07-08T00:00:00+08:00">2024-07-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Rancher/" itemprop="url" rel="index"><span itemprop="name">Rancher</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="初始化rke2集群"><a href="#初始化rke2集群" class="headerlink" title="初始化rke2集群"></a>初始化rke2集群</h1><h2 id="新建4台Ubuntu24"><a href="#新建4台Ubuntu24" class="headerlink" title="新建4台Ubuntu24"></a>新建4台Ubuntu24</h2><p>设置每台vm的hostname</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname master-node</span><br><span class="line">hostnamectl set-hostname worker-node-01</span><br><span class="line">hostnamectl set-hostname worker-node-02</span><br><span class="line">hostnamectl set-hostname devops</span><br></pre></td></tr></table></figure>
+
+<p>由于vm是复制出来的，需要重新生成机器码并重启</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> -rf /dev/null /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="安装master的rke2"><a href="#安装master的rke2" class="headerlink" title="安装master的rke2"></a>安装master的rke2</h2><p>安装脚本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://get.rke2.io |  INSTALL_RKE2_VERSION=v1.30.1+rke2r1 sh -</span><br></pre></td></tr></table></figure>
+
+<p>设置rke2自启动</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> rke2-server.service</span><br></pre></td></tr></table></figure>
+
+<p>启动rke2</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start rke2-server.service</span><br></pre></td></tr></table></figure>
+
+<p>查看启动日志</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u rke2-server -f</span><br></pre></td></tr></table></figure>
+
+<p>安装程序后：</p>
+<ul>
+<li><code>rke2-server</code> 服务将被安装。<code>rke2-server</code> 服务将被配置为在节点重启后或进程崩溃或被杀时自动重启。</li>
+<li>其他的实用程序将被安装在<code>/var/lib/rancher/rke2/bin/</code>。它们包括 <code>kubectl</code>, <code>crictl</code>, 和 <code>ctr</code>. 注意，这些东西默认不在你的路径上。</li>
+<li>还有两个清理脚本会安装到 <code>/usr/local/bin/rke2</code> 的路径上。它们是 <code>rke2-killall.sh</code>和<code>rke2-uninstall.sh</code>。</li>
+<li>一个 <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/">kubeconfig</a> 文件将被写入<code>/etc/rancher/rke2/rke2.yaml</code>。</li>
+<li>一个可用于注册其他 server 或 agent 节点的令牌将在 <code>/var/lib/rancher/rke2/server/node-token</code> 文件中创建。</li>
+</ul>
+<h2 id="安装node01的rke2"><a href="#安装node01的rke2" class="headerlink" title="安装node01的rke2"></a>安装node01的rke2</h2><p>安装脚本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://get.rke2.io | INSTALL_RKE2_TYPE=<span class="string">&quot;agent&quot;</span> INSTALL_RKE2_VERSION=v1.30.1+rke2r1 sh -</span><br></pre></td></tr></table></figure>
+
+<p>设置rke2自启动</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> rke2-server.service</span><br></pre></td></tr></table></figure>
+
+<p>修改rke2的&#x2F;etc&#x2F;rancher&#x2F;rke2&#x2F;config.yaml</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server: https://192.168.121.202:9345</span><br><span class="line">token: K104ef6c38212b6b606595dec8f75fe0d51d530bed461375fb2f1fcbbf9a1d1ecb9::server:07a20527579a6d49cca4f50f9d6b0372</span><br></pre></td></tr></table></figure>
+
+<p>启动rke2</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start rke2-server.service</span><br></pre></td></tr></table></figure>
+
+<p>查看启动日志</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u rke2-server -f</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装node02的rke2"><a href="#安装node02的rke2" class="headerlink" title="安装node02的rke2"></a>安装node02的rke2</h2><p>安装脚本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://get.rke2.io | INSTALL_RKE2_TYPE=<span class="string">&quot;agent&quot;</span> INSTALL_RKE2_VERSION=v1.30.1+rke2r1 sh -</span><br></pre></td></tr></table></figure>
+
+<p>设置rke2自启动</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> rke2-server.service</span><br></pre></td></tr></table></figure>
+
+<p>修改rke2的&#x2F;etc&#x2F;rancher&#x2F;rke2&#x2F;config.yaml</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server: https://192.168.121.202:9345</span><br><span class="line">token: K104ef6c38212b6b606595dec8f75fe0d51d530bed461375fb2f1fcbbf9a1d1ecb9::server:07a20527579a6d49cca4f50f9d6b0372</span><br></pre></td></tr></table></figure>
+
+<p>启动rke2</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start rke2-server.service</span><br></pre></td></tr></table></figure>
+
+<p>查看启动日志</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u rke2-server -f</span><br></pre></td></tr></table></figure>
+
+
+
+<p>等待安装完成在任意master上执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@master-node:~<span class="comment"># /var/lib/rancher/rke2/bin/kubectl --kubeconfig /etc/rancher/rke2/rke2.yaml get nodes -o wide</span></span><br><span class="line">NAME             STATUS   ROLES                       AGE   VERSION          INTERNAL-IP       EXTERNAL-IP   OS-IMAGE           KERNEL-VERSION     CONTAINER-RUNTIME</span><br><span class="line">master-node      Ready    control-plane,etcd,master   20h   v1.30.1+rke2r1   192.168.121.202   &lt;none&gt;        Ubuntu 24.04 LTS   6.8.0-36-generic   containerd://1.7.11-k3s2</span><br><span class="line">worker-node-01   Ready    &lt;none&gt;                      20h   v1.30.1+rke2r1   192.168.121.203   &lt;none&gt;        Ubuntu 24.04 LTS   6.8.0-36-generic   containerd://1.7.11-k3s2</span><br><span class="line">worker-node-02   Ready    &lt;none&gt;                      20h   v1.30.1+rke2r1   192.168.121.204   &lt;none&gt;        Ubuntu 24.04 LTS   6.8.0-36-generic   containerd://1.7.11-k3s2</span><br><span class="line">root@master-node:~<span class="comment"># </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="连接集群"><a href="#连接集群" class="headerlink" title="连接集群"></a>连接集群</h2><p>安装kubectl</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -LO <span class="string">&quot;https://dl.k8s.io/release/<span class="subst">$(curl -L -s https://dl.k8s.io/release/stable.txt)</span>/bin/linux/amd64/kubectl&quot;</span></span><br><span class="line"><span class="built_in">cp</span> kubectl /usr/bin/</span><br><span class="line"><span class="built_in">chmod</span> +x /usr/bin/kubectl</span><br></pre></td></tr></table></figure>
+
+<p>初始化kubeconfig</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.kube</span><br><span class="line"><span class="comment">#将master中的/etc/rancher/rke2/rke2.yaml中的内容复制到 ~/.kube/config中,并且更改api server的url为master的ip</span></span><br></pre></td></tr></table></figure>
+
+<p>执行命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@devops:~<span class="comment"># kubectl get node -owide</span></span><br><span class="line">NAME             STATUS   ROLES                       AGE   VERSION          INTERNAL-IP       EXTERNAL-IP   OS-IMAGE           KERNEL-VERSION     CONTAINER-RUNTIME</span><br><span class="line">master-node      Ready    control-plane,etcd,master   20h   v1.30.1+rke2r1   192.168.121.202   &lt;none&gt;        Ubuntu 24.04 LTS   6.8.0-36-generic   containerd://1.7.11-k3s2</span><br><span class="line">worker-node-01   Ready    &lt;none&gt;                      20h   v1.30.1+rke2r1   192.168.121.203   &lt;none&gt;        Ubuntu 24.04 LTS   6.8.0-36-generic   containerd://1.7.11-k3s2</span><br><span class="line">worker-node-02   Ready    &lt;none&gt;                      20h   v1.30.1+rke2r1   192.168.121.204   &lt;none&gt;        Ubuntu 24.04 LTS   6.8.0-36-generic   containerd://1.7.11-k3s2</span><br><span class="line">root@devops:~<span class="comment"># </span></span><br></pre></td></tr></table></figure>
+
+<h1 id="部署rancher"><a href="#部署rancher" class="headerlink" title="部署rancher"></a>部署rancher</h1><h2 id="部署rancher-1"><a href="#部署rancher-1" class="headerlink" title="部署rancher"></a>部署rancher</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#rancher镜像已经同步到自己的私有镜像仓库</span></span><br><span class="line">docker run -d --restart=unless-stopped \</span><br><span class="line">  --name rancher \</span><br><span class="line">  -p 80:80 -p 443:443 \</span><br><span class="line">  --privileged \</span><br><span class="line">  dockerhub.qingcloud.com/doubao/rancher:latest</span><br></pre></td></tr></table></figure>
+
+<h2 id="导入现有k8s集群"><a href="#导入现有k8s集群" class="headerlink" title="导入现有k8s集群"></a>导入现有k8s集群</h2><p>启动完成后，ui登录后，导入现有集群，选项标准k8s即可，导入成功后的Clusters会显示新的集群</p>
+<img src="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png" class title="image-20240708103042614">
+
+<h1 id="部署Argo-CD"><a href="#部署Argo-CD" class="headerlink" title="部署Argo CD"></a>部署Argo CD</h1><h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><p>新建命名空间并部署项目资源</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl create namespace argocd</span><br><span class="line">kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml</span><br></pre></td></tr></table></figure>
+
+<h2 id="暴露服务"><a href="#暴露服务" class="headerlink" title="暴露服务"></a>暴露服务</h2><p>默认情况下， Argo CD 服务不对外暴露服务，可以通过 LoadBalancer 或者 NodePort 类型的 Service、Ingress、Kubectl 端口转发等方式将 Argo CD 服务发布到 Kubernetes 集群外部。</p>
+<p>由于是vm自建，所以选择使用NodePort 的方式暴露服务。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl patch svc argocd-server -n argocd -p <span class="string">&#x27;&#123;&quot;spec&quot;: &#123;&quot;type&quot;: &quot;NodePort&quot;&#125;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>查看随机暴露的端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@devops:~<span class="comment"># kubectl get svc -n argocd </span></span><br><span class="line">NAME                                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE</span><br><span class="line">argocd-applicationset-controller          ClusterIP   10.43.49.182    &lt;none&gt;        7000/TCP,8080/TCP            78m</span><br><span class="line">argocd-dex-server                         ClusterIP   10.43.155.32    &lt;none&gt;        5556/TCP,5557/TCP,5558/TCP   78m</span><br><span class="line">argocd-metrics                            ClusterIP   10.43.241.106   &lt;none&gt;        8082/TCP                     78m</span><br><span class="line">argocd-notifications-controller-metrics   ClusterIP   10.43.239.240   &lt;none&gt;        9001/TCP                     78m</span><br><span class="line">argocd-redis                              ClusterIP   10.43.37.52     &lt;none&gt;        6379/TCP                     78m</span><br><span class="line">argocd-repo-server                        ClusterIP   10.43.79.21     &lt;none&gt;        8081/TCP,8084/TCP            78m</span><br><span class="line">argocd-server                             NodePort    10.43.65.157    &lt;none&gt;        80:32221/TCP,443:31046/TCP   78m</span><br><span class="line">argocd-server-metrics                     ClusterIP   10.43.235.50    &lt;none&gt;        8083/TCP                     78m</span><br><span class="line">root@devops:~<span class="comment"># </span></span><br></pre></td></tr></table></figure>
+
+<h2 id="访问UI"><a href="#访问UI" class="headerlink" title="访问UI"></a>访问UI</h2><p>使用node:31046访问</p>
+<img src="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103122048.png" class title="image-20240708103122048">
+
+<h2 id="添加git仓库"><a href="#添加git仓库" class="headerlink" title="添加git仓库"></a>添加git仓库</h2><p>因为本机vm访问git不通，所以选择gitlab，使用ui添加</p>
+<img src="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708114924594.png" class title="image-20240708114924594">
+
+<h2 id="添加app"><a href="#添加app" class="headerlink" title="添加app"></a>添加app</h2><h3 id="使用argo-cli-创建"><a href="#使用argo-cli-创建" class="headerlink" title="使用argo cli 创建"></a>使用argo cli 创建</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">argocd app create myapp \</span><br><span class="line">--repo https://gitlab.com/doubao2/doubao.git \</span><br><span class="line">--path nginx --dest-server \</span><br><span class="line">https://kubernetes.default.svc \</span><br><span class="line">--dest-namespace doubao</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用yaml创建"><a href="#使用yaml创建" class="headerlink" title="使用yaml创建"></a>使用yaml创建</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Application</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">argocd</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">destination:</span></span><br><span class="line">    <span class="attr">namespace:</span> <span class="string">doubao</span> <span class="comment"># 部署应用的命名空间</span></span><br><span class="line">    <span class="attr">server:</span> <span class="string">https://kubernetes.default.svc</span> <span class="comment"># API Server 地址</span></span><br><span class="line">  <span class="attr">project:</span> <span class="string">default</span> <span class="comment"># 项目名</span></span><br><span class="line">  <span class="attr">source:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">nginx</span> <span class="comment"># 资源文件路径</span></span><br><span class="line">    <span class="attr">repoURL:</span> <span class="string">https://gitlab.com/doubao2/doubao.git</span> <span class="comment"># Git 仓库地址</span></span><br><span class="line">    <span class="attr">targetRevision:</span> <span class="string">main</span> <span class="comment"># 分支名</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用ui创建"><a href="#使用ui创建" class="headerlink" title="使用ui创建"></a>使用ui创建</h3><p>添加对应的参数</p>
+<img src="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708115216963.png" class title="image-20240708115216963">
+
+
+
+<h2 id="手动同步gitlab配置"><a href="#手动同步gitlab配置" class="headerlink" title="手动同步gitlab配置"></a>手动同步gitlab配置</h2><img src="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708115324529.png" class title="image-20240708115324529">
+
+<h2 id="发布和回滚"><a href="#发布和回滚" class="headerlink" title="发布和回滚"></a>发布和回滚</h2><p>手动同步gitlab配置后，可以进行版本的发布和回滚的管理</p>
+<img src="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708115427611.png" class title="image-20240708115427611">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Rancher/" rel="tag"><i class="fa fa-tag"></i> Rancher</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/07/05/Linux/Ubuntu24/" rel="prev" title="Ubuntu24">
+      <i class="fa fa-chevron-left"></i> Ubuntu24
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96rke2%E9%9B%86%E7%BE%A4"><span class="nav-number">1.</span> <span class="nav-text">初始化rke2集群</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA4%E5%8F%B0Ubuntu24"><span class="nav-number">1.1.</span> <span class="nav-text">新建4台Ubuntu24</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85master%E7%9A%84rke2"><span class="nav-number">1.2.</span> <span class="nav-text">安装master的rke2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85node01%E7%9A%84rke2"><span class="nav-number">1.3.</span> <span class="nav-text">安装node01的rke2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85node02%E7%9A%84rke2"><span class="nav-number">1.4.</span> <span class="nav-text">安装node02的rke2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E9%9B%86%E7%BE%A4"><span class="nav-number">1.5.</span> <span class="nav-text">连接集群</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2rancher"><span class="nav-number">2.</span> <span class="nav-text">部署rancher</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2rancher-1"><span class="nav-number">2.1.</span> <span class="nav-text">部署rancher</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E7%8E%B0%E6%9C%89k8s%E9%9B%86%E7%BE%A4"><span class="nav-number">2.2.</span> <span class="nav-text">导入现有k8s集群</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2Argo-CD"><span class="nav-number">3.</span> <span class="nav-text">部署Argo CD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2"><span class="nav-number">3.1.</span> <span class="nav-text">安装部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.2.</span> <span class="nav-text">暴露服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AEUI"><span class="nav-number">3.3.</span> <span class="nav-text">访问UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0git%E4%BB%93%E5%BA%93"><span class="nav-number">3.4.</span> <span class="nav-text">添加git仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0app"><span class="nav-number">3.5.</span> <span class="nav-text">添加app</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8argo-cli-%E5%88%9B%E5%BB%BA"><span class="nav-number">3.5.1.</span> <span class="nav-text">使用argo cli 创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8yaml%E5%88%9B%E5%BB%BA"><span class="nav-number">3.5.2.</span> <span class="nav-text">使用yaml创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ui%E5%88%9B%E5%BB%BA"><span class="nav-number">3.5.3.</span> <span class="nav-text">使用ui创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E5%90%8C%E6%AD%A5gitlab%E9%85%8D%E7%BD%AE"><span class="nav-number">3.6.</span> <span class="nav-text">手动同步gitlab配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E5%92%8C%E5%9B%9E%E6%BB%9A"><span class="nav-number">3.7.</span> <span class="nav-text">发布和回滚</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">doubao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dooubb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dooubb" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/oge@live.com" title="E-Mail → oge@live.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright" text-align:center>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">doubao <span id="sitetime"></span>
+ <!-- <script language=javascript>
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+		/* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+		year - 作为date对象的年份，为4位年份值
+		month - 0-11之间的整数，做为date对象的月份
+		day - 1-31之间的整数，做为date对象的天数
+		hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+		minutes - 0-59之间的整数，做为date对象的分钟数
+		seconds - 0-59之间的整数，做为date对象的秒数
+		microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+		var t1 = Date.UTC(2018,02,13,15,00,00); //北京时间2018-2-13 00:00:00
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		document.getElementById("sitetime").innerHTML=" 已运行"+/*diffYears+" 年 "+*/diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+	}/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+	siteTime();
+	</script>
+	--!>
+	</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
