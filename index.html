@@ -337,34 +337,14 @@
 
       
           <h1 id="Ubuntu24"><a href="#Ubuntu24" class="headerlink" title="Ubuntu24"></a>Ubuntu24</h1><h2 id="配置静态-ip"><a href="#配置静态-ip" class="headerlink" title="配置静态 ip"></a>配置静态 ip</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/netplan/50-cloud-init.yaml </span><br><span class="line"><span class="comment"># This file is generated from information provided by the datasource.  Changes</span></span><br><span class="line"><span class="comment"># to it will not persist across an instance reboot.  To disable cloud-init&#x27;s</span></span><br><span class="line"><span class="comment"># network configuration capabilities, write a file</span></span><br><span class="line"><span class="comment"># /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:</span></span><br><span class="line"><span class="comment"># network: &#123;config: disabled&#125;</span></span><br><span class="line">network:</span><br><span class="line">    renderer: networkd</span><br><span class="line">    ethernets:</span><br><span class="line">        ens33: <span class="comment"># 替换为你的网络接口名称</span></span><br><span class="line">            dhcp4: <span class="literal">false</span> <span class="comment"># 关闭 DHCP</span></span><br><span class="line">            dhcp6: <span class="literal">false</span> <span class="comment"># 关闭 DHCP</span></span><br><span class="line">            addresses: [192.168.121.201/24] <span class="comment"># 静态 IP 地址和子网掩码</span></span><br><span class="line">            routes:</span><br><span class="line">              - to: default</span><br><span class="line">                via: 192.168.121.2 <span class="comment"># 网关地址</span></span><br><span class="line">            nameservers:</span><br><span class="line">                addresses: <span class="comment"># dns地址</span></span><br><span class="line">                  - 1.2.4.8</span><br><span class="line">                  - 114.114.114.114</span><br><span class="line">                  - 8.8.8.8</span><br><span class="line">                </span><br><span class="line">    version: 2</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="配置阿里源加速"><a href="#配置阿里源加速" class="headerlink" title="配置阿里源加速"></a>配置阿里源加速</h2><p> <code>24.04 源文件地址 已经更换为 /etc/apt/sources.list.d/ubuntu.sources</code><br>备份当前的源列表：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/apt/sources.list.d/ubuntu.sources  /etc/apt/sources.list.d/ubuntu.sources.bak</span><br></pre></td></tr></table></figure>
-
-<p>设置阿里源地址</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; /etc/apt/sources.list.d/ubuntu.sources  &lt;&lt;<span class="string">EOF  </span></span><br><span class="line"><span class="string"># 阿里云</span></span><br><span class="line"><span class="string">Types: deb</span></span><br><span class="line"><span class="string">URIs: http://mirrors.aliyun.com/ubuntu/</span></span><br><span class="line"><span class="string">Suites: noble noble-updates noble-security</span></span><br><span class="line"><span class="string">Components: main restricted universe multiverse</span></span><br><span class="line"><span class="string">Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-
-<p>更新源列表</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置docker的阿里源"><a href="#配置docker的阿里源" class="headerlink" title="配置docker的阿里源"></a>配置docker的阿里源</h2><p>新的目录来存储密钥：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /etc/apt/keyrings</span><br></pre></td></tr></table></figure>
-
-<p>下载并添加新的 GPG 密钥：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg</span><br></pre></td></tr></table></figure>
-
-<p>更新 Docker 的软件源配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null</span><br></pre></td></tr></table></figure>
-
-<p>更新软件包列表：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-
-<p>在安装docker和相关插件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/07/05/Linux/Ubuntu24/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
