@@ -21,20 +21,26 @@
     var CONFIG = {"hostname":"dooubb.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="文本块多行字符串可以使用|保留换行符，也可以使用&gt;折叠换行 123456key1: |  value1  value2key2: &gt;  value1  value2  转换成json格式 1234&amp;#123;  &quot;key1&quot;: &quot;value1\nvalue2\n&quot;,  &quot;key2&quot;: &quot;value1 value2\n">
+  <meta name="description" content="安装部署新建命名空间并部署项目资源 12kubectl create namespace argocdkubectl apply -n argocd -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;argoproj&#x2F;argo-cd&#x2F;stable&#x2F;manifests&#x2F;install.yaml  暴露服务默认情况下， Argo CD 服务不对外暴露服务，可以通过 LoadBa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="yaml">
-<meta property="og:url" content="https://dooubb.github.io/2022/08/26/k8s/yaml/index.html">
+<meta property="og:title" content="部署Argo CD">
+<meta property="og:url" content="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/index.html">
 <meta property="og:site_name" content="doubao">
-<meta property="og:description" content="文本块多行字符串可以使用|保留换行符，也可以使用&gt;折叠换行 123456key1: |  value1  value2key2: &gt;  value1  value2  转换成json格式 1234&amp;#123;  &quot;key1&quot;: &quot;value1\nvalue2\n&quot;,  &quot;key2&quot;: &quot;value1 value2\n">
+<meta property="og:description" content="安装部署新建命名空间并部署项目资源 12kubectl create namespace argocdkubectl apply -n argocd -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;argoproj&#x2F;argo-cd&#x2F;stable&#x2F;manifests&#x2F;install.yaml  暴露服务默认情况下， Argo CD 服务不对外暴露服务，可以通过 LoadBa">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-08-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-08-25T16:00:00.000Z">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708103122048.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708114924594.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708115216963.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708115324529.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708115427611.png">
+<meta property="article:published_time" content="2024-07-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-08T16:00:00.000Z">
 <meta property="article:author" content="doubao">
-<meta property="article:tag" content="K8S">
+<meta property="article:tag" content="Devops">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708103122048.png">
 
-<link rel="canonical" href="https://dooubb.github.io/2022/08/26/k8s/yaml/">
+<link rel="canonical" href="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/">
 
 
 <script id="page-configurations">
@@ -47,7 +53,7 @@
   };
 </script>
 
-  <title>yaml | doubao</title>
+  <title>部署Argo CD | doubao</title>
   
 
 
@@ -190,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/26/k8s/yaml/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -203,7 +209,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          yaml
+          部署Argo CD
         </h1>
 
         <div class="post-meta">
@@ -213,7 +219,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-26T00:00:00+08:00">2022-08-26</time>
+              <time title="创建时间：2024-07-09 00:00:00" itemprop="dateCreated datePublished" datetime="2024-07-09T00:00:00+08:00">2024-07-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,7 +227,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/K8S/" itemprop="url" rel="index"><span itemprop="name">K8S</span></a>
+                  <a href="/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
                 </span>
             </span>
 
@@ -238,14 +244,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>862</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -257,30 +263,59 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="文本块"><a href="#文本块" class="headerlink" title="文本块"></a>文本块</h1><p>多行字符串可以使用<code>|</code>保留换行符，也可以使用<code>&gt;</code>折叠换行</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key1:</span> <span class="string">|</span></span><br><span class="line"><span class="string">  value1</span></span><br><span class="line"><span class="string">  value2</span></span><br><span class="line"><span class="string"></span><span class="attr">key2:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">  value1</span></span><br><span class="line"><span class="string">  value2</span></span><br></pre></td></tr></table></figure>
+        <h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><p>新建命名空间并部署项目资源</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl create namespace argocd</span><br><span class="line">kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml</span><br></pre></td></tr></table></figure>
 
-<p>转换成json格式</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;key1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;value1\nvalue2\n&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;key2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;value1 value2\n&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="暴露服务"><a href="#暴露服务" class="headerlink" title="暴露服务"></a>暴露服务</h2><p>默认情况下， Argo CD 服务不对外暴露服务，可以通过 LoadBalancer 或者 NodePort 类型的 Service、Ingress、Kubectl 端口转发等方式将 Argo CD 服务发布到 Kubernetes 集群外部。</p>
+<p>由于是vm自建，所以选择使用NodePort 的方式暴露服务。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl patch svc argocd-server -n argocd -p <span class="string">&#x27;&#123;&quot;spec&quot;: &#123;&quot;type&quot;: &quot;NodePort&quot;&#125;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>查看随机暴露的端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@devops:~<span class="comment"># kubectl get svc -n argocd </span></span><br><span class="line">NAME                                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE</span><br><span class="line">argocd-applicationset-controller          ClusterIP   10.43.49.182    &lt;none&gt;        7000/TCP,8080/TCP            78m</span><br><span class="line">argocd-dex-server                         ClusterIP   10.43.155.32    &lt;none&gt;        5556/TCP,5557/TCP,5558/TCP   78m</span><br><span class="line">argocd-metrics                            ClusterIP   10.43.241.106   &lt;none&gt;        8082/TCP                     78m</span><br><span class="line">argocd-notifications-controller-metrics   ClusterIP   10.43.239.240   &lt;none&gt;        9001/TCP                     78m</span><br><span class="line">argocd-redis                              ClusterIP   10.43.37.52     &lt;none&gt;        6379/TCP                     78m</span><br><span class="line">argocd-repo-server                        ClusterIP   10.43.79.21     &lt;none&gt;        8081/TCP,8084/TCP            78m</span><br><span class="line">argocd-server                             NodePort    10.43.65.157    &lt;none&gt;        80:32221/TCP,443:31046/TCP   78m</span><br><span class="line">argocd-server-metrics                     ClusterIP   10.43.235.50    &lt;none&gt;        8083/TCP                     78m</span><br><span class="line">root@devops:~<span class="comment"># </span></span><br></pre></td></tr></table></figure>
 
 <span id="more"></span>
 
-<p><code>+</code>表示保留文字块末尾的换行，<code>-</code>表示删除字符串末尾的换行</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key1:</span> <span class="string">|+</span></span><br><span class="line"><span class="string">  value1</span></span><br><span class="line"><span class="string">  value2</span></span><br><span class="line"><span class="string"></span><span class="attr">key2:</span> <span class="string">|-</span></span><br><span class="line"><span class="string">  value1</span></span><br><span class="line"><span class="string">  value2</span></span><br></pre></td></tr></table></figure>
+<h2 id="访问UI"><a href="#访问UI" class="headerlink" title="访问UI"></a>访问UI</h2><p>使用node:31046访问</p>
+<img src="/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708103122048.png" class title="image-20240708103122048">
 
-<p>转换成json格式</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;key1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;value1\nvalue2\n&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;key2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;value1\nvalue2&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加git仓库"><a href="#添加git仓库" class="headerlink" title="添加git仓库"></a>添加git仓库</h2><p>因为本机vm访问git不通，所以选择gitlab，使用ui添加</p>
+<img src="/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708114924594.png" class title="image-20240708114924594">
 
-<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p><code>&amp;</code>用来建立锚点，<code>&lt;&lt; </code>表示合并到当前数据，<code>* </code>用来引用锚点</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key1:</span> <span class="meta">&amp;key1</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dooubb</span></span><br><span class="line">  <span class="attr">age:</span> <span class="number">20</span></span><br><span class="line"><span class="attr">key2:</span></span><br><span class="line">  <span class="attr">id:</span> <span class="number">1213</span></span><br><span class="line">  <span class="string">&lt;&lt;:</span> <span class="meta">*key1</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加app"><a href="#添加app" class="headerlink" title="添加app"></a>添加app</h2><h3 id="使用argo-cli-创建"><a href="#使用argo-cli-创建" class="headerlink" title="使用argo cli 创建"></a>使用argo cli 创建</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">argocd app create myapp \</span><br><span class="line">--repo https://gitlab.com/doubao2/doubao.git \</span><br><span class="line">--path nginx --dest-server \</span><br><span class="line">https://kubernetes.default.svc \</span><br><span class="line">--dest-namespace doubao</span><br></pre></td></tr></table></figure>
 
-<p>转换成json格式</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;key1&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dooubb&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">20</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;key2&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1213</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dooubb&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">20</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用yaml创建"><a href="#使用yaml创建" class="headerlink" title="使用yaml创建"></a>使用yaml创建</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Application</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">argocd</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">destination:</span></span><br><span class="line">    <span class="attr">namespace:</span> <span class="string">doubao</span> <span class="comment"># 部署应用的命名空间</span></span><br><span class="line">    <span class="attr">server:</span> <span class="string">https://kubernetes.default.svc</span> <span class="comment"># API Server 地址</span></span><br><span class="line">  <span class="attr">project:</span> <span class="string">default</span> <span class="comment"># 项目名</span></span><br><span class="line">  <span class="attr">source:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">nginx</span> <span class="comment"># 资源文件路径</span></span><br><span class="line">    <span class="attr">repoURL:</span> <span class="string">https://gitlab.com/doubao2/doubao.git</span> <span class="comment"># Git 仓库地址</span></span><br><span class="line">    <span class="attr">targetRevision:</span> <span class="string">main</span> <span class="comment"># 分支名</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用ui创建"><a href="#使用ui创建" class="headerlink" title="使用ui创建"></a>使用ui创建</h3><p>添加对应的参数</p>
+<img src="/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708115216963.png" class title="image-20240708115216963">
 
 
 
-<h1 id="单文件多配置"><a href="#单文件多配置" class="headerlink" title="单文件多配置"></a>单文件多配置</h1><p><code>---</code>分隔多个不同配置</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#公共配置</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">test</span> </span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment">#开发环境配置</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span> <span class="string">dev</span> <span class="comment"># </span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment">#生产环境配置</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span> <span class="string">pro</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8081</span></span><br></pre></td></tr></table></figure>
+<h2 id="手动同步gitlab配置"><a href="#手动同步gitlab配置" class="headerlink" title="手动同步gitlab配置"></a>手动同步gitlab配置</h2><img src="/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708115324529.png" class title="image-20240708115324529">
+
+<h2 id="发布和回滚"><a href="#发布和回滚" class="headerlink" title="发布和回滚"></a>发布和回滚</h2><p>手动同步gitlab配置后，可以进行版本的发布和回滚的管理</p>
+<img src="/2024/07/09/Devops/argo%E9%83%A8%E7%BD%B2/image-20240708115427611.png" class title="image-20240708115427611">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -294,7 +329,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/K8S/" rel="tag"><i class="fa fa-tag"></i> K8S</a>
+              <a href="/tags/Devops/" rel="tag"><i class="fa fa-tag"></i> Devops</a>
           </div>
 
         
@@ -303,13 +338,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/08/24/Docker/dockerfile/" rel="prev" title="Dockerfile">
-      <i class="fa fa-chevron-left"></i> Dockerfile
+    <a href="/2024/07/08/Hexo/next%E4%B8%BB%E9%A2%98%E5%90%AF%E7%94%A8fancybox/" rel="prev" title="Next启用Fancybox">
+      <i class="fa fa-chevron-left"></i> Next启用Fancybox
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/08/26/k8s/Kustomization/" rel="next" title="Kustomization的使用">
-      Kustomization的使用 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -368,7 +400,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%9D%97"><span class="nav-number">1.</span> <span class="nav-text">文本块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E6%96%87%E4%BB%B6%E5%A4%9A%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">单文件多配置</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2"><span class="nav-number">1.</span> <span class="nav-text">安装部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.</span> <span class="nav-text">暴露服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AEUI"><span class="nav-number">3.</span> <span class="nav-text">访问UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0git%E4%BB%93%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">添加git仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0app"><span class="nav-number">5.</span> <span class="nav-text">添加app</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8argo-cli-%E5%88%9B%E5%BB%BA"><span class="nav-number">5.1.</span> <span class="nav-text">使用argo cli 创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8yaml%E5%88%9B%E5%BB%BA"><span class="nav-number">5.2.</span> <span class="nav-text">使用yaml创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ui%E5%88%9B%E5%BB%BA"><span class="nav-number">5.3.</span> <span class="nav-text">使用ui创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E5%90%8C%E6%AD%A5gitlab%E9%85%8D%E7%BD%AE"><span class="nav-number">6.</span> <span class="nav-text">手动同步gitlab配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E5%92%8C%E5%9B%9E%E6%BB%9A"><span class="nav-number">7.</span> <span class="nav-text">发布和回滚</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
