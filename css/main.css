@@ -18,10 +18,10 @@
   --btn-default-hover-bg: transparent;
   --btn-default-hover-color: var(--link-hover-color);
   --btn-default-hover-border-color: var(--link-hover-color);
-  --highlight-background: #1c1d21;
-  --highlight-foreground: #c0c5ce;
-  --highlight-gutter-background: #2c2d32;
-  --highlight-gutter-foreground: #afb4bc;
+  --highlight-background: #000;
+  --highlight-foreground: #a39e9b;
+  --highlight-gutter-background: #100f0f;
+  --highlight-gutter-foreground: #928e8b;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -404,14 +404,12 @@ td {
   transform: rotate(-45deg);
 }
 pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
-  Theme: An Old Hope – Star Wars Syntax
-  Author: (c) Gustavo Costa <gusbemacbe@gmail.com>
-  Maintainer: @gusbemacbe
+    Theme: devibeans (dark)
+    Author: @terminaldweller
+    Maintainer: @terminaldweller
 
-  Original theme - Ocean Dark Theme – by https://github.com/gavsiu
-  Based on Jesse Leite's Atom syntax theme 'An Old Hope'
-    https://github.com/JesseLeite/an-old-hope-syntax-atom
-*/.hljs{background:#1c1d21;color:#c0c5ce}.hljs-comment,.hljs-quote{color:#b6b18b}.hljs-deletion,.hljs-name,.hljs-regexp,.hljs-selector-class,.hljs-selector-id,.hljs-tag,.hljs-template-variable,.hljs-variable{color:#eb3c54}.hljs-built_in,.hljs-link,.hljs-literal,.hljs-meta,.hljs-number,.hljs-params,.hljs-type{color:#e7ce56}.hljs-attribute{color:#ee7c2b}.hljs-addition,.hljs-bullet,.hljs-string,.hljs-symbol{color:#4fb4d7}.hljs-section,.hljs-title{color:#78bb65}.hljs-keyword,.hljs-selector-tag{color:#b45ea4}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+    Inspired by vim's jellybeans theme (https://github.com/nanotech/jellybeans.vim)
+*/.hljs{background:#000;color:#a39e9b}.hljs-attr,.hljs-template-tag{color:#8787d7}.hljs-comment,.hljs-doctag,.hljs-quote{color:#396}.hljs-params{color:#a39e9b}.hljs-regexp{color:#d700ff}.hljs-literal,.hljs-number,.hljs-selector-id,.hljs-tag{color:#ef5350}.hljs-meta,.hljs-meta .hljs-keyword{color:#0087ff}.hljs-code,.hljs-formula,.hljs-keyword,.hljs-link,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-variable{color:#64b5f6}.hljs-built_in,.hljs-deletion,.hljs-title{color:#ff8700}.hljs-attribute,.hljs-function,.hljs-name,.hljs-property,.hljs-section,.hljs-type{color:#ffd75f}.hljs-addition,.hljs-bullet,.hljs-meta .hljs-string,.hljs-string,.hljs-subst,.hljs-symbol{color:#558b2f}.hljs-selector-tag{color:#96f}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
 @media (prefers-color-scheme: dark) {
 /*!
   Theme: PaperColor Dark
@@ -1210,7 +1208,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #283717;
+  background: #a670f5;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2659,7 +2657,7 @@ header.header {
   margin-top: 5px;
 }
 .posts-expand.index .post-meta {
-  justify-content: flex-start;
+  justify-content: center;
 }
 @media (max-width: 767px) {
   .posts-expand.index .post-meta {
