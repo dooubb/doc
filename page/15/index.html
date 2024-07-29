@@ -291,7 +291,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/24/Docker/dockerfile/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/24/docker/dockerfile/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -309,7 +309,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/24/Docker/dockerfile/" class="post-title-link" itemprop="url">Dockerfile</a>
+          <a href="/2022/08/24/docker/dockerfile/" class="post-title-link" itemprop="url">Dockerfile</a>
         </h2>
 
         <div class="post-meta-container">
@@ -328,7 +328,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+          <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
         </span>
     </span>
 
@@ -366,7 +366,7 @@
 <p>如果你以 <code>scratch</code> 为基础镜像的话，意味着你不以任何镜像为基础，接下来所写的指令将作为镜像第一层开始存在。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/08/24/Docker/dockerfile/#more" rel="contents">
+              <a class="btn" href="/2022/08/24/docker/dockerfile/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -397,7 +397,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/24/Docker/dockerfile%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/24/docker/dockerfile%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -415,7 +415,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/24/Docker/dockerfile%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA/" class="post-title-link" itemprop="url">Dockerfile多阶段构建</a>
+          <a href="/2022/08/24/docker/dockerfile%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA/" class="post-title-link" itemprop="url">Dockerfile多阶段构建</a>
         </h2>
 
         <div class="post-meta-container">
@@ -434,7 +434,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+          <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
         </span>
     </span>
 
@@ -466,7 +466,7 @@
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> alpine:latest</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /dooubb</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apk --update add curl \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">echo</span> <span class="string">&#x27;Hello, Docker!&#x27;</span> &gt; doc.txt</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> alpine:latest </span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /dooubb2</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=0 /dooubb/doc.txt .</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;sh&quot;</span>,<span class="string">&quot;-c&quot;</span>,<span class="string">&quot;cat doc.txt&quot;</span>]</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/08/24/Docker/dockerfile%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA/#more" rel="contents">
+              <a class="btn" href="/2022/08/24/docker/dockerfile%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BA/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
