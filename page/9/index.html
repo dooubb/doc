@@ -188,103 +188,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/02/11/Shell/shell%E8%BF%9B%E9%98%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | doubao">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/11/Shell/shell%E8%BF%9B%E9%98%B6/" class="post-title-link" itemprop="url">Shell进阶</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-02-11 00:00:00" itemprop="dateCreated datePublished" datetime="2023-02-11T00:00:00+08:00">2023-02-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>765</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="获取当前所执行的shell的文件夹"><a href="#获取当前所执行的shell的文件夹" class="headerlink" title="获取当前所执行的shell的文件夹"></a>获取当前所执行的shell的文件夹</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">dir</span>=<span class="string">&quot;<span class="subst">$( cd <span class="string">&quot;<span class="subst">$( dirname <span class="string">&quot;<span class="variable">$&#123;BASH_SOURCE[0]&#125;</span>&quot;</span> )</span>&quot;</span> &amp;&amp; pwd )</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$dir</span></span><br><span class="line"><span class="built_in">cd</span> <span class="string">&quot;<span class="variable">$&#123;dir&#125;</span>/..&quot;</span></span><br><span class="line"><span class="built_in">pwd</span></span><br></pre></td></tr></table></figure>
-
-<p><code>$&#123;BASH_SOURCE[0]&#125;</code>表示bash脚本的第一个参数（如果第一个参数是bash，表明这是要执行bash脚本，这时<code>&quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>自动转换为第二个参数），例如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh /data/shell/shell.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><code>&quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>代表的是<code>/data/shell/shell.sh</code>。<br><code>&quot;dirname&quot;</code>表示提取参数里的目录，<code>dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>表示提取bash脚本第一个参数里的目录，例如<code>/data/shell/shell.sh”的目录为&quot;/data/shell</code>。<br><code>cd &quot;$( dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot; )</code>“表示切换到刚才提取的目录，<br><code>dir=cd &quot;$( dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot; )&quot; &amp;&amp; pwd</code>则表示，如果第一条语句顺利执行，就执行<code>pwd</code>显示当前目录，并将结果赋值给变量<code>dir</code>。<br><code>cd &quot;$&#123;dir&#125;/..</code>切换到<code>dir</code>变量所指目录的上一级目录。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/02/11/Shell/shell%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -388,6 +291,103 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2023/02/11/Shell/shell%E8%BF%9B%E9%98%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | doubao">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/02/11/Shell/shell%E8%BF%9B%E9%98%B6/" class="post-title-link" itemprop="url">Shell进阶</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-02-11 00:00:00" itemprop="dateCreated datePublished" datetime="2023-02-11T00:00:00+08:00">2023-02-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>765</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="获取当前所执行的shell的文件夹"><a href="#获取当前所执行的shell的文件夹" class="headerlink" title="获取当前所执行的shell的文件夹"></a>获取当前所执行的shell的文件夹</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">dir</span>=<span class="string">&quot;<span class="subst">$( cd <span class="string">&quot;<span class="subst">$( dirname <span class="string">&quot;<span class="variable">$&#123;BASH_SOURCE[0]&#125;</span>&quot;</span> )</span>&quot;</span> &amp;&amp; pwd )</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$dir</span></span><br><span class="line"><span class="built_in">cd</span> <span class="string">&quot;<span class="variable">$&#123;dir&#125;</span>/..&quot;</span></span><br><span class="line"><span class="built_in">pwd</span></span><br></pre></td></tr></table></figure>
+
+<p><code>$&#123;BASH_SOURCE[0]&#125;</code>表示bash脚本的第一个参数（如果第一个参数是bash，表明这是要执行bash脚本，这时<code>&quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>自动转换为第二个参数），例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh /data/shell/shell.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>&quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>代表的是<code>/data/shell/shell.sh</code>。<br><code>&quot;dirname&quot;</code>表示提取参数里的目录，<code>dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot;</code>表示提取bash脚本第一个参数里的目录，例如<code>/data/shell/shell.sh”的目录为&quot;/data/shell</code>。<br><code>cd &quot;$( dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot; )</code>“表示切换到刚才提取的目录，<br><code>dir=cd &quot;$( dirname &quot;$&#123;BASH_SOURCE[0]&#125;&quot; )&quot; &amp;&amp; pwd</code>则表示，如果第一条语句顺利执行，就执行<code>pwd</code>显示当前目录，并将结果赋值给变量<code>dir</code>。<br><code>cd &quot;$&#123;dir&#125;/..</code>切换到<code>dir</code>变量所指目录的上一级目录。</p>
+
       
     </div>
 
