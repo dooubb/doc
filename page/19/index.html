@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -179,6 +179,166 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/08/14/Linux/Linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | doubao">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/14/Linux/Linux/" class="post-title-link" itemprop="url">Linux</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-14 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-14T00:00:00+08:00">2022-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Linux基础"><a href="#Linux基础" class="headerlink" title="Linux基础"></a>Linux基础</h1><h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;bin</td>
+<td>是Binary的缩写，这个目录存放着最经常使用的命令</td>
+</tr>
+<tr>
+<td>&#x2F;sbin</td>
+<td>就是Super User的意思，放的是系统管理员使用的系统管理程序</td>
+</tr>
+<tr>
+<td>&#x2F;home</td>
+<td>存放普通用户的主目录，在Linux中每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的</td>
+</tr>
+<tr>
+<td>&#x2F;root</td>
+<td>该目录为系统管理员</td>
+</tr>
+<tr>
+<td>&#x2F;lib</td>
+<td>系统开机所需要最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库</td>
+</tr>
+<tr>
+<td>&#x2F;lost+found</td>
+<td>这个目录一般情况下是空的，当系统非法关机后，当前文件夹会出现一些文件</td>
+</tr>
+<tr>
+<td>&#x2F;etc</td>
+<td>所有的系统管理所需要的配置文件和子目录</td>
+</tr>
+<tr>
+<td>&#x2F;usr</td>
+<td>用户自己安装的应用程序和文件都放在这个目录下，类似于windows下的program files目录</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;bin</td>
+<td>系统用户使用的应用程序</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;sbin</td>
+<td>超级用户使用的比较高级的管理程序和系统守护程</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;src</td>
+<td>内核源代码默认的放置目录</td>
+</tr>
+<tr>
+<td>&#x2F;run</td>
+<td>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除</td>
+</tr>
+<tr>
+<td>&#x2F;boot</td>
+<td>这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件</td>
+</tr>
+<tr>
+<td>&#x2F;proc</td>
+<td>这个目录是一个虚拟的目录，它是系统内存的映射，可以通过直接访问这个目录来获取系统信息</td></tr></tbody></table>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/14/Linux/Linux/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -379,100 +539,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/01/04/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | doubao">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/04/Python/%E5%88%9D%E7%BA%A7%E7%88%AC%E8%99%AB%E7%BB%83%E6%89%8B01/" class="post-title-link" itemprop="url">初级爬虫练手01</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-04T00:00:00+08:00">2022-01-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%88%AC%E8%99%AB%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">爬虫进阶</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.6k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="豆瓣电影-Top-250"><a href="#豆瓣电影-Top-250" class="headerlink" title="豆瓣电影 Top 250"></a>豆瓣电影 Top 250</h1><p>使用正则表达式来爬取数据</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备heater</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;user-agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">lits = [<span class="string">&quot;name&quot;</span>, <span class="string">&quot;year&quot;</span>, <span class="string">&quot;country&quot;</span>, <span class="string">&quot;category&quot;</span>, <span class="string">&quot;score&quot;</span>, <span class="string">&quot;number&quot;</span>, <span class="string">&quot;quote&quot;</span>]</span><br><span class="line"><span class="comment"># 准备文件</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;豆瓣电影 Top 250.csv&quot;</span>, mode=<span class="string">&quot;a&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>, newline=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">csvwriter = csv.writer(f)</span><br><span class="line"><span class="comment"># 写入表头</span></span><br><span class="line">csvwriter.writerow([<span class="string">&quot;电影名称&quot;</span>, <span class="string">&quot;年份&quot;</span>, <span class="string">&quot;国家&quot;</span>, <span class="string">&quot;分类&quot;</span>, <span class="string">&quot;评分&quot;</span>, <span class="string">&quot;评分人数&quot;</span>])</span><br><span class="line"><span class="keyword">for</span> uri <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">250</span>, <span class="number">25</span>):</span><br><span class="line">    url = <span class="string">f&quot;https://movie.douban.com/top250?start=<span class="subst">&#123;uri&#125;</span>&quot;</span></span><br><span class="line">    resp = requests.get(url, headers=headers)</span><br><span class="line">    resp.encoding = <span class="string">&quot;utf-8&quot;</span></span><br><span class="line">    <span class="comment"># 准备正则匹配</span></span><br><span class="line">    obj = re.<span class="built_in">compile</span>(<span class="string">r&#x27;&lt;li&gt;.*?&lt;div class=&quot;item&quot;&gt;.*?&lt;span class=&quot;title&quot;&gt;(?P&lt;name&gt;.*?)&#x27;</span></span><br><span class="line">                     <span class="string">r&#x27;&lt;/span&gt;.*?&lt;p class=&quot;&quot;&gt;.*?&lt;br&gt;(?P&lt;year&gt;.*?)&amp;nbsp;/&amp;nbsp;(?P&lt;country&gt;.*?)&amp;nbsp;/&amp;nbsp;(?P&lt;category&gt;.*?)&lt;/p&gt;&#x27;</span></span><br><span class="line">                     <span class="string">r&#x27;.*?&lt;div class=&quot;star&quot;&gt;.*?&lt;span class=&quot;rating_num&quot; property=&quot;v:average&quot;&gt;(?P&lt;score&gt;.*?)&lt;/span&gt;.*?&#x27;</span></span><br><span class="line">                     <span class="string">r&#x27;&lt;span&gt;(?P&lt;number&gt;.*?)人评价&lt;/span&gt;&#x27;</span>, re.S)</span><br><span class="line">    result = obj.finditer(resp.text)</span><br><span class="line">    <span class="comment"># 循环格式化数据，并且写入文件中</span></span><br><span class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> result:</span><br><span class="line">        dic = it.groupdict()</span><br><span class="line">        dic[<span class="string">&#x27;year&#x27;</span>] = dic[<span class="string">&#x27;year&#x27;</span>].strip()</span><br><span class="line">        dic[<span class="string">&#x27;category&#x27;</span>] = dic[<span class="string">&#x27;category&#x27;</span>].strip()</span><br><span class="line">        csvwriter.writerow(dic.values())</span><br><span class="line">f.close()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;写入完成。。。&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
       
     </div>
 
