@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -188,6 +188,114 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/06/Devops/argo-ci/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | doubao">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/08/06/Devops/argo-ci/" class="post-title-link" itemprop="url">Argo Workflows</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-08-06 00:00:00 / 修改时间：22:00:00" itemprop="dateCreated datePublished" datetime="2024-08-06T00:00:00+08:00">2024-08-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><p>新建命名空间并部署项目资源</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl create namespace argo</span><br><span class="line">kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.5.10/install.yaml</span><br></pre></td></tr></table></figure>
+
+<h2 id="暴露服务"><a href="#暴露服务" class="headerlink" title="暴露服务"></a>暴露服务</h2><p>默认情况下， Argo Workflows服务不对外暴露服务，可以通过 LoadBalancer 或者 NodePort 类型的 Service、Ingress、Kubectl 端口转发等方式将 Argo CD 服务发布到 Kubernetes 集群外部。</p>
+<p>由于是vm自建，所以选择使用NodePort 的方式暴露服务。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl patch svc argo-server -n argo -p <span class="string">&#x27;&#123;&quot;spec&quot;: &#123;&quot;type&quot;: &quot;NodePort&quot;&#125;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>查看随机暴露的端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@devops:~<span class="comment"># kubectl get svc -n argo</span></span><br><span class="line">NAME          TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE</span><br><span class="line">argo-server   NodePort   10.43.35.195   &lt;none&gt;        2746:30701/TCP   4m28s</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/08/06/Devops/argo-ci/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/06/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -216,8 +324,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2024-08-06 00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-06T00:00:00+08:00">2024-08-06</time>
+      <time title="创建时间：2024-08-06 00:00:00 / 修改时间：21:00:00" itemprop="dateCreated datePublished" datetime="2024-08-06T00:00:00+08:00">2024-08-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -260,111 +369,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/08/06/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/04/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | doubao">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/08/04/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut/" class="post-title-link" itemprop="url">SpringBoot容器化单元测试</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-08-04 00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-04T00:00:00+08:00">2024-08-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/SpringBoot/" itemprop="url" rel="index"><span itemprop="name">SpringBoot</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>7.7k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>7 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="单元测试UT"><a href="#单元测试UT" class="headerlink" title="单元测试UT"></a>单元测试UT</h1><h2 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h2><p>开发在自己电脑上进行开发和测试的时候，maven几乎都是安装包或者idea自身提供的，然后其他开发和测试依赖的组件，例如<code>mysql数据库</code>，<code>redis缓存等</code>，都是使用容器化方式部署到本地，这样在开发和测试可以快速<code>debug</code>。</p>
-<h2 id="线上"><a href="#线上" class="headerlink" title="线上"></a>线上</h2><p>线上都是流水线一体化作业，可以使用<code>git action</code>，<code>git lab cicd</code>，<code>azure devops</code>，<code>jenkins</code>等。</p>
-<p>这些的编译，单元测试，构建服务镜像都是使用容器化来编排操作的，因为容器化是无状态的，可以快速扩展和升降级相关组件版本。</p>
-<h1 id="UT环境搭建"><a href="#UT环境搭建" class="headerlink" title="UT环境搭建"></a>UT环境搭建</h1><h2 id="本地-1"><a href="#本地-1" class="headerlink" title="本地"></a>本地</h2><p>在本地启动所需组件可以是容器启动，也可以是直接安装对应组件的客户端；</p>
-<p>由于拥抱未来，所以只讨论容器启动所需组件。在容器的前提下，容器的启动方式可以是动态启动的，也可以是提前准备好的容器。</p>
-<h3 id="提前准备"><a href="#提前准备" class="headerlink" title="提前准备"></a>提前准备</h3><p>使用<code>docker</code>来启动相关的<code>mysql</code>和<code>redis</code>的，如果需要保留测试数据，需要再启动的时候挂载目录来持久化；可以使用<code>docker run</code>也可以使用<code>docker compose</code>来拉起容器。</p>
-<h3 id="动态启动"><a href="#动态启动" class="headerlink" title="动态启动"></a>动态启动</h3><p><code>Java</code>有相关类库来支持<code>UT</code>启动所需容器，<a target="_blank" rel="noopener" href="https://testcontainers.com/">testcontainers</a>。在<code>UT</code>阶段，<code>testcontainers</code>可以动态启动所需容器，他会自动hook本机的docker sock，这样就可以直接在本机上动态启动容器了，如果本机没有<code>docker</code>，那<code>UT</code>将无法执行。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/08/04/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -488,7 +492,7 @@
 
 
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
