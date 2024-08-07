@@ -206,7 +206,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/08/07/Devops/argo-workflows/" class="post-title-link" itemprop="url">Argo Workflows集成</a>
+          <a href="/2024/08/07/Devops/argo-workflows/" class="post-title-link" itemprop="url">Argo Workflows使用</a>
         </h2>
 
         <div class="post-meta-container">
@@ -218,7 +218,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-08-07 00:00:00 / 修改时间：22:00:00" itemprop="dateCreated datePublished" datetime="2024-08-07T00:00:00+08:00">2024-08-07</time>
+      <time title="创建时间：2024-08-07 23:00:00 / 修改时间：00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-07T23:00:00+08:00">2024-08-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -236,14 +236,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3.8k</span>
+      <span>4.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -254,14 +254,133 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="Argo-Workflows使用"><a href="#Argo-Workflows使用" class="headerlink" title="Argo Workflows使用"></a>Argo Workflows使用</h1><p><code>argo</code>编译项目并构建镜像推送到仓库中。由于本机自建<code>k8s</code>，并没有搭建<code>nas</code>服务。所以才用<code>hostpath</code>的方式挂载数据。</p>
-<p>为了可以使用<code>gitlab</code>的<code>webhook</code>，也在本地以<code>docker</code>的方式部署了<code>gitlab</code>服务。</p>
-<p>构建镜像使用的是<code>kaniko</code>工具，后面会在尝试使用<code>buildkit</code>。</p>
-<p>镜像仓库使用的青云的公共镜像仓库。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Workflow</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">generateName:</span> <span class="string">java-ci-</span> <span class="comment">#Workflow名字前缀</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ttlStrategy:</span></span><br><span class="line">    <span class="attr">secondsAfterCompletion:</span> <span class="number">30</span> <span class="comment"># 执行完的pod自动清理时间，单位是秒</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line"><span class="comment">#在k8s中创建docker镜像仓库的secret，后面挂载到容器中</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">kaniko-secret</span></span><br><span class="line">      <span class="attr">secret:</span></span><br><span class="line">        <span class="attr">secretName:</span> <span class="string">docker-secret</span></span><br><span class="line">        <span class="attr">items:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">key:</span> <span class="string">.dockerconfigjson</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">config.json</span></span><br><span class="line"><span class="comment">#因为本机搭建的环境，所以没有pvc只能用hostpath，每个node上都需要创建，如果觉得费事，可以给node打label</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">work</span></span><br><span class="line">      <span class="attr">hostPath:</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">/argo/host-data</span></span><br><span class="line">  <span class="attr">entrypoint:</span> <span class="string">java-ci</span> <span class="comment">#类似于java main方法入口</span></span><br><span class="line">  <span class="attr">arguments:</span></span><br><span class="line">    <span class="attr">parameters:</span> <span class="comment">#这里的参数，下下面的steps可以引用到</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">repo</span></span><br><span class="line">      <span class="attr">value:</span> <span class="number">192.168</span><span class="number">.121</span><span class="number">.100</span><span class="string">:9980/root/doubao-service-poc.git</span> <span class="comment"># 这里不加http或https，后面在git clone会加上</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">branch</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">master</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">image</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">dockerhub.qingcloud.com/doubao/doubaoservicepoc:argo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">cache-image</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">dockerhub.qingcloud.com/doubao/doubaoservicepoc</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockerfile</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">./Dockerfile</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">gitUsername</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">root</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">gitPassword</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">glpat-7RuGFG4_MtsV54i3Gqu5</span>   <span class="comment"># 注意如果密码里面有特殊字符一定要转义</span></span><br><span class="line">  <span class="attr">templates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">java-ci</span></span><br><span class="line"><span class="comment"># 流水线的步骤，template对应后面模板的name</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkout</span></span><br><span class="line">        <span class="attr">template:</span> <span class="string">checkout</span></span><br><span class="line">    <span class="bullet">-</span> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">build</span></span><br><span class="line">        <span class="attr">template:</span> <span class="string">build</span></span><br><span class="line">    <span class="bullet">-</span> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">buildimage</span></span><br><span class="line">        <span class="attr">template:</span> <span class="string">buildimage</span></span><br><span class="line">    <span class="bullet">-</span> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">clean</span> </span><br><span class="line">        <span class="attr">template:</span> <span class="string">clean</span></span><br><span class="line"> </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkout</span></span><br><span class="line">    <span class="attr">script:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">alpine/git:v2.26.2</span></span><br><span class="line">      <span class="attr">workingDir:</span> <span class="string">/work</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">sh</span>,<span class="string">-c</span>]</span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&quot; cd /work &amp;&amp; git clone --branch <span class="template-variable">&#123;&#123;workflow.parameters.branch&#125;&#125;</span> http://<span class="template-variable">&#123;&#123;workflow.parameters.gitUsername&#125;&#125;</span>:<span class="template-variable">&#123;&#123;workflow.parameters.gitPassword&#125;&#125;</span>@<span class="template-variable">&#123;&#123;workflow.parameters.repo&#125;&#125;</span>&quot;</span>]</span><br><span class="line">      <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">mountPath:</span> <span class="string">/work</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">work</span></span><br><span class="line"><span class="comment"># 编译打包  </span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">build</span></span><br><span class="line">    <span class="attr">script:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">maven:3.9.8-amazoncorretto-17</span></span><br><span class="line">      <span class="attr">workingDir:</span> <span class="string">/work</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">sh</span>,<span class="string">-c</span>]</span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&quot; cd /work &amp;&amp; ls -al &amp;&amp; cd doubao-service-poc &amp;&amp; mvn clean install -Dmaven.test.skip=true &quot;</span>]</span><br><span class="line">      <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">mountPath:</span> <span class="string">/work</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">work</span></span><br><span class="line"><span class="comment"># maven加速</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">mountPath:</span> <span class="string">/root/.m2/</span></span><br><span class="line">          <span class="attr">subPath:</span> <span class="string">m2</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">work</span></span><br><span class="line">    <span class="comment"># 构建镜像  使用kaniko在k8s中构建镜像</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">buildimage</span></span><br><span class="line">    <span class="attr">container:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">gcr.io/kaniko-project/executor:latest</span></span><br><span class="line">      <span class="attr">workingDir:</span> <span class="string">/work/doubao-service-poc</span></span><br><span class="line">      <span class="attr">args:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--context=.</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--dockerfile=&#123;&#123;workflow.parameters.dockerfile&#125;&#125;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--destination=&#123;&#123;workflow.parameters.image&#125;&#125;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--skip-tls-verify-registry=tafcaas-ecr-mbafc.cndc.corpintra.net</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--reproducible</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--cache=true</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--cache-repo=&#123;&#123;workflow.parameters.cache-image&#125;&#125;</span></span><br><span class="line">      <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">mountPath:</span> <span class="string">/work</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">work</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">kaniko-secret</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/kaniko/.docker</span></span><br><span class="line">    <span class="comment"># 清理数据  </span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">clean</span></span><br><span class="line">    <span class="attr">script:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">alpine/git:v2.26.2</span></span><br><span class="line">      <span class="attr">workingDir:</span> <span class="string">/work</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">sh</span>,<span class="string">-c</span>]</span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&quot; cd /work &amp;&amp; rm -rf doubao-service-poc&quot;</span>]</span><br><span class="line">      <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">mountPath:</span> <span class="string">/work</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">work</span></span><br></pre></td></tr></table></figure>
+          <h1 id="Argo-Workflows特点"><a href="#Argo-Workflows特点" class="headerlink" title="Argo Workflows特点"></a>Argo Workflows特点</h1><p>Argo Workflows 是一个 Kubernetes 原生的工作流引擎，专为处理复杂的 CI&#x2F;CD 和数据处理工作流而设计。它允许用户定义、管理和监控工作流，这些工作流可以包含多个步骤，彼此之间具有依赖关系。Argo Workflows 通过定义 YAML 格式的工作流，可以轻松集成到 Kubernetes 环境中，实现任务的自动化处理和编排。</p>
+<ul>
+<li><strong>Kubernetes 原生</strong>: 无缝集成到 Kubernetes 集群中，利用其扩展性和灵活性。</li>
+<li><strong>易于定义</strong>: 使用 YAML 文件定义工作流，便于版本控制和共享。</li>
+<li><strong>可视化界面</strong>: 提供图形化界面，方便监控和管理工作流。</li>
+<li><strong>强大的功能</strong>: 支持并行执行、条件逻辑、重试策略等。</li>
+</ul>
+<h1 id="Argo-Workflows本地使用"><a href="#Argo-Workflows本地使用" class="headerlink" title="Argo Workflows本地使用"></a>Argo Workflows本地使用</h1><p>前提条件</p>
+<ul>
+<li><p>编译<code>java</code>项目并构建镜像推送到镜像仓库中。</p>
+</li>
+<li><p>本机自建<code>k8s</code>，并没有搭建<code>nas</code>服务。所以才用<code>hostpath</code>的方式挂载数据。</p>
+</li>
+<li><p>使用<code>gitlab</code>的<code>webhook</code>，也在本地以<code>docker</code>的方式部署了<code>gitlab</code>服务。</p>
+</li>
+<li><p>构建镜像使用的是<code>kaniko</code>工具，后面会在尝试使用<code>buildkit</code>。</p>
+</li>
+<li><p>镜像仓库使用的青云的公共镜像仓库。</p>
+</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/08/07/Devops/argo-workflows/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/07/Devops/%E5%AE%89%E8%A3%85gitlab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | doubao">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/08/07/Devops/%E5%AE%89%E8%A3%85gitlab/" class="post-title-link" itemprop="url">gitlab</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-08-07 22:00:00 / 修改时间：00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-07T22:00:00+08:00">2024-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="安装gitlab"><a href="#安装gitlab" class="headerlink" title="安装gitlab"></a>安装gitlab</h1><p>由于我只是单纯的想使用gitlab的webhook到我自己搭建的k8s中argo，所以我没有持久化，如果需要可以-v来挂载容器内部数据</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd  -p 9980:80 -p 9922:22 --restart always --privileged=<span class="literal">true</span> --name gitlab gitlab/gitlab-ce</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h1><p>更改访问url，由于是vm自建的，所以更改成ip，然后在设置root账号密码，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it gitlab /bin/bash</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"><span class="comment">#修改gitlab.rb</span></span><br><span class="line">vi /etc/gitlab/gitlab.rb</span><br><span class="line"> </span><br><span class="line"><span class="comment">#加入如下</span></span><br><span class="line"><span class="comment">#gitlab访问地址，可以写域名。如果端口不写的话默认为80端口</span></span><br><span class="line">external_url <span class="string">&#x27;http://192.168.121.100&#x27;</span></span><br><span class="line"><span class="comment">#ssh主机ip</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_ssh_host&#x27;</span>] = <span class="string">&#x27;192.168.121.100&#x27;</span></span><br><span class="line"><span class="comment">#ssh连接端口</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_shell_ssh_port&#x27;</span>] = 9922</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 让配置生效</span></span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/08/07/Devops/%E5%AE%89%E8%A3%85gitlab/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -368,114 +487,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/08/06/Docker/buildkit/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/06/Devops/argo-ci/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="doubao">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="doubao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | doubao">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/08/06/Devops/argo-ci/" class="post-title-link" itemprop="url">Argo Workflows</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-08-06 00:00:00 / 修改时间：22:00:00" itemprop="dateCreated datePublished" datetime="2024-08-06T00:00:00+08:00">2024-08-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.8k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><p>新建命名空间并部署项目资源</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl create namespace argo</span><br><span class="line">kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.5.10/install.yaml</span><br></pre></td></tr></table></figure>
-
-<h2 id="暴露服务"><a href="#暴露服务" class="headerlink" title="暴露服务"></a>暴露服务</h2><p>默认情况下， Argo Workflows服务不对外暴露服务，可以通过 LoadBalancer 或者 NodePort 类型的 Service、Ingress、Kubectl 端口转发等方式将 Argo CD 服务发布到 Kubernetes 集群外部。</p>
-<p>由于是vm自建，所以选择使用NodePort 的方式暴露服务。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl patch svc argo-server -n argo -p <span class="string">&#x27;&#123;&quot;spec&quot;: &#123;&quot;type&quot;: &quot;NodePort&quot;&#125;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>查看随机暴露的端口</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@devops:~<span class="comment"># kubectl get svc -n argo</span></span><br><span class="line">NAME          TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE</span><br><span class="line">argo-server   NodePort   10.43.35.195   &lt;none&gt;        2746:30701/TCP   4m28s</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/08/06/Devops/argo-ci/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
