@@ -21,12 +21,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"dooubb.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="安装gitlab由于我只是单纯的想使用gitlab的webhook到我自己搭建的k8s中argo，所以我没有持久化，如果需要可以-v来挂载容器内部数据 1docker run -itd  -p 9980:80 -p 9922:22 --restart always --privileged&#x3D;true --name gitlab gitlab&#x2F;gitlab-ce  修改配置更改访问url，由于是vm">
+    <meta name="description" content="安装gitlab由于我只是单纯的想使用gitlab的webhook到我自己搭建的k8s中argo。将gitlab中的数据挂载到本机。 1234567891011docker run \ -itd  \ -p 9980:80 \ -p 9922:22 \ -v &#x2F;root&#x2F;gitlab&#x2F;etc:&#x2F;etc&#x2F;gitlab  \ -v &#x2F;root&#x2F;gitlab&#x2F;log:&#x2F;var&#x2F;log&#x2F;gitlab \">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gitlab">
 <meta property="og:url" content="https://dooubb.github.io/2024/08/07/Devops/%E5%AE%89%E8%A3%85gitlab/index.html">
 <meta property="og:site_name" content="doubao">
-<meta property="og:description" content="安装gitlab由于我只是单纯的想使用gitlab的webhook到我自己搭建的k8s中argo，所以我没有持久化，如果需要可以-v来挂载容器内部数据 1docker run -itd  -p 9980:80 -p 9922:22 --restart always --privileged&#x3D;true --name gitlab gitlab&#x2F;gitlab-ce  修改配置更改访问url，由于是vm">
+<meta property="og:description" content="安装gitlab由于我只是单纯的想使用gitlab的webhook到我自己搭建的k8s中argo。将gitlab中的数据挂载到本机。 1234567891011docker run \ -itd  \ -p 9980:80 \ -p 9922:22 \ -v &#x2F;root&#x2F;gitlab&#x2F;etc:&#x2F;etc&#x2F;gitlab  \ -v &#x2F;root&#x2F;gitlab&#x2F;log:&#x2F;var&#x2F;log&#x2F;gitlab \">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-07T14:00:00.000Z">
 <meta property="article:modified_time" content="2024-08-06T16:00:00.000Z">
@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -250,7 +250,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
+      <span>1.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -267,8 +267,8 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="安装gitlab"><a href="#安装gitlab" class="headerlink" title="安装gitlab"></a>安装gitlab</h1><p>由于我只是单纯的想使用gitlab的webhook到我自己搭建的k8s中argo，所以我没有持久化，如果需要可以-v来挂载容器内部数据</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd  -p 9980:80 -p 9922:22 --restart always --privileged=<span class="literal">true</span> --name gitlab gitlab/gitlab-ce</span><br></pre></td></tr></table></figure>
+    <div class="post-body" itemprop="articleBody"><h1 id="安装gitlab"><a href="#安装gitlab" class="headerlink" title="安装gitlab"></a>安装gitlab</h1><p>由于我只是单纯的想使用gitlab的webhook到我自己搭建的k8s中argo。将gitlab中的数据挂载到本机。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line"> -itd  \</span><br><span class="line"> -p 9980:80 \</span><br><span class="line"> -p 9922:22 \</span><br><span class="line"> -v /root/gitlab/etc:/etc/gitlab  \</span><br><span class="line"> -v /root/gitlab/log:/var/log/gitlab \</span><br><span class="line"> -v /root/gitlab/opt:/var/opt/gitlab \</span><br><span class="line"> --restart always \</span><br><span class="line"> --privileged=<span class="literal">true</span> \</span><br><span class="line"> --name gitlab \</span><br><span class="line"> gitlab/gitlab-ce</span><br></pre></td></tr></table></figure>
 
 <h1 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h1><p>更改访问url，由于是vm自建的，所以更改成ip，然后在设置root账号密码，</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入容器内部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it gitlab /bin/bash</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"><span class="comment">#修改gitlab.rb</span></span><br><span class="line">vi /etc/gitlab/gitlab.rb</span><br><span class="line"> </span><br><span class="line"><span class="comment">#加入如下</span></span><br><span class="line"><span class="comment">#gitlab访问地址，可以写域名。如果端口不写的话默认为80端口</span></span><br><span class="line">external_url <span class="string">&#x27;http://192.168.121.100&#x27;</span></span><br><span class="line"><span class="comment">#ssh主机ip</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_ssh_host&#x27;</span>] = <span class="string">&#x27;192.168.121.100&#x27;</span></span><br><span class="line"><span class="comment">#ssh连接端口</span></span><br><span class="line">gitlab_rails[<span class="string">&#x27;gitlab_shell_ssh_port&#x27;</span>] = 9922</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 让配置生效</span></span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
@@ -340,8 +340,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/08/07/Devops/argo-workflows/" rel="next" title="Argo Workflows使用">
-                  Argo Workflows使用 <i class="fa fa-angle-right"></i>
+                <a href="/2024/08/07/Devops/argo-workflows(%E4%BA%8C)/" rel="next" title="Argo Workflows(二)">
+                  Argo Workflows(二) <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
