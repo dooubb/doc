@@ -188,7 +188,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/juc/LockSupport/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -206,7 +206,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/21/juc/LockSupport/" class="post-title-link" itemprop="url">LockSupport详解</a>
+          <a href="/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">JVM内存模型</a>
         </h2>
 
         <div class="post-meta-container">
@@ -225,7 +225,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/juc/" itemprop="url" rel="index"><span itemprop="name">juc</span></a>
+          <a href="/categories/jvm/" itemprop="url" rel="index"><span itemprop="name">jvm</span></a>
         </span>
     </span>
 
@@ -235,14 +235,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>5k</span>
+      <span>1.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
+      <span>2 分钟</span>
     </span>
 </div>
 
@@ -253,10 +253,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="LockSupport简介"><a href="#LockSupport简介" class="headerlink" title="LockSupport简介"></a>LockSupport简介</h1><p><code>LockSupport</code>是用来创建锁和其他同步类的基本线程阻塞原语。简而言之，当调用<code>LockSupport.park</code>时，表示当前线程将会等待，直至获得许可证，当调用<code>LockSupport.unpark</code>时，必须把等待获得许可证的线程作为参数进行传递，才能让此线程继续运行。</p>
+          <h1 id="JVM整体结构及内存模型"><a href="#JVM整体结构及内存模型" class="headerlink" title="JVM整体结构及内存模型"></a>JVM整体结构及内存模型</h1><img src="/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png" class title="image-20220921211433082">
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/09/21/juc/LockSupport/#more" rel="contents">
+              <a class="btn" href="/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
