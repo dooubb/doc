@@ -24,27 +24,27 @@
     <meta name="description" content="BeanDefinitionBeanDefinition是一个interface，表示Bean定义，BeanDefinition中存在很多属性用来描述一个Bean的特点。比如：  class，表示Bean类型 scope，表示Bean作用域，单例或原型等 lazyInit：表示Bean是否是懒加载 initMethodName：表示Bean初始化时要执行的方法 destroyMethodName：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring核心原理(二)">
-<meta property="og:url" content="https://dooubb.github.io/2022/10/29/Spring/Spring_2/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2022/10/29/spring/Spring_2/index.html">
 <meta property="og:site_name" content="doubao">
 <meta property="og:description" content="BeanDefinitionBeanDefinition是一个interface，表示Bean定义，BeanDefinition中存在很多属性用来描述一个Bean的特点。比如：  class，表示Bean类型 scope，表示Bean作用域，单例或原型等 lazyInit：表示Bean是否是懒加载 initMethodName：表示Bean初始化时要执行的方法 destroyMethodName：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dooubb.github.io/2022/10/29/Spring/Spring_2/image-20221019223752924.png">
-<meta property="og:image" content="https://dooubb.github.io/2022/10/29/Spring/Spring_2/image-20221019220328462.png">
-<meta property="og:image" content="https://dooubb.github.io/2022/10/29/Spring/Spring_2/image-20221019223444752.png">
-<meta property="og:image" content="https://dooubb.github.io/2022/10/29/Spring/Spring_2/image-20221019231951504.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/10/29/spring/Spring_2/image-20221019223752924.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/10/29/spring/Spring_2/image-20221019220328462.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/10/29/spring/Spring_2/image-20221019223444752.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/10/29/spring/Spring_2/image-20221019231951504.png">
 <meta property="article:published_time" content="2022-10-28T16:00:00.000Z">
 <meta property="article:modified_time" content="2022-10-28T16:00:00.000Z">
 <meta property="article:author" content="doubao">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dooubb.github.io/2022/10/29/Spring/Spring_2/image-20221019223752924.png">
+<meta name="twitter:image" content="https://dooubb.github.io/2022/10/29/spring/Spring_2/image-20221019223752924.png">
 
 
-<link rel="canonical" href="https://dooubb.github.io/2022/10/29/Spring/Spring_2/">
+<link rel="canonical" href="https://dooubb.github.io/2022/10/29/spring/Spring_2/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2022/10/29/Spring/Spring_2/","path":"2022/10/29/Spring/Spring_2/","title":"Spring核心原理(二)"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2022/10/29/spring/Spring_2/","path":"2022/10/29/spring/Spring_2/","title":"Spring核心原理(二)"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Spring核心原理(二) | doubao</title>
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -200,7 +200,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/10/29/Spring/Spring_2/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/10/29/spring/Spring_2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -237,7 +237,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+          <a href="/categories/spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
         </span>
     </span>
 
@@ -310,7 +310,7 @@
 <p>在Spring中，BeanFactory是工厂的顶层接口，也是IOC容器的核心接口，因此BeanFactory中定义了<strong>管理Bean的通用方法</strong>，如 <strong>getBean</strong> 和 <strong>containsBean</strong> 等。</p>
 <p>BeanFactory的职责包括：实例化、定位、配置应用程序中的对象及建立这些对象间的依赖。BeanFactory只是个接口，并不是IOC容器的具体实现，所以Spring容器给出了很多种实现，如 <strong>DefaultListableBeanFactory</strong>、<strong>XmlBeanFactory</strong>、<strong>ApplicationContext</strong></p>
 <p>例如DefaultListableBeanFactory，它的的继承关系图如下</p>
-<img src="/2022/10/29/Spring/Spring_2/image-20221019223752924.png" class title="image-20221019223752924">
+<img src="/2022/10/29/spring/Spring_2/image-20221019223752924.png" class title="image-20221019223752924">
 
 <p>DefaultListableBeanFactory它实现了很多接口，所以拥有很多功能：</p>
 <ol>
@@ -340,11 +340,11 @@
 <li>MessageSource：拥有国际化功能</li>
 </ol>
 <p>ApplicationContext的继承关系图如下</p>
-<img src="/2022/10/29/Spring/Spring_2/image-20221019220328462.png" class title="image-20221019220328462">
+<img src="/2022/10/29/spring/Spring_2/image-20221019220328462.png" class title="image-20221019220328462">
 
 <h2 id="AnnotationConfigApplicationContext"><a href="#AnnotationConfigApplicationContext" class="headerlink" title="AnnotationConfigApplicationContext"></a>AnnotationConfigApplicationContext</h2><p>在Spring的源码实现中，当我们new一个<code>AnnotationConfigApplicationContext</code>时，会先初始化其父类构造方法，在<code>GenericApplicationContext</code>的构造方法中初始化实现了<code>BeanFactory</code>接口的子类<code>DefaultListableBeanFactory</code>对象，当使用ApplicationContext的某些方法时，比如getBean()，底层调用的是BeanFactory的getBean()方法。</p>
 <p>AnnotationConfigApplicationContext的继承关系图如下</p>
-<img src="/2022/10/29/Spring/Spring_2/image-20221019223444752.png" class title="image-20221019223444752">
+<img src="/2022/10/29/spring/Spring_2/image-20221019223444752.png" class title="image-20221019223444752">
 
 <p>AnnotationConfigApplicationContext它实现了很多接口，所以拥有很多功能：</p>
 <ol>
@@ -356,7 +356,7 @@
 </ol>
 <h2 id="ClassPathXmlApplicationContext"><a href="#ClassPathXmlApplicationContext" class="headerlink" title="ClassPathXmlApplicationContext"></a>ClassPathXmlApplicationContext</h2><p>它也是继承了AbstractApplicationContext，但是相对于AnnotationConfigApplicationContext而言，功能没有AnnotationConfigApplicationContext强大，比如不能注册BeanDefinition。</p>
 <p>ClassPathXmlApplicationContext的继承关系图如下</p>
-<img src="/2022/10/29/Spring/Spring_2/image-20221019231951504.png" class title="image-20221019231951504">
+<img src="/2022/10/29/spring/Spring_2/image-20221019231951504.png" class title="image-20221019231951504">
 
 <h1 id="类型转化"><a href="#类型转化" class="headerlink" title="类型转化"></a>类型转化</h1><h2 id="PropertyEditor"><a href="#PropertyEditor" class="headerlink" title="PropertyEditor"></a>PropertyEditor</h2><p>是JDK中提供的类型转化服务的interface，使用方式如下</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个工具类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StringToUserPropertyEditor</span> <span class="keyword">extends</span> <span class="title class_">PropertyEditorSupport</span> <span class="keyword">implements</span> <span class="title class_">PropertyEditor</span> &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAsText</span><span class="params">(String text)</span> <span class="keyword">throws</span> IllegalArgumentException &#123;</span><br><span class="line">		<span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">		user.setName(text);</span><br><span class="line">		<span class="built_in">this</span>.setValue(user);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -403,20 +403,20 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Spring/" rel="tag"><i class="fa fa-tag"></i> Spring</a>
+              <a href="/tags/spring/" rel="tag"><i class="fa fa-tag"></i> Spring</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/10/28/Hexo/hexo%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" rel="prev" title="Hexo主题美化">
+                <a href="/2022/10/28/hexo/hexo-theme-custom/" rel="prev" title="Hexo主题美化">
                   <i class="fa fa-angle-left"></i> Hexo主题美化
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/02/11/Shell/shell%E5%9F%BA%E7%A1%80/" rel="next" title="Shell基础">
-                  Shell基础 <i class="fa fa-angle-right"></i>
+                <a href="/2023/02/11/shell/shell%E8%BF%9B%E9%98%B6/" rel="next" title="Shell进阶">
+                  Shell进阶 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>

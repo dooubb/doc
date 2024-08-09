@@ -24,25 +24,25 @@
     <meta name="description" content="docker挂载目录一般docker启动容器分为以下几种  docker run -v docker compose up docker stack deploy  对于不同的启动方式，挂载本机目录和远程目录是不同的。下图简要画出挂载情况。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker和k8s挂载目录">
-<meta property="og:url" content="https://dooubb.github.io/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/index.html">
 <meta property="og:site_name" content="doubao">
 <meta property="og:description" content="docker挂载目录一般docker启动容器分为以下几种  docker run -v docker compose up docker stack deploy  对于不同的启动方式，挂载本机目录和远程目录是不同的。下图简要画出挂载情况。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dooubb.github.io/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727225712935.png">
-<meta property="og:image" content="https://dooubb.github.io/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727230222203.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727225712935.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727230222203.png">
 <meta property="article:published_time" content="2024-07-26T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-07-26T16:00:00.000Z">
 <meta property="article:author" content="doubao">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dooubb.github.io/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727225712935.png">
+<meta name="twitter:image" content="https://dooubb.github.io/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727225712935.png">
 
 
-<link rel="canonical" href="https://dooubb.github.io/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/">
+<link rel="canonical" href="https://dooubb.github.io/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/","path":"2024/07/27/Linux/容器挂载目录/","title":"docker和k8s挂载目录"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/","path":"2024/07/27/linux/容器挂载目录/","title":"docker和k8s挂载目录"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>docker和k8s挂载目录 | doubao</title>
@@ -157,7 +157,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -198,7 +198,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -235,7 +235,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
         </span>
     </span>
 
@@ -276,13 +276,13 @@
 <li>docker stack deploy</li>
 </ul>
 <p>对于不同的启动方式，挂载本机目录和远程目录是不同的。下图简要画出挂载情况。</p>
-<img src="/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727225712935.png" class title="image-20240727225712935">
+<img src="/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727225712935.png" class title="image-20240727225712935">
 
 <span id="more"></span>
 
 <h1 id="k8s挂载目录"><a href="#k8s挂载目录" class="headerlink" title="k8s挂载目录"></a>k8s挂载目录</h1><p>k8s挂载目录可以使用hostpath，但是这样会让部分容器绑定对应的节点，是无状态的容器变成了有状态的。这样不是最佳实践，所以不做讨论。</p>
 <p>在无状态的的容器中想要持久化文件，需要使用pv和pvc来做容器的持久化。</p>
-<img src="/2024/07/27/Linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727230222203.png" class title="image-20240727230222203">
+<img src="/2024/07/27/linux/%E5%AE%B9%E5%99%A8%E6%8C%82%E8%BD%BD%E7%9B%AE%E5%BD%95/image-20240727230222203.png" class title="image-20240727230222203">
 
     </div>
 
@@ -292,19 +292,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/07/14/Hexo/Next%E5%8D%87%E7%BA%A7/" rel="prev" title="Next主题升级">
+                <a href="/2024/07/14/hexo/next-upgrade/" rel="prev" title="Next主题升级">
                   <i class="fa fa-angle-left"></i> Next主题升级
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/07/28/Shell/git%E4%B8%AD%E6%B7%BB%E5%8A%A0tree%E5%91%BD%E4%BB%A4/" rel="next" title="tree">
+                <a href="/2024/07/28/shell/git%E4%B8%AD%E6%B7%BB%E5%8A%A0tree%E5%91%BD%E4%BB%A4/" rel="next" title="tree">
                   tree <i class="fa fa-angle-right"></i>
                 </a>
             </div>

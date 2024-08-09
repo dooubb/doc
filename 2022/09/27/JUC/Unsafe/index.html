@@ -24,24 +24,24 @@
     <meta name="description" content="Unsafe介绍Unsafe类是一个位于sun.misc包下的类，它提供了一些相对底层方法，能够让我们接触到一些更接近操作系统底层的资源，如系统的内存资源、cpu指令、直接使用偏移地址操作对象、数组等等。但是在使用这些方法提供的便利的同时，也存在一些潜在的安全因素，例如对内存的错误操作可能会引起内存泄漏，严重时甚至可能引起jvm崩溃。在程序中过度、不正确使用Unsafe类会使得程序出错的概率变大，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unsafe">
-<meta property="og:url" content="https://dooubb.github.io/2022/09/27/JUC/Unsafe/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2022/09/27/juc/Unsafe/index.html">
 <meta property="og:site_name" content="doubao">
 <meta property="og:description" content="Unsafe介绍Unsafe类是一个位于sun.misc包下的类，它提供了一些相对底层方法，能够让我们接触到一些更接近操作系统底层的资源，如系统的内存资源、cpu指令、直接使用偏移地址操作对象、数组等等。但是在使用这些方法提供的便利的同时，也存在一些潜在的安全因素，例如对内存的错误操作可能会引起内存泄漏，严重时甚至可能引起jvm崩溃。在程序中过度、不正确使用Unsafe类会使得程序出错的概率变大，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dooubb.github.io/2022/09/27/JUC/Unsafe/image-20220927200540366.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/09/27/juc/Unsafe/image-20220927200540366.png">
 <meta property="article:published_time" content="2022-09-26T16:00:00.000Z">
 <meta property="article:modified_time" content="2022-09-26T16:00:00.000Z">
 <meta property="article:author" content="doubao">
 <meta property="article:tag" content="JUC">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dooubb.github.io/2022/09/27/JUC/Unsafe/image-20220927200540366.png">
+<meta name="twitter:image" content="https://dooubb.github.io/2022/09/27/juc/Unsafe/image-20220927200540366.png">
 
 
-<link rel="canonical" href="https://dooubb.github.io/2022/09/27/JUC/Unsafe/">
+<link rel="canonical" href="https://dooubb.github.io/2022/09/27/juc/Unsafe/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2022/09/27/JUC/Unsafe/","path":"2022/09/27/JUC/Unsafe/","title":"Unsafe"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2022/09/27/juc/Unsafe/","path":"2022/09/27/juc/Unsafe/","title":"Unsafe"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Unsafe | doubao</title>
@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -197,7 +197,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/27/JUC/Unsafe/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/27/juc/Unsafe/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -234,7 +234,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
+          <a href="/categories/juc/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
         </span>
     </span>
 
@@ -290,7 +290,7 @@
 <p>使用Java命令行命令<code>-Xbootclasspath/a</code>把调用Unsafe相关方法的类UnsafeUtil所在jar包路径追加到默认的bootstrap路径中，使得UnsafeUtil被引导类加载器加载，从而通过<code>Unsafe.getUnsafe</code>方法安全的获取Unsafe实例。</p>
 <h2 id="通过反射获取单例对象"><a href="#通过反射获取单例对象" class="headerlink" title="通过反射获取单例对象"></a>通过反射获取单例对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Unsafe <span class="title function_">reflectGetUnsafe</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//获取指定属性的信息</span></span><br><span class="line">        <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> Unsafe.class.getDeclaredField(<span class="string">&quot;theUnsafe&quot;</span>);</span><br><span class="line">        <span class="comment">//访问私有属性</span></span><br><span class="line">        field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="comment">//以为theUnsafe是static,所以使用field.get()来获取属性值时间,可传入任何对象都是可以的,包括null</span></span><br><span class="line">        <span class="comment">//字段不是静态字段的话,要传入反射类的对象</span></span><br><span class="line">        <span class="keyword">return</span> (Unsafe) field.get(<span class="literal">null</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="Unsafe功能介绍"><a href="#Unsafe功能介绍" class="headerlink" title="Unsafe功能介绍"></a>Unsafe功能介绍</h1><img src="/2022/09/27/JUC/Unsafe/image-20220927200540366.png" class title="image-20220927200540366">
+<h1 id="Unsafe功能介绍"><a href="#Unsafe功能介绍" class="headerlink" title="Unsafe功能介绍"></a>Unsafe功能介绍</h1><img src="/2022/09/27/juc/Unsafe/image-20220927200540366.png" class title="image-20220927200540366">
 
 <p>如图所示，Unsafe提供的API大致可分为内存操作、CAS、Class相关、对象操作、线程调度、系统信息获取、内存屏障、数组操作等几类。</p>
 <h2 id="CAS操作"><a href="#CAS操作" class="headerlink" title="CAS操作"></a>CAS操作</h2><p>在<code>juc</code>包的并发工具类中大量地使用了CAS操作，在Unsafe类中，提供了<code>compareAndSwapObject</code>、<code>compareAndSwapInt</code>、<code>compareAndSwapLong</code>方法来实现的对<code>Object</code>、<code>int</code>、<code>long</code>类型的CAS操作</p>
@@ -313,19 +313,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/JUC/" rel="tag"><i class="fa fa-tag"></i> JUC</a>
+              <a href="/tags/juc/" rel="tag"><i class="fa fa-tag"></i> JUC</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/09/27/k8s/k8s%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="k8s常用命令">
+                <a href="/2022/09/27/k8s/k8s-base-commands/" rel="prev" title="k8s常用命令">
                   <i class="fa fa-angle-left"></i> k8s常用命令
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/09/28/Nginx/Nginx/" rel="next" title="Nginx">
+                <a href="/2022/09/28/nginx/Nginx/" rel="next" title="Nginx">
                   Nginx <i class="fa fa-angle-right"></i>
                 </a>
             </div>

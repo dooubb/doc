@@ -24,7 +24,7 @@
     <meta name="description" content="单元测试在单元测试使用testcontainers来动态启动数据库后，这个对于开发在本地debug很不方便。所以考虑在本地执行ut的时候使用固定的容器数据库，等到线上ci&#96;的时候再使用动态数据库。 基于testcontainers官方文档和社区并没有找到可以配置，都是没有docker环境就是ut直接不执行的。 在中 github issue发现也有同类需求，他们给的是重写Startable">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot容器化单元测试动态启用">
-<meta property="og:url" content="https://dooubb.github.io/2024/08/06/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2024/08/06/springboot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/index.html">
 <meta property="og:site_name" content="doubao">
 <meta property="og:description" content="单元测试在单元测试使用testcontainers来动态启动数据库后，这个对于开发在本地debug很不方便。所以考虑在本地执行ut的时候使用固定的容器数据库，等到线上ci&#96;的时候再使用动态数据库。 基于testcontainers官方文档和社区并没有找到可以配置，都是没有docker环境就是ut直接不执行的。 在中 github issue发现也有同类需求，他们给的是重写Startable">
 <meta property="og:locale" content="zh_CN">
@@ -35,11 +35,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://dooubb.github.io/2024/08/06/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/">
+<link rel="canonical" href="https://dooubb.github.io/2024/08/06/springboot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2024/08/06/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/","path":"2024/08/06/SpringBoot/SpringBoot容器化ut是否启用/","title":"SpringBoot容器化单元测试动态启用"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2024/08/06/springboot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/","path":"2024/08/06/springboot/SpringBoot容器化ut是否启用/","title":"SpringBoot容器化单元测试动态启用"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>SpringBoot容器化单元测试动态启用 | doubao</title>
@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -195,7 +195,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/06/SpringBoot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/06/springboot/SpringBoot%E5%AE%B9%E5%99%A8%E5%8C%96ut%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -232,7 +232,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/SpringBoot/" itemprop="url" rel="index"><span itemprop="name">SpringBoot</span></a>
+          <a href="/categories/springboot/" itemprop="url" rel="index"><span itemprop="name">SpringBoot</span></a>
         </span>
     </span>
 
@@ -286,19 +286,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/SpringBoot/" rel="tag"><i class="fa fa-tag"></i> SpringBoot</a>
+              <a href="/tags/springboot/" rel="tag"><i class="fa fa-tag"></i> SpringBoot</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/08/04/Mysql/Mysql8%E6%90%AD%E5%BB%BA%E4%B8%BB%E4%BB%8E/" rel="prev" title="Mysql主从">
+                <a href="/2024/08/04/mysql/Mysql8%E6%90%AD%E5%BB%BA%E4%B8%BB%E4%BB%8E/" rel="prev" title="Mysql主从">
                   <i class="fa fa-angle-left"></i> Mysql主从
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/08/06/Devops/argo-workflows(%E4%B8%80)/" rel="next" title="Argo Workflows(一)">
+                <a href="/2024/08/06/devops/argo-workflows-install/" rel="next" title="Argo Workflows(一)">
                   Argo Workflows(一) <i class="fa fa-angle-right"></i>
                 </a>
             </div>

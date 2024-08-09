@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/qpp.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/qpp.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"dooubb.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Argo Workflow &amp; TemplateWorkflow的相关类型Workflow 定义: 是一个具体的工作流实例，描述了要执行的任务和步骤。 使用: 可以直接包含 templates，或者引用 WorkflowTemplate 和 ClusterWorkflowTemplate。  WorkflowTemplate 定义: 是一个可重用的工作流模板，适用于同一命名空间内的多个工作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Argo Workflows(三)">
+<meta property="og:url" content="https://dooubb.github.io/2024/08/08/devops/argo-workflows-template/index.html">
+<meta property="og:site_name" content="doubao">
+<meta property="og:description" content="Argo Workflow &amp; TemplateWorkflow的相关类型Workflow 定义: 是一个具体的工作流实例，描述了要执行的任务和步骤。 使用: 可以直接包含 templates，或者引用 WorkflowTemplate 和 ClusterWorkflowTemplate。  WorkflowTemplate 定义: 是一个可重用的工作流模板，适用于同一命名空间内的多个工作">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-08-08T15:00:00.000Z">
+<meta property="article:modified_time" content="2024-08-07T16:00:00.000Z">
+<meta property="article:author" content="doubao">
+<meta property="article:tag" content="Devops">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://dooubb.github.io/2024/08/08/devops/argo-workflows-template/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2024/08/08/devops/argo-workflows-template/","path":"2024/08/08/devops/argo-workflows-template/","title":"Argo Workflows(三)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Argo Workflows(三) | doubao</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">doubao</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Argo-Workflow-amp-Template"><span class="nav-number">1.</span> <span class="nav-text">Argo Workflow &amp; Template</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Workflow%E7%9A%84%E7%9B%B8%E5%85%B3%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">Workflow的相关类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Workflow"><span class="nav-number">1.1.1.</span> <span class="nav-text">Workflow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WorkflowTemplate"><span class="nav-number">1.1.2.</span> <span class="nav-text">WorkflowTemplate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ClusterWorkflowTemplate"><span class="nav-number">1.1.3.</span> <span class="nav-text">ClusterWorkflowTemplate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Templates"><span class="nav-number">1.1.4.</span> <span class="nav-text">Templates</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.5.</span> <span class="nav-text">关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Workflow%E7%9A%84yaml%E8%A7%A3%E6%9E%90"><span class="nav-number">1.1.6.</span> <span class="nav-text">Workflow的yaml解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Template"><span class="nav-number">1.2.</span> <span class="nav-text">Template</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Container-Template"><span class="nav-number">1.2.1.</span> <span class="nav-text">Container Template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Script-Template"><span class="nav-number">1.2.2.</span> <span class="nav-text">Script Template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Steps-Template"><span class="nav-number">1.2.3.</span> <span class="nav-text">Steps Template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DAG-Template"><span class="nav-number">1.2.4.</span> <span class="nav-text">DAG Template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Suspend-Template"><span class="nav-number">1.2.5.</span> <span class="nav-text">Suspend Template</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="nav-number">1.3.</span> <span class="nav-text">参数传递</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#inputs-%E5%BD%A2%E5%BC%8F%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">inputs 形式参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#arguments-%E5%85%A8%E5%B1%80%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">arguments 全局参数</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WorkflowTemplate-1"><span class="nav-number">2.</span> <span class="nav-text">WorkflowTemplate</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">doubao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dooubb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dooubb" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/08/devops/argo-workflows-template/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="doubao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="doubao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Argo Workflows(三) | doubao">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Argo Workflows(三)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-08-08 23:00:00 / 修改时间：00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-08T23:00:00+08:00">2024-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Argo-Workflow-amp-Template"><a href="#Argo-Workflow-amp-Template" class="headerlink" title="Argo Workflow &amp; Template"></a>Argo Workflow &amp; Template</h1><h2 id="Workflow的相关类型"><a href="#Workflow的相关类型" class="headerlink" title="Workflow的相关类型"></a>Workflow的相关类型</h2><h3 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h3><ul>
+<li><strong>定义</strong>: 是一个具体的工作流实例，描述了要执行的任务和步骤。</li>
+<li><strong>使用</strong>: 可以直接包含 <code>templates</code>，或者引用 <code>WorkflowTemplate</code> 和 <code>ClusterWorkflowTemplate</code>。</li>
+</ul>
+<h3 id="WorkflowTemplate"><a href="#WorkflowTemplate" class="headerlink" title="WorkflowTemplate"></a>WorkflowTemplate</h3><ul>
+<li><strong>定义</strong>: 是一个可重用的工作流模板，适用于同一命名空间内的多个工作流。</li>
+<li><strong>使用</strong>: <code>Workflow</code> 可以引用 <code>WorkflowTemplate</code> 以使用其定义的步骤和任务。</li>
+</ul>
+<h3 id="ClusterWorkflowTemplate"><a href="#ClusterWorkflowTemplate" class="headerlink" title="ClusterWorkflowTemplate"></a>ClusterWorkflowTemplate</h3><ul>
+<li><strong>定义</strong>: 与 <code>WorkflowTemplate</code> 类似，但在集群范围内可用，适用于跨命名空间的工作流。</li>
+<li><strong>使用</strong>: <code>Workflow</code> 可以引用 <code>ClusterWorkflowTemplate</code>，这使得模板在所有命名空间中都可用。</li>
+</ul>
+<h3 id="Templates"><a href="#Templates" class="headerlink" title="Templates"></a>Templates</h3><ul>
+<li><strong>定义</strong>: 是工作流中定义的实际可执行单元，可以是单个任务、步骤或 DAG。</li>
+<li><strong>使用</strong>: 定义在 <code>Workflow</code>、<code>WorkflowTemplate</code> 或 <code>ClusterWorkflowTemplate</code> 中。<code>templates</code> 可以相互引用，支持复用和组合。</li>
+</ul>
+<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><ul>
+<li><strong>Workflow</strong> 可以包含 <code>templates</code> 直接执行，也可以引用 <code>WorkflowTemplate</code> 或 <code>ClusterWorkflowTemplate</code>。</li>
+<li><strong>WorkflowTemplate</strong> 和 <strong>ClusterWorkflowTemplate</strong> 提供了复用和参数化的能力，使得工作流定义更加灵活和可维护。</li>
+<li><strong>Templates</strong> 是工作流各组件的基本构建块，定义了具体的执行逻辑。</li>
+</ul>
+<span id="more"></span>
+
+<h3 id="Workflow的yaml解析"><a href="#Workflow的yaml解析" class="headerlink" title="Workflow的yaml解析"></a>Workflow的yaml解析</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Workflow</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">generateName:</span> <span class="string">steps-</span>        <span class="comment"># 自动生成工作流名称，以 steps- 开头。</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">entrypoint:</span> <span class="string">hello</span>           <span class="comment"># 指定工作流的起始模板是 hello。entrypoint和java的main方法类似，是Workflow的入口</span></span><br><span class="line">  <span class="attr">templates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">hello</span>               <span class="comment"># 这个是hello模板，被entrypoint引用，</span></span><br><span class="line">    <span class="attr">steps:</span>                    <span class="comment"># 这是一个步骤模板，定义了顺序执行的任务</span></span><br><span class="line">    <span class="bullet">-</span> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">hello</span></span><br><span class="line">        <span class="attr">template:</span> <span class="string">whalesay</span>    <span class="comment"># 该步骤引用了名为 whalesay 的模板。</span></span><br><span class="line">        <span class="attr">arguments:</span> 			  <span class="comment"># 传递参数 message，其值为 &quot;hello&quot;。</span></span><br><span class="line">          <span class="attr">parameters:</span> [&#123;<span class="attr">name:</span> <span class="string">message</span>, <span class="attr">value:</span> <span class="string">&quot;hello&quot;</span>&#125;] </span><br><span class="line"></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">whalesay</span>             <span class="comment"># 这个是whalesay模板，被上面的hello模板中的hello步骤引用</span></span><br><span class="line">    <span class="attr">inputs:</span>					   <span class="comment"># 定义输入参数</span></span><br><span class="line">      <span class="attr">parameters:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">message</span></span><br><span class="line">    <span class="attr">container:</span>                 <span class="comment"># 定义一个容器任务。说明whalesay模板是个容器模板</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">docker/whalesay</span>   <span class="comment"># 使用 docker/whalesay 镜像。</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">cowsay</span>]        <span class="comment"># 执行 cowsay 命令，下面的&#123;&#123;&#125;&#125;获取上面的输入的参数</span></span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&quot;<span class="template-variable">&#123;&#123;inputs.parameters.message&#125;&#125;</span>&quot;</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h2><p>Templates有下面这几种。</p>
+<h3 id="Container-Template"><a href="#Container-Template" class="headerlink" title="Container Template"></a><strong>Container Template</strong></h3><ul>
+<li>用于定义要运行的容器任务。</li>
+<li>包含镜像、命令、参数等。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Workflow</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">generateName:</span> <span class="string">container-example-</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">entrypoint:</span> <span class="string">container-example</span></span><br><span class="line">  <span class="attr">templates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">container-example</span></span><br><span class="line">    <span class="attr">container:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">alpine:latest</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">echo</span>]</span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&quot;Hello, World!&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Script-Template"><a href="#Script-Template" class="headerlink" title="Script Template"></a><strong>Script Template</strong></h3><ul>
+<li>用于运行脚本。</li>
+<li>可以指定脚本语言和内容。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Workflow</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">generateName:</span> <span class="string">script-example-</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">entrypoint:</span> <span class="string">script-example</span></span><br><span class="line">  <span class="attr">templates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">script-example</span></span><br><span class="line">    <span class="attr">script:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">python:alpine</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">python</span>]</span><br><span class="line">      <span class="attr">source:</span> <span class="string">|</span></span><br><span class="line">        <span class="string">print(&quot;Hello,</span> <span class="string">World!&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Steps-Template"><a href="#Steps-Template" class="headerlink" title="Steps Template"></a><strong>Steps Template</strong></h3><ul>
+<li>用于定义一系列顺序执行的任务。</li>
+<li>每个步骤可以引用其他模板。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Workflow</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">generateName:</span> <span class="string">steps-example-</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">entrypoint:</span> <span class="string">steps-example</span></span><br><span class="line">  <span class="attr">templates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">steps-example</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">step1</span></span><br><span class="line">        <span class="attr">template:</span> <span class="string">print-message</span></span><br><span class="line">        <span class="attr">arguments:</span></span><br><span class="line">          <span class="attr">parameters:</span> [&#123;<span class="attr">name:</span> <span class="string">message</span>, <span class="attr">value:</span> <span class="string">&quot;Hello&quot;</span>&#125;]</span><br><span class="line">    <span class="bullet">-</span> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">step2</span></span><br><span class="line">        <span class="attr">template:</span> <span class="string">print-message</span></span><br><span class="line">        <span class="attr">arguments:</span></span><br><span class="line">          <span class="attr">parameters:</span> [&#123;<span class="attr">name:</span> <span class="string">message</span>, <span class="attr">value:</span> <span class="string">&quot;World&quot;</span>&#125;]</span><br><span class="line"></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">print-message</span></span><br><span class="line">    <span class="attr">inputs:</span></span><br><span class="line">      <span class="attr">parameters:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">message</span></span><br><span class="line">    <span class="attr">container:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">alpine:latest</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">echo</span>]</span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&quot;<span class="template-variable">&#123;&#123;inputs.parameters.message&#125;&#125;</span>&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="DAG-Template"><a href="#DAG-Template" class="headerlink" title="DAG Template"></a><strong>DAG Template</strong></h3><ul>
+<li>使用有向无环图定义任务之间的依赖关系。</li>
+<li>适合并行和条件执行。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Workflow</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">generateName:</span> <span class="string">dag-example-</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">entrypoint:</span> <span class="string">dag-example</span></span><br><span class="line">  <span class="attr">templates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dag-example</span></span><br><span class="line">    <span class="attr">dag:</span></span><br><span class="line">      <span class="attr">tasks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">A</span></span><br><span class="line">        <span class="attr">template:</span> <span class="string">print-message</span></span><br><span class="line">        <span class="attr">arguments:</span></span><br><span class="line">          <span class="attr">parameters:</span> [&#123;<span class="attr">name:</span> <span class="string">message</span>, <span class="attr">value:</span> <span class="string">&quot;Task A&quot;</span>&#125;]</span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">B</span></span><br><span class="line">        <span class="attr">template:</span> <span class="string">print-message</span></span><br><span class="line">        <span class="attr">dependencies:</span> [<span class="string">A</span>]</span><br><span class="line">        <span class="attr">arguments:</span></span><br><span class="line">          <span class="attr">parameters:</span> [&#123;<span class="attr">name:</span> <span class="string">message</span>, <span class="attr">value:</span> <span class="string">&quot;Task B&quot;</span>&#125;]</span><br><span class="line"></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">print-message</span></span><br><span class="line">    <span class="attr">inputs:</span></span><br><span class="line">      <span class="attr">parameters:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">message</span></span><br><span class="line">    <span class="attr">container:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">alpine:latest</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">echo</span>]</span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&quot;<span class="template-variable">&#123;&#123;inputs.parameters.message&#125;&#125;</span>&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Resource Template</strong></p>
+<ul>
+<li>用于创建、更新、删除 Kubernetes 资源。</li>
+<li>适用于操作外部资源。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">argoproj.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Workflow</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">generateName:</span> <span class="string">resource-example-</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">entrypoint:</span> <span class="string">resource-example</span></span><br><span class="line">  <span class="attr">templates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">resource-example</span></span><br><span class="line">    <span class="attr">resource:</span></span><br><span class="line">      <span class="attr">action:</span> <span class="string">create</span></span><br><span class="line">      <span class="attr">manifest:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        apiVersion: v1</span></span><br><span class="line"><span class="string">        kind: ConfigMap</span></span><br><span class="line"><span class="string">        metadata:</span></span><br><span class="line"><span class="string">          name: my-configmap</span></span><br><span class="line"><span class="string">        data:</span></span><br><span class="line"><span class="string">          key: value</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Suspend-Template"><a href="#Suspend-Template" class="headerlink" title="Suspend Template"></a><strong>Suspend Template</strong></h3><ul>
+<li>暂停工作流，等待手动恢复。</li>
+<li>适用于需要人工干预的步骤。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">delay</span></span><br><span class="line">  <span class="attr">suspend:</span></span><br><span class="line">    <span class="attr">duration:</span> <span class="string">&quot;20s&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h2><h4 id="inputs-形式参数"><a href="#inputs-形式参数" class="headerlink" title="inputs 形式参数"></a>inputs 形式参数</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">templates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">whalesay</span></span><br><span class="line">    <span class="attr">inputs:</span></span><br><span class="line">      <span class="attr">parameters:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">message</span></span><br><span class="line">    <span class="attr">container:</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">docker/whalesay</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">cowsay</span>]                </span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&quot;<span class="template-variable">&#123;&#123;inputs.parameters.message&#125;&#125;</span>&quot;</span>]  <span class="comment"># 直接获取上面inputs的参数</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="arguments-全局参数"><a href="#arguments-全局参数" class="headerlink" title="arguments 全局参数"></a>arguments 全局参数</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">arguments:</span></span><br><span class="line">  <span class="attr">parameters:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">message</span>   <span class="comment"># 下面引用&#123;&#123;workflow.parameters.message&#125;&#125;</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&quot;Hello from Workflow&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>spec.arguments</code>用于定义要传递的全局参数，全局参数在当前 Workflow 下的所有 Template 中都可以使用，可以使用 <code>&#123;&#123;workflow.parameters.$name&#125;&#125;</code> 语法来引用。</p>
+<h1 id="WorkflowTemplate-1"><a href="#WorkflowTemplate-1" class="headerlink" title="WorkflowTemplate"></a>WorkflowTemplate</h1>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/devops/" rel="tag"><i class="fa fa-tag"></i> Devops</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/08/07/devops/argo-workflows-quick-start/" rel="prev" title="Argo Workflows(二)">
+                  <i class="fa fa-angle-left"></i> Argo Workflows(二)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/08/08/devops/argo-workflows(%E5%9B%9B)/" rel="next" title="Argo Workflows(四)">
+                  Argo Workflows(四) <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2021 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">doubao</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

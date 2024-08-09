@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -188,7 +188,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/08/Devops/argo-workflows(%E4%B8%89)/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/09/hexo/hexo-filename-case/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -206,7 +206,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/08/08/Devops/argo-workflows(%E4%B8%89)/" class="post-title-link" itemprop="url">Argo Workflows(三)</a>
+          <a href="/2024/08/09/hexo/hexo-filename-case/" class="post-title-link" itemprop="url">hexo文件夹大小写</a>
         </h2>
 
         <div class="post-meta-container">
@@ -216,9 +216,8 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-08-08 23:00:00 / 修改时间：00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-08T23:00:00+08:00">2024-08-08</time>
+      <time title="创建时间：2024-08-09 00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-09T00:00:00+08:00">2024-08-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -226,7 +225,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
+          <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
         </span>
     </span>
 
@@ -236,14 +235,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.1k</span>
+      <span>83</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>1 分钟</span>
     </span>
 </div>
 
@@ -254,35 +253,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="Argo-Workflow-amp-Template"><a href="#Argo-Workflow-amp-Template" class="headerlink" title="Argo Workflow &amp; Template"></a>Argo Workflow &amp; Template</h1><h2 id="Workflow的相关类型"><a href="#Workflow的相关类型" class="headerlink" title="Workflow的相关类型"></a>Workflow的相关类型</h2><h3 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h3><ul>
-<li><strong>定义</strong>: 是一个具体的工作流实例，描述了要执行的任务和步骤。</li>
-<li><strong>使用</strong>: 可以直接包含 <code>templates</code>，或者引用 <code>WorkflowTemplate</code> 和 <code>ClusterWorkflowTemplate</code>。</li>
-</ul>
-<h3 id="WorkflowTemplate"><a href="#WorkflowTemplate" class="headerlink" title="WorkflowTemplate"></a>WorkflowTemplate</h3><ul>
-<li><strong>定义</strong>: 是一个可重用的工作流模板，适用于同一命名空间内的多个工作流。</li>
-<li><strong>使用</strong>: <code>Workflow</code> 可以引用 <code>WorkflowTemplate</code> 以使用其定义的步骤和任务。</li>
-</ul>
-<h3 id="ClusterWorkflowTemplate"><a href="#ClusterWorkflowTemplate" class="headerlink" title="ClusterWorkflowTemplate"></a>ClusterWorkflowTemplate</h3><ul>
-<li><strong>定义</strong>: 与 <code>WorkflowTemplate</code> 类似，但在集群范围内可用，适用于跨命名空间的工作流。</li>
-<li><strong>使用</strong>: <code>Workflow</code> 可以引用 <code>ClusterWorkflowTemplate</code>，这使得模板在所有命名空间中都可用。</li>
-</ul>
-<h3 id="Templates"><a href="#Templates" class="headerlink" title="Templates"></a>Templates</h3><ul>
-<li><strong>定义</strong>: 是工作流中定义的实际可执行单元，可以是单个任务、步骤或 DAG。</li>
-<li><strong>使用</strong>: 定义在 <code>Workflow</code>、<code>WorkflowTemplate</code> 或 <code>ClusterWorkflowTemplate</code> 中。<code>templates</code> 可以相互引用，支持复用和组合。</li>
-</ul>
-<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><ul>
-<li><strong>Workflow</strong> 可以包含 <code>templates</code> 直接执行，也可以引用 <code>WorkflowTemplate</code> 或 <code>ClusterWorkflowTemplate</code>。</li>
-<li><strong>WorkflowTemplate</strong> 和 <strong>ClusterWorkflowTemplate</strong> 提供了复用和参数化的能力，使得工作流定义更加灵活和可维护。</li>
-<li><strong>Templates</strong> 是工作流各组件的基本构建块，定义了具体的执行逻辑。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/08/08/Devops/argo-workflows(%E4%B8%89)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <h1 id="hexo生成文件大小写问题"><a href="#hexo生成文件大小写问题" class="headerlink" title="hexo生成文件大小写问题"></a>hexo生成文件大小写问题</h1><p>将<code>_config.yaml</code>中的配置更改。清理后重新生成新的文件夹就是小写的。</p>
+<p>默认是<code>0</code>，文件夹首字母是大写的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filename_case: 1</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
       
     </div>
 
@@ -308,7 +287,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/08/Devops/argo-workflows(%E5%9B%9B)/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/08/devops/argo-workflows(%E5%9B%9B)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -326,7 +305,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/08/08/Devops/argo-workflows(%E5%9B%9B)/" class="post-title-link" itemprop="url">Argo Workflows(四)</a>
+          <a href="/2024/08/08/devops/argo-workflows(%E5%9B%9B)/" class="post-title-link" itemprop="url">Argo Workflows(四)</a>
         </h2>
 
         <div class="post-meta-container">
@@ -346,7 +325,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
+          <a href="/categories/devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
         </span>
     </span>
 
@@ -400,7 +379,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/07/Devops/argo-workflows(%E4%BA%8C)/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/08/08/devops/argo-workflows-template/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -418,7 +397,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/08/07/Devops/argo-workflows(%E4%BA%8C)/" class="post-title-link" itemprop="url">Argo Workflows(二)</a>
+          <a href="/2024/08/08/devops/argo-workflows-template/" class="post-title-link" itemprop="url">Argo Workflows(三)</a>
         </h2>
 
         <div class="post-meta-container">
@@ -430,7 +409,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-08-07 23:00:00 / 修改时间：00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-07T23:00:00+08:00">2024-08-07</time>
+      <time title="创建时间：2024-08-08 23:00:00 / 修改时间：00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-08T23:00:00+08:00">2024-08-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -438,7 +417,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
+          <a href="/categories/devops/" itemprop="url" rel="index"><span itemprop="name">Devops</span></a>
         </span>
     </span>
 
@@ -448,7 +427,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.7k</span>
+      <span>4.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -466,22 +445,30 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="Argo-Workflows本地使用"><a href="#Argo-Workflows本地使用" class="headerlink" title="Argo Workflows本地使用"></a>Argo Workflows本地使用</h1><p>前提条件</p>
-<ul>
-<li><p>编译<code>java</code>项目并构建镜像推送到镜像仓库中。</p>
-</li>
-<li><p>本机自建<code>k8s</code>，并没有搭建<code>nas</code>服务。所以才用<code>hostpath</code>的方式挂载数据。</p>
-</li>
-<li><p>使用<code>gitlab</code>的<code>webhook</code>，也在本地以<code>docker</code>的方式部署了<code>gitlab</code>服务。</p>
-</li>
-<li><p>构建镜像使用的是<code>kaniko</code>工具，后面会在尝试使用<code>buildkit</code>。</p>
-</li>
-<li><p>镜像仓库使用的青云的公共镜像仓库。</p>
-</li>
+          <h1 id="Argo-Workflow-amp-Template"><a href="#Argo-Workflow-amp-Template" class="headerlink" title="Argo Workflow &amp; Template"></a>Argo Workflow &amp; Template</h1><h2 id="Workflow的相关类型"><a href="#Workflow的相关类型" class="headerlink" title="Workflow的相关类型"></a>Workflow的相关类型</h2><h3 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h3><ul>
+<li><strong>定义</strong>: 是一个具体的工作流实例，描述了要执行的任务和步骤。</li>
+<li><strong>使用</strong>: 可以直接包含 <code>templates</code>，或者引用 <code>WorkflowTemplate</code> 和 <code>ClusterWorkflowTemplate</code>。</li>
+</ul>
+<h3 id="WorkflowTemplate"><a href="#WorkflowTemplate" class="headerlink" title="WorkflowTemplate"></a>WorkflowTemplate</h3><ul>
+<li><strong>定义</strong>: 是一个可重用的工作流模板，适用于同一命名空间内的多个工作流。</li>
+<li><strong>使用</strong>: <code>Workflow</code> 可以引用 <code>WorkflowTemplate</code> 以使用其定义的步骤和任务。</li>
+</ul>
+<h3 id="ClusterWorkflowTemplate"><a href="#ClusterWorkflowTemplate" class="headerlink" title="ClusterWorkflowTemplate"></a>ClusterWorkflowTemplate</h3><ul>
+<li><strong>定义</strong>: 与 <code>WorkflowTemplate</code> 类似，但在集群范围内可用，适用于跨命名空间的工作流。</li>
+<li><strong>使用</strong>: <code>Workflow</code> 可以引用 <code>ClusterWorkflowTemplate</code>，这使得模板在所有命名空间中都可用。</li>
+</ul>
+<h3 id="Templates"><a href="#Templates" class="headerlink" title="Templates"></a>Templates</h3><ul>
+<li><strong>定义</strong>: 是工作流中定义的实际可执行单元，可以是单个任务、步骤或 DAG。</li>
+<li><strong>使用</strong>: 定义在 <code>Workflow</code>、<code>WorkflowTemplate</code> 或 <code>ClusterWorkflowTemplate</code> 中。<code>templates</code> 可以相互引用，支持复用和组合。</li>
+</ul>
+<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><ul>
+<li><strong>Workflow</strong> 可以包含 <code>templates</code> 直接执行，也可以引用 <code>WorkflowTemplate</code> 或 <code>ClusterWorkflowTemplate</code>。</li>
+<li><strong>WorkflowTemplate</strong> 和 <strong>ClusterWorkflowTemplate</strong> 提供了复用和参数化的能力，使得工作流定义更加灵活和可维护。</li>
+<li><strong>Templates</strong> 是工作流各组件的基本构建块，定义了具体的执行逻辑。</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2024/08/07/Devops/argo-workflows(%E4%BA%8C)/#more" rel="contents">
+              <a class="btn" href="/2024/08/08/devops/argo-workflows-template/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -505,7 +492,7 @@
 
 
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

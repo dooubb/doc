@@ -24,24 +24,24 @@
     <meta name="description" content="初始化rke2集群新建4台Ubuntu24设置每台vm的hostname 1234hostnamectl set-hostname master-nodehostnamectl set-hostname worker-node-01hostnamectl set-hostname worker-node-02hostnamectl set-hostname devops  由于vm是复制出来的，需">
 <meta property="og:type" content="article">
 <meta property="og:title" content="rancher管理k8s">
-<meta property="og:url" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2024/07/08/rancher/rancher%E7%AE%A1%E7%90%86k8s/index.html">
 <meta property="og:site_name" content="doubao">
 <meta property="og:description" content="初始化rke2集群新建4台Ubuntu24设置每台vm的hostname 1234hostnamectl set-hostname master-nodehostnamectl set-hostname worker-node-01hostnamectl set-hostname worker-node-02hostnamectl set-hostname devops  由于vm是复制出来的，需">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png">
+<meta property="og:image" content="https://dooubb.github.io/2024/07/08/rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png">
 <meta property="article:published_time" content="2024-07-07T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-07-10T16:00:00.000Z">
 <meta property="article:author" content="doubao">
 <meta property="article:tag" content="Rancher">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png">
+<meta name="twitter:image" content="https://dooubb.github.io/2024/07/08/rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png">
 
 
-<link rel="canonical" href="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/">
+<link rel="canonical" href="https://dooubb.github.io/2024/07/08/rancher/rancher%E7%AE%A1%E7%90%86k8s/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/","path":"2024/07/08/Rancher/rancher管理k8s/","title":"rancher管理k8s"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2024/07/08/rancher/rancher%E7%AE%A1%E7%90%86k8s/","path":"2024/07/08/rancher/rancher管理k8s/","title":"rancher管理k8s"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>rancher管理k8s | doubao</title>
@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -197,7 +197,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2024/07/08/rancher/rancher%E7%AE%A1%E7%90%86k8s/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -241,7 +241,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Rancher/" itemprop="url" rel="index"><span itemprop="name">Rancher</span></a>
+          <a href="/categories/rancher/" itemprop="url" rel="index"><span itemprop="name">Rancher</span></a>
         </span>
     </span>
 
@@ -350,7 +350,7 @@
 <h1 id="部署rancher"><a href="#部署rancher" class="headerlink" title="部署rancher"></a>部署rancher</h1><h2 id="部署rancher-1"><a href="#部署rancher-1" class="headerlink" title="部署rancher"></a>部署rancher</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#rancher镜像已经同步到自己的私有镜像仓库</span></span><br><span class="line">docker run -d --restart=unless-stopped \</span><br><span class="line">  --name rancher \</span><br><span class="line">  -p 80:80 -p 443:443 \</span><br><span class="line">  --privileged \</span><br><span class="line">  dockerhub.qingcloud.com/doubao/rancher:latest</span><br></pre></td></tr></table></figure>
 
 <h2 id="导入现有k8s集群"><a href="#导入现有k8s集群" class="headerlink" title="导入现有k8s集群"></a>导入现有k8s集群</h2><p>启动完成后，ui登录后，导入现有集群，选项标准k8s即可，导入成功后的Clusters会显示新的集群</p>
-<img src="/2024/07/08/Rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png" class title="rancher">
+<img src="/2024/07/08/rancher/rancher%E7%AE%A1%E7%90%86k8s/image-20240708103042614.png" class title="rancher">
 
 
 
@@ -379,19 +379,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Rancher/" rel="tag"><i class="fa fa-tag"></i> Rancher</a>
+              <a href="/tags/rancher/" rel="tag"><i class="fa fa-tag"></i> Rancher</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/07/05/Linux/Ubuntu24/" rel="prev" title="Ubuntu24">
+                <a href="/2024/07/05/linux/Ubuntu24/" rel="prev" title="Ubuntu24">
                   <i class="fa fa-angle-left"></i> Ubuntu24
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/07/08/Java/Stream/" rel="next" title="Stream">
+                <a href="/2024/07/08/java/stream/" rel="next" title="Stream">
                   Stream <i class="fa fa-angle-right"></i>
                 </a>
             </div>

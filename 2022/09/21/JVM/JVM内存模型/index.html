@@ -24,24 +24,24 @@
     <meta name="description" content="JVM整体结构及内存模型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM内存模型">
-<meta property="og:url" content="https://dooubb.github.io/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:url" content="https://dooubb.github.io/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="doubao">
 <meta property="og:description" content="JVM整体结构及内存模型">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dooubb.github.io/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png">
+<meta property="og:image" content="https://dooubb.github.io/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png">
 <meta property="article:published_time" content="2022-09-20T16:00:00.000Z">
 <meta property="article:modified_time" content="2022-09-20T16:00:00.000Z">
 <meta property="article:author" content="doubao">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dooubb.github.io/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png">
+<meta name="twitter:image" content="https://dooubb.github.io/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png">
 
 
-<link rel="canonical" href="https://dooubb.github.io/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
+<link rel="canonical" href="https://dooubb.github.io/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/","path":"2022/09/21/JVM/JVM内存模型/","title":"JVM内存模型"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dooubb.github.io/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/","path":"2022/09/21/jvm/JVM内存模型/","title":"JVM内存模型"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>JVM内存模型 | doubao</title>
@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -197,7 +197,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -234,7 +234,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+          <a href="/categories/jvm/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
         </span>
     </span>
 
@@ -268,7 +268,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="JVM整体结构及内存模型"><a href="#JVM整体结构及内存模型" class="headerlink" title="JVM整体结构及内存模型"></a>JVM整体结构及内存模型</h1><img src="/2022/09/21/JVM/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png" class title="image-20220921211433082">
+    <div class="post-body" itemprop="articleBody"><h1 id="JVM整体结构及内存模型"><a href="#JVM整体结构及内存模型" class="headerlink" title="JVM整体结构及内存模型"></a>JVM整体结构及内存模型</h1><img src="/2022/09/21/jvm/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220921211433082.png" class title="image-20220921211433082">
 
 <span id="more"></span>
 
@@ -330,19 +330,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
+              <a href="/tags/jvm/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/09/20/JVM/JavaClassLoader/" rel="prev" title="JavaClassLoader">
+                <a href="/2022/09/20/jvm/JavaClassLoader/" rel="prev" title="JavaClassLoader">
                   <i class="fa fa-angle-left"></i> JavaClassLoader
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/09/21/JUC/LockSupport/" rel="next" title="LockSupport详解">
+                <a href="/2022/09/21/juc/LockSupport/" rel="next" title="LockSupport详解">
                   LockSupport详解 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
