@@ -188,7 +188,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2021/12/09/devops/jasypt/">
+    <link itemprop="mainEntityOfPage" href="https://dooubb.github.io/2021/12/09/devops/jenkins-how-to-use/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -206,7 +206,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/09/devops/jasypt/" class="post-title-link" itemprop="url">Jasypt加密工具</a>
+          <a href="/2021/12/09/devops/jenkins-how-to-use/" class="post-title-link" itemprop="url">jenkins的使用</a>
         </h2>
 
         <div class="post-meta-container">
@@ -225,7 +225,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/springboot/" itemprop="url" rel="index"><span itemprop="name">SpringBoot</span></a>
+          <a href="/categories/devops/" itemprop="url" rel="index"><span itemprop="name">devops</span></a>
         </span>
     </span>
 
@@ -235,14 +235,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6.7k</span>
+      <span>1.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>6 分钟</span>
+      <span>1 分钟</span>
     </span>
 </div>
 
@@ -253,23 +253,59 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="引入Maven依赖"><a href="#引入Maven依赖" class="headerlink" title="引入Maven依赖"></a>引入Maven依赖</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.ulisesbocchio<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jasypt-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="添加application-yaml配置"><a href="#添加application-yaml配置" class="headerlink" title="添加application.yaml配置"></a>添加application.yaml配置</h1><ul>
-<li>采用对称加密的yml</li>
-</ul>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jasypt:</span></span><br><span class="line">  <span class="attr">encryptor:</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">fanq1213@163.com</span> <span class="comment"># 加密和解密使用的盐</span></span><br><span class="line">    <span class="attr">algorithm:</span> <span class="string">PBEWithMD5AndDES</span> <span class="comment"># jasypt的默认对称加密算法</span></span><br><span class="line">    <span class="attr">property:</span></span><br><span class="line">      <span class="attr">prefix:</span> <span class="string">ENC(</span> <span class="comment"># 加密后的信息的前缀</span></span><br><span class="line">      <span class="attr">suffix:</span> <span class="string">)</span> <span class="comment"># 加密后的信息的后缀 </span></span><br><span class="line"><span class="attr">secret:</span> <span class="comment"># 此处可以是各种敏感信息(数据库密码，Redis密码)，此处简化处理</span></span><br><span class="line">  <span class="attr">data:</span> <span class="string">ENC(Pjp...)</span> <span class="comment"># 被加密的密文，增加前后缀是为了让jasypt可以定位到密文</span></span><br></pre></td></tr></table></figure>
-
+          <h1 id="插件的安装"><a href="#插件的安装" class="headerlink" title="插件的安装"></a>插件的安装</h1><blockquote>
+<p>在Manage Jenkins下的Manage Plugins中安装一下插件</p>
+</blockquote>
 <ul>
-<li>采用非对称加密的yml</li>
+<li><p><strong>Docker Pipeline &amp;&amp; Docker</strong></p>
+<ul>
+<li><p>安装Docker Pipeline会自动安装docker相关的</p>
+</li>
+<li><p>这个允许我们自定义agent使用docker环境</p>
+</li>
 </ul>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jasypt:</span></span><br><span class="line">  <span class="attr">encryptor:</span></span><br><span class="line">    <span class="attr">privateKeyFormat:</span> <span class="string">PEM</span> <span class="comment"># 非对称加密的秘钥类型: DER和PEM 此处要和你自己实现的非对称加密的工具相对应</span></span><br><span class="line">    <span class="attr">privateKeyString:</span> &#123;<span class="string">RSAPrivateKey</span>&#125; <span class="comment"># 非对称加密的私钥，用来解密密文</span></span><br><span class="line">    <span class="attr">property:</span></span><br><span class="line">      <span class="attr">prefix:</span> <span class="string">ENC(</span> <span class="comment"># 加密后的信息的前缀</span></span><br><span class="line">      <span class="attr">suffix:</span> <span class="string">)</span> <span class="comment"># 加密后的信息的后缀 </span></span><br><span class="line"><span class="attr">secret:</span></span><br><span class="line">  <span class="attr">data:</span> <span class="string">ENC(Pjp...)</span> <span class="comment"># 被加密的密文，增加前后缀是为了让jasypt可以定位到密文</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Git Parameter</strong></p>
+<ul>
+<li>解析git参数，允许我们选择分支进行构建</li>
+</ul>
+</li>
+<li><p><strong>Active Choices</strong></p>
+<ul>
+<li>可以做到参数的级联选择</li>
+</ul>
+</li>
+<li><p><strong>Generic Webhook Trigger</strong></p>
+<ul>
+<li>通用的webhook触发器，构建更强大的webhook功能</li>
+</ul>
+</li>
+<li><p><strong>Role-based Authorization Strategy</strong> </p>
+<ul>
+<li>RBAC权限指定，给一个用户精确指定权限</li>
+</ul>
+</li>
+<li><p><strong>List Git Branches Parameter</strong></p>
+<ul>
+<li>列出分支参数</li>
+</ul>
+</li>
+<li><p><strong>Build With Parameters</strong></p>
+<ul>
+<li>基于自定义参数构建</li>
+</ul>
+</li>
+</ul>
+<h1 id="流水线的创建"><a href="#流水线的创建" class="headerlink" title="流水线的创建"></a>流水线的创建</h1><blockquote>
+<p>在Dashboard下的新建Item，创建一个流水线，然后确定。</p>
+</blockquote>
+<img src="/2021/12/09/devops/jenkins-how-to-use/image-20211209211809255.png" class title="image-20211209211809255">
 
 <blockquote>
-<p>非对称加密需要自己实现非对称加密的算法(网上找的工具类)</p></blockquote>
+<p>然后再java-devops-demo中选择配置，添加触发远程构建，在流水线定义中，选择Pipeline script from SCM。</p></blockquote>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/12/09/devops/jasypt/#more" rel="contents">
+              <a class="btn" href="/2021/12/09/devops/jenkins-how-to-use/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -337,7 +373,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+          <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
         </span>
     </span>
 
@@ -438,7 +474,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/zookeeper/" itemprop="url" rel="index"><span itemprop="name">Zookeeper</span></a>
+          <a href="/categories/zookeeper/" itemprop="url" rel="index"><span itemprop="name">zookeeper</span></a>
         </span>
     </span>
 
